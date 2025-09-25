@@ -1,0 +1,52 @@
+# --- Dependencias ---
+**/node_modules/
+**/.pnp
+**/.pnp.*
+
+# --- Next.js / Vercel ---
+**/.next/
+**/out/
+**/.vercel/
+
+# --- Builds genéricos / toolchains ---
+**/dist/
+**/build/
+**/.turbo/
+**/.cache/
+**/.parcel-cache/
+
+# --- Entornos / secretos ---
+# (No subas variables)
+*.env
+*.env.*
+**/.env
+**/.env.*
+
+# --- Logs ---
+**/logs/
+**/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Prisma (bases locales) ---
+**/prisma/*.db
+**/prisma/*.db-journal
+# Si NO quieres versionar migraciones, descomenta:
+# **/prisma/migrations/
+
+# --- Tests / coverage ---
+**/coverage/
+**/*.lcov
+cypress/videos/
+cypress/screenshots/
+
+# --- Editor / OS ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Lint cache ---
+.eslintcache
