@@ -2,14 +2,8 @@ import { useContent } from '../src/hooks/useContent';
 import { useTheme } from '../src/context/ThemeContext';
 
 export default function Hero() {
-  const { personal, about, nav } = useContent();
+  const { personal, hero, nav } = useContent();
   const { theme } = useTheme();
-
-  console.log('Current theme:', theme);
-  console.log('Avatar URLs:', {
-    light: personal.avatarUrlLight,
-    dark: personal.avatarUrlDark
-  });
 
   const scrollToProjects = () => {
     const element = document.getElementById('projects');
@@ -33,21 +27,16 @@ export default function Hero() {
               <img
                 src={personal.avatarUrlLight || '/avatar.svg'}
                 alt={`${personal.name} - light mode`}
-                className={`w-24 h-24 md:w-32 md:h-32 rounded-2xl shadow-lg absolute inset-0 transition-opacity duration-10000
-                  ease-in-out ${
+                className={`w-24 h-24 md:w-32 md:h-32 rounded-2xl shadow-lg absolute inset-0 transition-opacity duration-500 ease-in-out ${
                   theme === 'light' ? 'opacity-100' : 'opacity-0'
                 }`}
-                onError={(e) => console.log('Light avatar failed to load:', e)}
-                onLoad={() => console.log('Light avatar loaded successfully')}
               />
               <img
                 src={personal.avatarUrlDark || personal.avatarUrlLight || '/avatar.svg'}
                 alt={`${personal.name} - dark mode`}
-                className={`w-24 h-24 md:w-32 md:h-32 rounded-2xl shadow-lg transition-opacity duration-1000 ease-in-out ${
+                className={`w-24 h-24 md:w-32 md:h-32 rounded-2xl shadow-lg transition-opacity duration-500 ease-in-out ${
                   theme === 'dark' ? 'opacity-100' : 'opacity-0'
                 }`}
-                onError={(e) => console.log('Dark avatar failed to load:', e)}
-                onLoad={() => console.log('Dark avatar loaded successfully')}
               />
             </div>
             <div>
@@ -59,25 +48,27 @@ export default function Hero() {
 
         {/* Texto de presentación */}
         <div className="order-1 md:order-2 text-center md:text-left">
-          <p className="text-lg md:text-xl lg:text-2xl text-gray-700 mb-10 leading-relaxed max-w-2xl">
-            {about.summary}
+          <div className="mb-6">
+            <p className="text-lg md:text-xl text-primary-600 dark:text-primary-300 font-medium mb-2">
+              {hero.greeting}
+            </p>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+              {hero.subtitle}
+            </h2>
+          </div>
+          <p className="text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 mb-10 leading-relaxed max-w-2xl">
+            {hero.description}
           </p>
           <div className="flex flex-col sm:flex-row gap-6 md:justify-start justify-center">
             <button onClick={scrollToProjects} className="btn-primary">
-              {nav.viewProjects}
+              {hero.ctaPrimary}
             </button>
             <a href={personal.resumeUrl} download className="btn-secondary">
-              {nav.downloadCV}
+              {hero.ctaSecondary}
             </a>
           </div>
         </div>
 
-        {/* Indicador de scroll */}
-        <div className="absolute bottom-12 left-1/2 md:left-auto md:right-8 transform -translate-x-1/2 md:translate-x-0 animate-bounce">
-          <div className="w-6 h-10 border-2 border-primary-300 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-primary-400 rounded-full mt-2"></div>
-          </div>
-        </div>
       </div>
     </section>
   );

@@ -6,12 +6,10 @@ import { FiSun, FiMoon } from 'react-icons/fi';
 
 export default function Navbar() {
   const { locale, setLocale } = useLocale();
-  const { nav, personal } = useContent();
+  const { nav } = useContent();
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Generar iniciales del nombre
-  const initials = personal.name.split(' ').map(n => n[0]).join('').toUpperCase();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,11 +41,98 @@ export default function Navbar() {
           <div className="flex-shrink-0">
             <button
               onClick={() => scrollToSection('hero')}
-              className={`text-2xl font-bold transition-colors duration-300 ${
-                isScrolled ? 'text-gray-900 dark:text-white' : 'text-gray-900 dark:text-white'
-              }`}
+              className="group transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg p-1"
+              aria-label="Ir al inicio"
             >
-              {initials}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 100 40"
+                aria-labelledby="jl-logo-title"
+                className={`w-12 h-8 transition-all duration-300 group-hover:drop-shadow-lg ${
+                  isScrolled
+                    ? 'text-primary-700 dark:text-primary-300'
+                    : 'text-gray-800 dark:text-white'
+                }`}
+              >
+                <title id="jl-logo-title">JL - Logo Minimalista</title>
+                <desc>Logo minimalista con iniciales JL en diseño geométrico moderno</desc>
+                
+                <defs>
+                  {/* Gradiente para modo claro */}
+                  <linearGradient id="logoGradientLight" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#5D7CA6" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#73A2BF" stopOpacity="0.9" />
+                  </linearGradient>
+                  
+                  {/* Gradiente para modo oscuro */}
+                  <linearGradient id="logoGradientDark" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#e5e7eb" stopOpacity="0.9" />
+                  </linearGradient>
+                  
+                  {/* Gradiente hover */}
+                  <linearGradient id="logoGradientHover" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#F2CAA7" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#5D7CA6" stopOpacity="1" />
+                  </linearGradient>
+                </defs>
+
+                {/* Letra J - Diseño minimalista con curva */}
+                <g className="transition-all duration-300 group-hover:fill-accent">
+                  {/* Punto decorativo de la J */}
+                  <circle
+                    cx="8"
+                    cy="8"
+                    r="3"
+                    fill={isScrolled ? "url(#logoGradientLight)" : "currentColor"}
+                    className="dark:fill-white group-hover:fill-accent transition-all duration-300"
+                  />
+                  
+                  {/* Cuerpo principal de la J */}
+                  <path
+                    d="M8 16 L8 28 Q8 34 14 34 L20 34 Q26 34 26 28 L26 24 L20 24 L20 28 Q20 30 18 30 L14 30 Q12 30 12 28 L12 16 Z"
+                    fill={isScrolled ? "url(#logoGradientLight)" : "currentColor"}
+                    className="dark:fill-white group-hover:fill-accent transition-all duration-300"
+                  />
+                </g>
+
+                {/* Letra L - Diseño angular minimalista */}
+                <g className="transition-all duration-300 group-hover:fill-accent">
+                  {/* Trazo vertical de L */}
+                  <rect
+                    x="45"
+                    y="8"
+                    width="4"
+                    height="22"
+                    fill={isScrolled ? "url(#logoGradientLight)" : "currentColor"}
+                    className="dark:fill-white group-hover:fill-accent transition-all duration-300"
+                  />
+                  
+                  {/* Trazo horizontal de L */}
+                  <rect
+                    x="45"
+                    y="26"
+                    width="20"
+                    height="4"
+                    fill={isScrolled ? "url(#logoGradientLight)" : "currentColor"}
+                    className="dark:fill-white group-hover:fill-accent transition-all duration-300"
+                  />
+                  
+                  {/* Elemento decorativo angular */}
+                  <polygon
+                    points="68,26 72,22 72,30"
+                    fill={isScrolled ? "url(#logoGradientLight)" : "currentColor"}
+                    className="dark:fill-white group-hover:fill-accent transition-all duration-300"
+                  />
+                </g>
+
+                {/* Elementos decorativos minimalistas */}
+                <g fill="currentColor" opacity="0.6" className="group-hover:opacity-80 transition-opacity duration-300">
+                  {/* Puntos minimalistas */}
+                  <rect x="78" y="18" width="2" height="2" className="group-hover:fill-accent" />
+                  <rect x="85" y="14" width="2" height="2" className="group-hover:fill-accent" />
+                </g>
+              </svg>
             </button>
           </div>
 

@@ -1,6 +1,8 @@
 import { useLocale } from '../context/LocaleContext';
 import { personal as personalES } from '../content/es/personal';
 import { personal as personalEN } from '../content/en/personal';
+import { hero as heroES } from '../content/es/hero';
+import { hero as heroEN } from '../content/en/hero';
 import { about as aboutES } from '../content/es/about';
 import { about as aboutEN } from '../content/en/about';
 import { skills as skillsES } from '../content/es/skills';
@@ -21,6 +23,7 @@ export const useContent = () => {
 
   return {
     personal: locale === 'es' ? personalES : personalEN,
+    hero: locale === 'es' ? heroES : heroEN,
     about: locale === 'es' ? aboutES : aboutEN,
     skills: locale === 'es' ? skillsES : skillsEN,
     experience: locale === 'es' ? experienceES : experienceEN,

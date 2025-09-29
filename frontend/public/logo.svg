@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40" aria-labelledby="jl-logo-title">
+  <title id="jl-logo-title">JL - Logo Minimalista</title>
+  <desc>Logo minimalista con iniciales JL en diseño geométrico moderno</desc>
+  
+  <defs>
+    <!-- Gradiente principal -->
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5D7CA6" stop-opacity="1" />
+      <stop offset="100%" stop-color="#73A2BF" stop-opacity="0.9" />
+    </linearGradient>
+  </defs>
+
+  <!-- Letra J - Diseño minimalista con curva -->
+  <g fill="url(#logoGradient)">
+    <!-- Punto decorativo de la J -->
+    <circle cx="8" cy="8" r="3" />
+    
+    <!-- Cuerpo principal de la J -->
+    <path d="M8 16 L8 28 Q8 34 14 34 L20 34 Q26 34 26 28 L26 24 L20 24 L20 28 Q20 30 18 30 L14 30 Q12 30 12 28 L12 16 Z" />
+  </g>
+
+  <!-- Letra L - Diseño angular minimalista -->
+  <g fill="url(#logoGradient)">
+    <!-- Trazo vertical de L -->
+    <rect x="45" y="8" width="4" height="22" />
+    
+    <!-- Trazo horizontal de L -->
+    <rect x="45" y="26" width="20" height="4" />
+    
+    <!-- Elemento decorativo angular -->
+    <polygon points="68,26 72,22 72,30" />
+  </g>
+
+  <!-- Elementos decorativos minimalistas -->
+  <g fill="#5D7CA6" opacity="0.6">
+    <!-- Puntos minimalistas -->
+    <rect x="78" y="18" width="2" height="2" />
+    <rect x="85" y="14" width="2" height="2" />
+  </g>
+</svg>

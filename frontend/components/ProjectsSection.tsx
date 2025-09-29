@@ -1,53 +1,28 @@
 import { useEffect, useState } from 'react'
 import { useContent } from '../src/hooks/useContent'
-
-interface Project {
-  id: number
-  title: string
-  description: string
-  tags: string[]
-  urlRepo?: string
-  urlDemo?: string
-  coverImage?: string
-}
+import ProjectImageCarousel from './ProjectImageCarousel'
+import { getProjects, Project as ProjectData } from '../src/data/projectsData'
 
 export default function ProjectsSection() {
   const { ui } = useContent()
-  const [projects, setProjects] = useState<Project[]>([])
+  const [projects, setProjects] = useState<ProjectData[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'
+    const loadProjects = async () => {
       try {
-        // Try backend first
-        const backendRes = await fetch(`${baseUrl}/api/projects`)
-        if (backendRes.ok) {
-          const data = await backendRes.json()
-          setProjects(data)
-        } else {
-          throw new Error('Backend not available')
-        }
-      } catch {
-        // Fallback to frontend API
-        try {
-          const frontendRes = await fetch('/api/projects')
-          if (frontendRes.ok) {
-            const data = await frontendRes.json()
-            setProjects(data)
-          } else {
-            throw new Error('Failed to load projects')
-          }
-        } catch (err) {
-          setError('Unable to load projects. Please try again later.')
-        }
+        // Usar datos estáticos por ahora - fácil de cambiar cuando tengas la base de datos
+        const data = await getProjects()
+        setProjects(data)
+      } catch (err) {
+        setError('Unable to load projects. Please try again later.')
       } finally {
         setLoading(false)
       }
     }
 
-    fetchProjects()
+    loadProjects()
   }, [])
 
   if (loading) {
@@ -79,19 +54,24 @@ export default function ProjectsSection() {
           <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
             <div
               key={project.id}
               className="card group"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              {project.coverImage && (
+              {(project.images && project.images.length > 0) && (
+                <ProjectImageCarousel images={project.images} title={project.title} />
+              )}
+
+              {/* Fallback a imagen simple si no hay array de imágenes */}
+              {(!project.images || project.images.length === 0) && project.coverImage && (
                 <div className="relative overflow-hidden rounded-t-2xl mb-6">
                   <img
                     src={project.coverImage}
                     alt={project.title}
-                    className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-64 md:h-80 object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>

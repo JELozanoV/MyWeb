@@ -1,3 +1,6 @@
 export const about = {
-  summary: 'Full stack developer with experience in Node.js, Express, PostgreSQL, and Next.js. Passionate about creating efficient and scalable web applications.'
+  summary: 'I am a passionate full-stack developer focused on creating innovative technological solutions. My experience spans from developing modern web applications to implementing robust backend systems. I specialize in technologies like React, Node.js and relational databases, always seeking best practices to deliver high-quality products.',
+  details: [
+    ''
+  ]
 }
