@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react'
 import { useContent } from '../src/hooks/useContent'
+import { useLocale } from '../src/context/LocaleContext'
 import ProjectImageCarousel from './ProjectImageCarousel'
 import { getProjects, Project as ProjectData } from '../src/data/projectsData'
 
 export default function ProjectsSection() {
-  const { ui } = useContent()
+  const { ui, projects: projectsContent } = useContent()
   const [projects, setProjects] = useState<ProjectData[]>([])
+  const { locale } = useLocale()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const loadProjects = async () => {
       try {
-        // Usar datos estáticos por ahora - fácil de cambiar cuando tengas la base de datos
-        const data = await getProjects()
+        // Usar datos estáticos con soporte de internacionalización
+        const data = await getProjects(locale)
         setProjects(data)
       } catch (err) {
         setError('Unable to load projects. Please try again later.')
@@ -23,7 +25,7 @@ export default function ProjectsSection() {
     }
 
     loadProjects()
-  }, [])
+  }, [locale]) // Dependencia en locale para recargar cuando cambie el idioma
 
   if (loading) {
     return (

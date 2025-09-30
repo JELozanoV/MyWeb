@@ -38,25 +38,24 @@ export const projectsData: Project[] = [
   {
     id: 1,
     title: 'Reten +',
-    description: 'A full-stack portfolio website built with Next.js and Express featuring bilingual support and modern UI.',
-    tags: ['React', 'Next.js', 'TypeScript', 'TailwindCSS', 'Prisma'],
+    description: '', // Se obtendrá de los archivos de traducción
+    tags: ['Next.js', 'Node.js', 'PostgreSQL', 'Express', 'Prisma', 'TypeScript'],
     urlRepo: 'https://github.com/user/portfolio',
     urlDemo: 'https://portfolio-demo.com',
     images: [
-      // 📁 EJEMPLO: Para usar imágenes locales, sube archivos a:
-      // portfolio/frontend/public/images/projects/
-      // Y usa rutas como: '/images/projects/tu-imagen.jpg'
-
-      // 🌐 Por ahora usando URLs externas (Unsplash):
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop'
+      // 📁 IMÁGENES LOCALES: Tus imágenes del proyecto Reten +
+      '/images/projects/reten/reten + 1.png',
+      '/images/projects/reten/reten + 2.png',
+      '/images/projects/reten/reten + 3.png',
+      '/images/projects/reten/reten + 4.png',
+      '/images/projects/reten/reten + 5.png',
+      '/images/projects/reten/reten + 6.png'
     ]
   },
   {
     id: 2,
     title: 'E-commerce App',
-    description: 'An e-commerce application with user authentication, payment integration, and admin dashboard.',
+    description: '', // Se obtendrá de los archivos de traducción
     tags: ['Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Stripe'],
     urlRepo: 'https://github.com/user/ecommerce',
     urlDemo: 'https://ecommerce-demo.com',
@@ -68,7 +67,7 @@ export const projectsData: Project[] = [
   {
     id: 3,
     title: 'Task Manager API',
-    description: 'RESTful API for task management with JWT authentication and real-time notifications.',
+    description: '', // Se obtendrá de los archivos de traducción
     tags: ['Node.js', 'Express', 'MongoDB', 'JWT', 'Socket.io'],
     urlRepo: 'https://github.com/user/task-api',
     images: [
@@ -78,7 +77,7 @@ export const projectsData: Project[] = [
   {
     id: 4,
     title: 'Weather App',
-    description: 'A responsive weather application with location-based forecasts and beautiful animations.',
+    description: '', // Se obtendrá de los archivos de traducción
     tags: ['React', 'OpenWeather API', 'CSS Animations', 'Geolocation'],
     urlRepo: 'https://github.com/user/weather-app',
     urlDemo: 'https://weather-app-demo.com',
@@ -89,16 +88,51 @@ export const projectsData: Project[] = [
   }
 ]
 
-// Función para obtener proyectos - puedes cambiar la lógica aquí cuando integres la base de datos
-export const getProjects = async (): Promise<Project[]> => {
+// Función para obtener proyectos con soporte de internacionalización
+export const getProjects = async (locale: string = 'es'): Promise<Project[]> => {
   // 🚀 PARA CAMBIAR A BASE DE DATOS:
   // 1. Configura tu base de datos (PostgreSQL con Prisma)
   // 2. Ejecuta: cd portfolio/backend && npx prisma migrate dev && npx prisma generate
   // 3. Cambia esta función por:
   // return await fetch('/api/projects').then(res => res.json())
 
-  // Por ahora retorna datos estáticos - puedes editar projectsData arriba
+  // Por ahora retorna datos estáticos con descripciones traducidas
   return new Promise((resolve) => {
-    setTimeout(() => resolve(projectsData), 100) // Simula delay de API
+    setTimeout(() => {
+      const translatedProjects = projectsData.map(project => ({
+        ...project,
+        // Usa la descripción traducida según el idioma actual
+        description: getTranslatedDescription(project.title, locale)
+      }))
+      resolve(translatedProjects)
+    }, 100) // Simula delay de API
   })
+}
+
+// Función auxiliar para obtener la descripción traducida
+const getTranslatedDescription = (projectTitle: string, locale: string): string => {
+  // Mapeo de títulos a claves de traducción
+  const titleToKey: { [key: string]: keyof typeof import('../content/es/projects').projects } = {
+    'Reten +': 'reten',
+    'E-commerce App': 'ecommerce',
+    'Task Manager API': 'taskManager',
+    'Weather App': 'weatherApp'
+  }
+
+  const key = titleToKey[projectTitle]
+  if (!key) return 'Descripción no disponible'
+
+  // Importar dinámicamente el contenido según el idioma
+  try {
+    if (locale === 'es') {
+      const { projects: projectsES } = require('../content/es/projects')
+      return projectsES[key]?.description || 'Descripción no disponible'
+    } else {
+      const { projects: projectsEN } = require('../content/en/projects')
+      return projectsEN[key]?.description || 'Description not available'
+    }
+  } catch (error) {
+    console.error('Error loading translated content:', error)
+    return 'Descripción no disponible'
+  }
 }

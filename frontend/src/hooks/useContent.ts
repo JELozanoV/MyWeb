@@ -5,6 +5,8 @@ import { hero as heroES } from '../content/es/hero';
 import { hero as heroEN } from '../content/en/hero';
 import { about as aboutES } from '../content/es/about';
 import { about as aboutEN } from '../content/en/about';
+import { projects as projectsES } from '../content/es/projects';
+import { projects as projectsEN } from '../content/en/projects';
 import { skills as skillsES } from '../content/es/skills';
 import { skills as skillsEN } from '../content/en/skills';
 import { experience as experienceES } from '../content/es/experience';
@@ -25,6 +27,7 @@ export const useContent = () => {
     personal: locale === 'es' ? personalES : personalEN,
     hero: locale === 'es' ? heroES : heroEN,
     about: locale === 'es' ? aboutES : aboutEN,
+    projects: locale === 'es' ? projectsES : projectsEN,
     skills: locale === 'es' ? skillsES : skillsEN,
     experience: locale === 'es' ? experienceES : experienceEN,
     education: locale === 'es' ? educationES : educationEN,
