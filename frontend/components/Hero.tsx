@@ -27,14 +27,14 @@ export default function Hero() {
               <img
                 src={personal.avatarUrlLight || '/avatar.svg'}
                 alt={`${personal.name} - light mode`}
-                className={`w-24 h-24 md:w-32 md:h-32 rounded-2xl shadow-lg absolute inset-0 transition-opacity duration-500 ease-in-out ${
+                className={`w-24 h-24 md:w-32 md:h-32 rounded-2xl shadow-lg absolute inset-0 transition-opacity duration-500 ease-in-out object-cover ${
                   theme === 'light' ? 'opacity-100' : 'opacity-0'
                 }`}
               />
               <img
                 src={personal.avatarUrlDark || personal.avatarUrlLight || '/avatar.svg'}
                 alt={`${personal.name} - dark mode`}
-                className={`w-24 h-24 md:w-32 md:h-32 rounded-2xl shadow-lg transition-opacity duration-500 ease-in-out ${
+                className={`w-24 h-24 md:w-32 md:h-32 rounded-2xl shadow-lg transition-opacity duration-500 ease-in-out object-cover ${
                   theme === 'dark' ? 'opacity-100' : 'opacity-0'
                 }`}
               />

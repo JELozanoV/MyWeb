@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useContent } from '../src/hooks/useContent';
 import { z } from 'zod';
+import { motion } from 'framer-motion';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
   email: z.string().email('Email inválido'),
+  subject: z.string().min(5, 'El asunto debe tener al menos 5 caracteres'),
   message: z.string().min(10, 'El mensaje debe tener al menos 10 caracteres')
 });
 
@@ -12,10 +14,11 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function ContactForm() {
   const { labels } = useContent();
-  const [formData, setFormData] = useState<ContactFormData>({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState<ContactFormData>({ name: '', email: '', subject: '', message: '' });
   const [errors, setErrors] = useState<Partial<ContactFormData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -30,11 +33,21 @@ export default function ContactForm() {
     try {
       contactSchema.parse(formData);
       setErrors({});
+      setError(null);
       setIsSubmitting(true);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSubmitted(true);
-      setFormData({ name: '', email: '', message: '' });
+      const response = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setError('Error sending message. Please try again.');
+      }
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors: Partial<ContactFormData> = {};
@@ -44,6 +57,8 @@ export default function ContactForm() {
           }
         });
         setErrors(fieldErrors);
+      } else {
+        setError('Unexpected error. Please try again.');
       }
     } finally {
       setIsSubmitting(false);
@@ -52,22 +67,33 @@ export default function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="text-center">
-        <p className="text-green-600 text-lg">{labels.form.success}</p>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="text-center"
+      >
+        <p className="text-green-400 text-lg">{labels.form.success}</p>
         <button
           onClick={() => setSubmitted(false)}
-          className="mt-4 bg-primary text-white px-4 py-2 rounded hover:bg-primary-900"
+          className="mt-4 bg-accent text-brown px-4 py-2 rounded hover:bg-accent/80 transition-colors"
         >
           {labels.form.sendAnother}
         </button>
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-      <div className="mb-4">
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+    <motion.form
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      onSubmit={handleSubmit}
+      className="max-w-md mx-auto"
+    >
+      <div className="mb-6">
+        <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
           {labels.form.name}
         </label>
         <input
@@ -76,13 +102,14 @@ export default function ContactForm() {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent text-white placeholder-white/50"
+          placeholder="Tu nombre"
           required
         />
-        {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
+        {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
       </div>
-      <div className="mb-4">
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+      <div className="mb-6">
+        <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
           {labels.form.email}
         </label>
         <input
@@ -91,13 +118,30 @@ export default function ContactForm() {
           name="email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent text-white placeholder-white/50"
+          placeholder="tu@email.com"
           required
         />
-        {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+        {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
       </div>
-      <div className="mb-4">
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+      <div className="mb-6">
+        <label htmlFor="subject" className="block text-sm font-medium text-white mb-2">
+          {labels.form.subject}
+        </label>
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          value={formData.subject}
+          onChange={handleChange}
+          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent text-white placeholder-white/50"
+          placeholder="Asunto del mensaje"
+          required
+        />
+        {errors.subject && <p className="text-red-400 text-sm mt-1">{errors.subject}</p>}
+      </div>
+      <div className="mb-6">
+        <label htmlFor="message" className="block text-sm font-medium text-white mb-2">
           {labels.form.message}
         </label>
         <textarea
@@ -106,18 +150,29 @@ export default function ContactForm() {
           value={formData.message}
           onChange={handleChange}
           rows={4}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent text-white placeholder-white/50 resize-none"
+          placeholder="Tu mensaje..."
           required
         />
-        {errors.message && <p className="text-red-600 text-sm mt-1">{errors.message}</p>}
+        {errors.message && <p className="text-red-400 text-sm mt-1">{errors.message}</p>}
       </div>
-      <button
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-900 disabled:opacity-50"
+        className="w-full bg-accent text-brown py-3 px-4 rounded-lg hover:bg-accent/80 disabled:opacity-50 transition-colors font-medium flex items-center justify-center"
       >
-        {isSubmitting ? labels.form.submitting : labels.form.submit}
-      </button>
-    </form>
+        {isSubmitting ? (
+          <div className="flex items-center">
+            <div className="w-5 h-5 border-2 border-brown border-t-transparent rounded-full animate-spin mr-2"></div>
+            {labels.form.submitting}
+          </div>
+        ) : (
+          labels.form.submit
+        )}
+      </motion.button>
+      {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+    </motion.form>
   );
 }

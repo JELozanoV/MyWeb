@@ -14,7 +14,7 @@ export default function TechBadge({ name, level, iconKey }: TechBadgeProps) {
 
   return (
     <div
-      className={`inline-flex items-center justify-center w-8 h-8 rounded bg-gray-100 text-gray-700 text-xs font-medium ${
+      className={`inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-medium border border-primary-200/20 transition-all duration-200 ${
         isDisabled ? 'opacity-50' : ''
       }`}
       title={name}

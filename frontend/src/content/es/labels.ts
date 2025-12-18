@@ -2,6 +2,7 @@ export const labels = {
   form: {
     name: 'Nombre',
     email: 'Email',
+    subject: 'Asunto',
     message: 'Mensaje',
     submit: 'Enviar',
     submitting: 'Enviando...',

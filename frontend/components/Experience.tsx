@@ -8,18 +8,18 @@ export default function Experience() {
       <div className="max-w-5xl mx-auto container-padding">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">{ui.sections.experience}</h2>
-          <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-primary mx-auto" style={{clipPath: 'polygon(0 0, 100% 0, 98% 100%, 2% 100%)'}}></div>
         </div>
 
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-primary via-primary-200 to-primary"></div>
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-primary-200/50"></div>
 
           <div className="space-y-16">
             {experience.map((exp, index) => (
               <div key={index} className={`flex ${index % 2 === 0 ? 'justify-start' : 'justify-end'} relative`}>
                 {/* Timeline dot */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-white dark:border-gray-900 shadow-lg"></div>
+                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 border-2 border-primary-200 bg-white dark:bg-gray-900 rounded-full shadow-lg"></div>
 
                 {/* Content */}
                 <div className={`w-full md:w-5/12 ${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
