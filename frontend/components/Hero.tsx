@@ -11,15 +11,9 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center gradient-bg relative overflow-hidden">
-      {/* Blobs animados de fondo */}
-      <div className="absolute inset-0 opacity-40">
-        <div className="absolute top-16 left-8 w-72 h-72 bg-primary-200 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-        <div className="absolute -top-8 right-24 w-80 h-80 bg-accent rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-8 left-1/3 w-72 h-72 bg-primary-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
-      </div>
+    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-24 md:pt-0 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* Avatar y tarjeta de vidrio */}
         <div className="order-2 md:order-1 flex justify-center md:justify-start">
           <div className="glass rounded-3xl p-6 md:p-8 flex items-center gap-6 md:gap-8">
@@ -47,25 +41,48 @@ export default function Hero() {
         </div>
 
         {/* Texto de presentación */}
-        <div className="order-1 md:order-2 text-center md:text-left">
-          <div className="mb-6">
-            <p className="text-lg md:text-xl text-primary-600 dark:text-primary-300 font-medium mb-2">
-              {hero.greeting}
+        <div className="order-1 md:order-2 text-center md:text-left max-w-lg md:max-w-none mx-auto md:mx-0">
+          <div className="md:hidden bg-white/20 dark:bg-gray-800/20 backdrop-blur-md rounded-2xl p-6 mb-6">
+            <div className="mb-6">
+              <p className="text-lg md:text-xl text-primary-600 dark:text-primary-300 font-medium mb-2">
+                {hero.greeting}
+              </p>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                {hero.subtitle}
+              </h2>
+            </div>
+            <p className="text-lg md:text-xl lg:text-2xl text-gray-800 dark:text-gray-200 mb-10 leading-relaxed">
+              {hero.description}
             </p>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
-              {hero.subtitle}
-            </h2>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <button onClick={scrollToProjects} className="btn-primary">
+                {hero.ctaPrimary}
+              </button>
+              <a href={personal.resumeUrl} download className="btn-secondary">
+                {hero.ctaSecondary}
+              </a>
+            </div>
           </div>
-          <p className="text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 mb-10 leading-relaxed max-w-2xl">
-            {hero.description}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-6 md:justify-start justify-center">
-            <button onClick={scrollToProjects} className="btn-primary">
-              {hero.ctaPrimary}
-            </button>
-            <a href={personal.resumeUrl} download className="btn-secondary">
-              {hero.ctaSecondary}
-            </a>
+          <div className="hidden md:block bg-white/10 dark:bg-gray-900/10 backdrop-blur-sm rounded-2xl p-6">
+            <div className="mb-6">
+              <p className="text-lg md:text-xl text-primary-600 dark:text-primary-300 font-medium mb-2">
+                {hero.greeting}
+              </p>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+                {hero.subtitle}
+              </h2>
+            </div>
+            <p className="text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 mb-10 leading-relaxed max-w-2xl">
+              {hero.description}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 md:justify-start justify-center">
+              <button onClick={scrollToProjects} className="btn-primary">
+                {hero.ctaPrimary}
+              </button>
+              <a href={personal.resumeUrl} download className="btn-secondary">
+                {hero.ctaSecondary}
+              </a>
+            </div>
           </div>
         </div>
 

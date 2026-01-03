@@ -4,9 +4,9 @@ export default function Experience() {
   const { experience, ui } = useContent();
 
   return (
-    <section id="experience" className="section-padding bg-gray-50 dark:bg-gray-950">
+    <section id="experience" className="section-padding">
       <div className="max-w-5xl mx-auto container-padding">
-        <div className="text-center mb-20">
+        <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">{ui.sections.experience}</h2>
           <div className="w-24 h-1 bg-primary mx-auto" style={{clipPath: 'polygon(0 0, 100% 0, 98% 100%, 2% 100%)'}}></div>
         </div>
@@ -15,7 +15,7 @@ export default function Experience() {
           {/* Timeline line */}
           <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-primary-200/50"></div>
 
-          <div className="space-y-16">
+          <div className="space-y-12">
             {experience.map((exp, index) => (
               <div key={index} className={`flex ${index % 2 === 0 ? 'justify-start' : 'justify-end'} relative`}>
                 {/* Timeline dot */}

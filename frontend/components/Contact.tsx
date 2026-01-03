@@ -1,12 +1,13 @@
 import { useContent } from '../src/hooks/useContent';
 import ContactForm from './ContactForm';
+import ContactLinkCard from './ContactLinkCard';
 import { FiMail, FiLinkedin, FiGithub } from 'react-icons/fi';
 
 export default function Contact() {
   const { personal, ui } = useContent();
 
   return (
-    <section id="contact" className="section-padding bg-gradient-to-br from-primary-900 via-primary-800 to-primary-900 text-white relative overflow-hidden">
+    <section id="contact" className="section-padding text-white relative overflow-hidden">
       {/* Subtle background elements */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-20 left-20 w-96 h-96 bg-white rounded-full mix-blend-overlay animate-pulse"></div>
@@ -28,48 +29,28 @@ export default function Contact() {
             </p>
 
             <div className="space-y-8">
-              <a
+              <ContactLinkCard
+                icon={<FiMail className="text-primary-900" size={24} />}
+                title={ui.contact.email}
+                subtitle={personal.email}
                 href={`mailto:${personal.email}`}
-                className="flex items-center p-6 bg-white/10 rounded-2xl hover:bg-white/20 transition-all duration-300 group backdrop-blur-sm"
-              >
-                <div className="w-14 h-14 bg-accent rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform">
-                  <FiMail className="text-brown" size={24} />
-                </div>
-                <div>
-                  <p className="font-medium text-white text-lg">{ui.contact.email}</p>
-                  <p className="text-primary-200">{personal.email}</p>
-                </div>
-              </a>
+              />
 
-              <a
+              <ContactLinkCard
+                icon={<FiLinkedin className="text-primary-900" size={24} />}
+                title={ui.contact.linkedin}
+                subtitle={ui.contact.viewProfile}
                 href={personal.linkedin}
                 target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center p-6 bg-white/10 rounded-2xl hover:bg-white/20 transition-all duration-300 group backdrop-blur-sm"
-              >
-                <div className="w-14 h-14 bg-accent rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform">
-                  <FiLinkedin className="text-brown" size={24} />
-                </div>
-                <div>
-                  <p className="font-medium text-white text-lg">{ui.contact.linkedin}</p>
-                  <p className="text-primary-200">{ui.contact.viewProfile}</p>
-                </div>
-              </a>
+              />
 
-              <a
+              <ContactLinkCard
+                icon={<FiGithub className="text-primary-900" size={24} />}
+                title={ui.contact.github}
+                subtitle={ui.contact.viewRepos}
                 href={personal.github}
                 target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center p-6 bg-white/10 rounded-2xl hover:bg-white/20 transition-all duration-300 group backdrop-blur-sm"
-              >
-                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform">
-                  <FiGithub className="text-primary-900" size={24} />
-                </div>
-                <div>
-                  <p className="font-medium text-white text-lg">{ui.contact.github}</p>
-                  <p className="text-primary-200">{ui.contact.viewRepos}</p>
-                </div>
-              </a>
+              />
             </div>
           </div>
 

@@ -49,7 +49,7 @@ export default function ProjectsSection() {
   }
 
   return (
-    <section id="projects" className="section-padding bg-white dark:bg-gray-950">
+    <section id="projects" className="py-28">
       <div className="max-w-6xl mx-auto container-padding">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">{ui.sections.projects}</h2>
