@@ -22,22 +22,21 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div>
-            <h3 className="text-2xl font-semibold mb-8">{ui.contact.getInTouch}</h3>
-            <p className="text-primary-100 mb-12 leading-relaxed text-lg">
+            <h3 className="text-2xl font-semibold mb-8 dark:text-white text-primary-900">{ui.contact.getInTouch}</h3>
+            <p className="dark:text-primary-100 text-brown/80 mb-12 leading-relaxed text-lg whitespace-pre-line">
               {ui.contact.description}
-              Estoy interesado en oportunidades de desarrollo full stack. ¡Hablemos sobre tu próximo proyecto!
             </p>
 
             <div className="space-y-8">
               <ContactLinkCard
-                icon={<FiMail className="text-primary-900" size={24} />}
+                icon={<FiMail className="dark:text-white text-primary-900" size={24} />}
                 title={ui.contact.email}
                 subtitle={personal.email}
                 href={`mailto:${personal.email}`}
               />
 
               <ContactLinkCard
-                icon={<FiLinkedin className="text-primary-900" size={24} />}
+                icon={<FiLinkedin className="dark:text-white text-primary-900" size={24} />}
                 title={ui.contact.linkedin}
                 subtitle={ui.contact.viewProfile}
                 href={personal.linkedin}
@@ -45,7 +44,7 @@ export default function Contact() {
               />
 
               <ContactLinkCard
-                icon={<FiGithub className="text-primary-900" size={24} />}
+                icon={<FiGithub className="dark:text-white text-primary-900" size={24} />}
                 title={ui.contact.github}
                 subtitle={ui.contact.viewRepos}
                 href={personal.github}
@@ -55,7 +54,7 @@ export default function Contact() {
           </div>
 
           <div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8">
+            <div className="dark:bg-white/10 bg-white border border-primary-900/10 dark:border-white/10 shadow-sm dark:shadow-none backdrop-blur-sm rounded-3xl p-8">
               <ContactForm />
             </div>
           </div>

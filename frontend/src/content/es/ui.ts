@@ -9,7 +9,7 @@ export const ui = {
   },
   contact: {
     getInTouch: 'Ponte en contacto',
-    description: 'Estoy interesado en oportunidades de desarrollo full stack. ¡Hablemos sobre tu próximo proyecto!',
+    description: 'Estoy abierto a nuevas oportunidades y colaboraciones en desarrollo web y de software.\nMe interesa participar en proyectos full stack, frontend, backend o iniciativas digitales donde pueda aportar valor.\nHablemos sobre tu próximo proyecto.',
     email: 'Email',
     linkedin: 'LinkedIn',
     github: 'GitHub',

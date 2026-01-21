@@ -1,4 +1,8 @@
 export const skills = {
+  frontendTitle: 'Frontend',
+  backendTitle: 'Backend',
+  databaseTitle: 'Base de Datos',
+  toolsTitle: 'Herramientas',
   frontend: [
     { name: 'JavaScript', level: 'production', iconKey: 'javascript' },
     { name: 'HTML', level: 'production', iconKey: 'html5' },

@@ -9,7 +9,7 @@ export const ui = {
   },
   contact: {
     getInTouch: 'Get in touch',
-    description: 'I\'m interested in full stack development opportunities. Let\'s talk about your next project!',
+    description: 'I\'m open to new opportunities and collaborations in web and software development.\nI\'m interested in full stack, frontend, backend, or digital projects where I can add real value.\nLet\'s talk about your next project.',
     email: 'Email',
     linkedin: 'LinkedIn',
     github: 'GitHub',

@@ -93,7 +93,7 @@ export default function ContactForm() {
       className="max-w-md mx-auto"
     >
       <div className="mb-6">
-        <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
+        <label htmlFor="name" className="block text-sm font-medium dark:text-white text-primary-900 mb-2">
           {labels.form.name}
         </label>
         <input
@@ -102,14 +102,14 @@ export default function ContactForm() {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent text-white placeholder-white/50"
+          className="w-full px-4 py-3 bg-white dark:bg-white/10 border border-primary-900/20 dark:border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 dark:focus:ring-accent text-primary-900 dark:text-white placeholder-primary-900/40 dark:placeholder-white/50"
           placeholder="Tu nombre"
           required
         />
         {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
       </div>
       <div className="mb-6">
-        <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
+        <label htmlFor="email" className="block text-sm font-medium dark:text-white text-primary-900 mb-2">
           {labels.form.email}
         </label>
         <input
@@ -118,14 +118,14 @@ export default function ContactForm() {
           name="email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent text-white placeholder-white/50"
+          className="w-full px-4 py-3 bg-white dark:bg-white/10 border border-primary-900/20 dark:border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 dark:focus:ring-accent text-primary-900 dark:text-white placeholder-primary-900/40 dark:placeholder-white/50"
           placeholder="tu@email.com"
           required
         />
         {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
       </div>
       <div className="mb-6">
-        <label htmlFor="subject" className="block text-sm font-medium text-white mb-2">
+        <label htmlFor="subject" className="block text-sm font-medium dark:text-white text-primary-900 mb-2">
           {labels.form.subject}
         </label>
         <input
@@ -134,14 +134,14 @@ export default function ContactForm() {
           name="subject"
           value={formData.subject}
           onChange={handleChange}
-          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent text-white placeholder-white/50"
+          className="w-full px-4 py-3 bg-white dark:bg-white/10 border border-primary-900/20 dark:border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 dark:focus:ring-accent text-primary-900 dark:text-white placeholder-primary-900/40 dark:placeholder-white/50"
           placeholder="Asunto del mensaje"
           required
         />
         {errors.subject && <p className="text-red-400 text-sm mt-1">{errors.subject}</p>}
       </div>
       <div className="mb-6">
-        <label htmlFor="message" className="block text-sm font-medium text-white mb-2">
+        <label htmlFor="message" className="block text-sm font-medium dark:text-white text-primary-900 mb-2">
           {labels.form.message}
         </label>
         <textarea
@@ -150,7 +150,7 @@ export default function ContactForm() {
           value={formData.message}
           onChange={handleChange}
           rows={4}
-          className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent text-white placeholder-white/50 resize-none"
+          className="w-full px-4 py-3 bg-white dark:bg-white/10 border border-primary-900/20 dark:border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 dark:focus:ring-accent text-primary-900 dark:text-white placeholder-primary-900/40 dark:placeholder-white/50 resize-none"
           placeholder="Tu mensaje..."
           required
         />

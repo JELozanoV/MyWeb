@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
 interface ProjectImageCarouselProps {
@@ -9,33 +9,77 @@ interface ProjectImageCarouselProps {
 export default function ProjectImageCarousel({ images, title }: ProjectImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
+  const autoplayIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const startAutoplay = () => {
+    if (autoplayIntervalRef.current) clearInterval(autoplayIntervalRef.current)
+    autoplayIntervalRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length)
+    }, 7000)
+  }
+
+  const stopAutoplay = () => {
+    if (autoplayIntervalRef.current) {
+      clearInterval(autoplayIntervalRef.current)
+      autoplayIntervalRef.current = null
+    }
+  }
+
+  const pauseAndResume = () => {
+    stopAutoplay()
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
+    resumeTimeoutRef.current = setTimeout(() => {
+      startAutoplay()
+    }, 15000)
+  }
+
+  useEffect(() => {
+    startAutoplay()
+    return () => {
+      stopAutoplay()
+      if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
+    }
+  }, [images.length])
+
   if (!images || images.length === 0) return null
 
   const nextImage = () => {
+    pauseAndResume()
     setCurrentIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     )
   }
 
   const prevImage = () => {
+    pauseAndResume()
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     )
   }
 
   const goToImage = (index: number) => {
+    pauseAndResume()
     setCurrentIndex(index)
   }
 
   return (
     <div className="relative overflow-hidden rounded-t-2xl mb-6 group">
-      {/* Imagen principal */}
-      <div className="relative h-64 md:h-80">
-        <img
-          src={images[currentIndex]}
-          alt={`${title} - Imagen ${currentIndex + 1}`}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
+      {/* Carrusel de imágenes */}
+      <div className="relative h-64 md:h-80 bg-gray-900/10 overflow-hidden">
+        <div
+          className="flex w-full h-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        >
+          {images.map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt={`${title} - Imagen ${index + 1}`}
+              className="w-full h-full flex-shrink-0 object-contain object-center"
+            />
+          ))}
+        </div>
 
         {/* Overlay con gradiente */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

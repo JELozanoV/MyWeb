@@ -13,14 +13,18 @@ const getControlBtnClass = (isScrolled: boolean, theme: string) => {
   } else if (isScrolled) {
     colorClasses = 'bg-primary-50 text-primary-700 border-primary-200 hover:bg-primary-100 active:bg-primary-200';
   } else {
-    colorClasses = 'bg-white/10 text-gray-700 dark:text-gray-200 border-white/20 hover:bg-white/20 active:bg-white/30 backdrop-blur-sm';
+    if (theme === 'light') {
+      colorClasses = 'bg-white/60 text-gray-700 border-primary-200 hover:bg-white/70 active:bg-white/80 shadow-sm';
+    } else {
+      colorClasses = 'bg-white/10 text-gray-700 dark:text-gray-200 border-white/20 hover:bg-white/20 active:bg-white/30 backdrop-blur-sm';
+    }
   }
 
   return `${baseClasses} ${colorClasses}`;
 };
 
 export default function Navbar() {
-  const { locale, setLocale } = useLocale();
+  const { locale, toggleLocale } = useLocale();
   const { nav } = useContent();
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,9 +39,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleLocale = () => {
-    setLocale(locale === 'es' ? 'en' : 'es');
-  };
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -56,7 +57,7 @@ export default function Navbar() {
         : 'bg-transparent'
     }`}>
       <div className="max-w-6xl mx-auto px-6 lg:px-12">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex items-center justify-between h-20">
           <div className="flex-shrink-0">
             <button
               onClick={() => scrollToSection('hero')}
@@ -71,28 +72,30 @@ export default function Navbar() {
             </button>
           </div>
 
-          <div className="hidden md:flex items-center space-x-10">
-            {[
-              { id: 'projects', label: nav.projects },
-              { id: 'skills', label: nav.skills },
-              { id: 'experience', label: nav.experience },
-              { id: 'about', label: nav.about },
-              { id: 'education', label: nav.education },
-              { id: 'contact', label: nav.contact },
-            ].map(({ id, label }) => (
-              <button
-                key={id}
-                onClick={() => scrollToSection(id)}
-                className={`text-sm font-medium transition-all duration-300 hover:text-primary-600 hover:scale-105 hover:border-b-2 hover:border-primary-200 ${
-                  isScrolled ? 'text-gray-700 dark:text-gray-300' : 'text-gray-700 dark:text-gray-300'
-                }`}
-              >
-                {label}
-              </button>
-            ))}
+          <div className="nav-inline hidden md:flex flex-1 justify-center">
+            <div className="flex items-center space-x-10">
+              {[
+                { id: 'projects', label: nav.projects },
+                { id: 'skills', label: nav.skills },
+                { id: 'experience', label: nav.experience },
+                { id: 'about', label: nav.about },
+                { id: 'education', label: nav.education },
+                { id: 'contact', label: nav.contact },
+              ].map(({ id, label }) => (
+                <button
+                  key={id}
+                  onClick={() => scrollToSection(id)}
+                  className={`text-sm font-medium transition-all duration-300 hover:text-primary-600 hover:scale-105 hover:border-b-2 hover:border-primary-200 ${
+                    isScrolled ? 'text-gray-700 dark:text-gray-300' : 'text-gray-700 dark:text-gray-300'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="ml-auto">
+          <div className="flex-shrink-0">
             <div className="flex items-center gap-3">
               <button
                 onClick={toggleLocale}

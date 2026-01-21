@@ -14,16 +14,16 @@ export default function Skills() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="card">
-            <TechGrid title="Frontend" techs={skills.frontend} />
+            <TechGrid title={skills.frontendTitle} techs={skills.frontend} />
           </div>
           <div className="card">
-            <TechGrid title="Backend" techs={skills.backend} />
+            <TechGrid title={skills.backendTitle} techs={skills.backend} />
           </div>
           <div className="card">
-            <TechGrid title="Base de Datos" techs={skills.database} />
+            <TechGrid title={skills.databaseTitle} techs={skills.database} />
           </div>
           <div className="card">
-            <TechGrid title="Herramientas" techs={skills.tools} />
+            <TechGrid title={skills.toolsTitle} techs={skills.tools} />
           </div>
         </div>
       </div>

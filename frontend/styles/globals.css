@@ -155,3 +155,14 @@
     transform: translate(0px, 0px) scale(1);
   }
 }
+
+/* Mobile landscape navigation */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mobile-landscape-show {
+    display: flex;
+  }
+
+  .mobile-landscape-hide {
+    display: none;
+  }
+}
