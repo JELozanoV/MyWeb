@@ -93,6 +93,44 @@
     position: relative;
   }
 
+  .spotlight-card {
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    border-color: rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .spotlight-card:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Mobile: static gradient, no mouse tracking */
+  @media (hover: none) {
+    .spotlight-card {
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  /* TechBadge styles for spotlight */
+  .spotlight-card .tech-badge-icon {
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+  }
+
+  .spotlight-card:hover .tech-badge-icon {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+
+  /* Mobile: always full color */
+  @media (hover: none) {
+    .spotlight-card .tech-badge-icon {
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+  }
+
   .card::before {
     content: '';
     position: absolute;

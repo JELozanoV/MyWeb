@@ -1,5 +1,6 @@
 import { useContent } from '../src/hooks/useContent';
 import TechGrid from './TechGrid';
+import SpotlightCard from './SpotlightCard';
 
 export default function Skills() {
   const { skills, ui } = useContent();
@@ -13,19 +14,19 @@ export default function Skills() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="card">
-            <TechGrid title={skills.frontendTitle} techs={skills.frontend} />
-          </div>
-          <div className="card">
-            <TechGrid title={skills.backendTitle} techs={skills.backend} />
-          </div>
-          <div className="card">
-            <TechGrid title={skills.databaseTitle} techs={skills.database} />
-          </div>
-          <div className="card">
-            <TechGrid title={skills.toolsTitle} techs={skills.tools} />
-          </div>
-        </div>
+           <SpotlightCard>
+             <TechGrid title={skills.frontendTitle} techs={skills.frontend} />
+           </SpotlightCard>
+           <SpotlightCard>
+             <TechGrid title={skills.backendTitle} techs={skills.backend} />
+           </SpotlightCard>
+           <SpotlightCard>
+             <TechGrid title={skills.databaseTitle} techs={skills.database} />
+           </SpotlightCard>
+           <SpotlightCard>
+             <TechGrid title={skills.toolsTitle} techs={skills.tools} />
+           </SpotlightCard>
+         </div>
       </div>
     </section>
   );
