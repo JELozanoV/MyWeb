@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useContent } from '../src/hooks/useContent';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
@@ -35,19 +36,24 @@ export default function ContactForm() {
       setErrors({});
       setError(null);
       setIsSubmitting(true);
-      const response = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+      console.log('EmailJS config:', { serviceId, templateId, publicKey: publicKey ? publicKey.substring(0, 4) + '...' : 'MISSING' });
+      await emailjs.send(
+        serviceId!,
+        templateId!,
+        {
+          name: formData.name,
+          email: formData.email,
+          title: formData.subject,
+          message: formData.message,
+          time: new Date().toLocaleString(),
         },
-        body: JSON.stringify(formData)
-      });
-      if (response.ok) {
-        setSubmitted(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      } else {
-        setError('Error sending message. Please try again.');
-      }
+        { publicKey: publicKey! }
+      );
+      setSubmitted(true);
+      setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors: Partial<ContactFormData> = {};
@@ -58,6 +64,7 @@ export default function ContactForm() {
         });
         setErrors(fieldErrors);
       } else {
+        console.error('EmailJS error:', error);
         setError('Unexpected error. Please try again.');
       }
     } finally {

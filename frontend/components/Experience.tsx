@@ -30,7 +30,7 @@ export default function Experience() {
                         <h4 className="text-lg text-primary-700 dark:text-primary-300 font-medium">{exp.company}</h4>
                       </div>
                       <span className="text-sm text-primary-600 dark:text-primary-300 font-medium bg-primary-50 dark:bg-primary-900/20 px-3 py-1 rounded-full">
-                        {exp.startDate} - {exp.endDate}
+                        {exp.startDate === exp.endDate ? exp.startDate : `${exp.startDate} - ${exp.endDate}`}
                       </span>
                     </div>
                     <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{exp.description}</p>

@@ -1,6 +1,6 @@
-import { getTechIcon } from '../src/utils/getTechIcon';
+import { getTechIcon, getTechBrandColor } from '../src/utils/getTechIcon';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface TechBadgeProps {
   name: string;
@@ -10,9 +10,12 @@ interface TechBadgeProps {
 
 export default function TechBadge({ name, level, iconKey }: TechBadgeProps) {
   const IconComponent = getTechIcon(iconKey);
+  const brandColor = getTechBrandColor(iconKey);
   const isDisabled = level !== 'production';
+  const [activated, setActivated] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [supportsHover, setSupportsHover] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(hover: hover)');
@@ -22,33 +25,44 @@ export default function TechBadge({ name, level, iconKey }: TechBadgeProps) {
     return () => mediaQuery.removeEventListener('change', handler);
   }, []);
 
+  const startDeactivationTimer = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setActivated(false), 15000);
+  };
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, []);
+
   const initials = name.split(' ').map(word => word[0]).join('').toUpperCase();
 
   return (
     <div
-      className={`inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-medium border border-primary-200/20 transition-all duration-200 ${
+      className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-medium border border-primary-200/20 transition-all duration-200 cursor-pointer ${
         isDisabled ? 'opacity-50' : ''
       }`}
+      onMouseEnter={supportsHover ? () => { setActivated(true); setIsHovered(true); if (timerRef.current) clearTimeout(timerRef.current); } : undefined}
+      onMouseLeave={supportsHover ? () => { setIsHovered(false); startDeactivationTimer(); } : undefined}
     >
       <motion.div
         className="relative"
-        onHoverStart={supportsHover ? () => setIsHovered(true) : undefined}
-        onHoverEnd={supportsHover ? () => setIsHovered(false) : undefined}
         whileHover={supportsHover ? { scale: 1.1 } : undefined}
         transition={supportsHover ? { type: 'spring', stiffness: 300, damping: 20 } : undefined}
       >
         {IconComponent ? (
           <IconComponent
-            size={16}
+            size={24}
             className={`transition-all duration-300 ${
-              supportsHover ? 'grayscale opacity-70' : ''
-            } ${isHovered ? 'grayscale-0 opacity-100' : ''}`}
+              supportsHover && !activated ? 'grayscale opacity-70' : ''
+            } ${activated ? 'grayscale-0 opacity-100' : ''}`}
+            style={activated && supportsHover ? { color: brandColor, filter: 'drop-shadow(0 0 6px ' + brandColor + '40)' } : undefined}
           />
         ) : (
           <span
             className={`transition-all duration-300 ${
-              supportsHover ? 'grayscale opacity-70' : ''
-            } ${isHovered ? 'grayscale-0 opacity-100' : ''}`}
+              supportsHover && !activated ? 'grayscale opacity-70' : ''
+            } ${activated ? 'grayscale-0 opacity-100' : ''}`}
+            style={activated && supportsHover ? { color: brandColor } : undefined}
           >
             {initials}
           </span>

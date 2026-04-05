@@ -1,16 +1,9 @@
 export const experience = [
   {
-    position: 'Desarrollador Full Stack',
-    company: 'Empresa XYZ',
-    startDate: '2020',
-    endDate: 'Presente',
-    description: 'Desarrollo de aplicaciones web usando Node.js y React. Implementación de APIs RESTful y bases de datos PostgreSQL.'
-  },
-  {
-    position: 'Desarrollador Frontend',
-    company: 'Startup ABC',
-    startDate: '2018',
-    endDate: '2020',
-    description: 'Creación de interfaces de usuario responsivas con React y Next.js. Colaboración en equipos ágiles.'
+    position: 'Desarrollador Web Freelance',
+    company: 'Cliente: BRM',
+    startDate: '2025',
+    endDate: '2025',
+    description: 'Diseño y desarrollo de una aplicación web para optimizar la retención de clientes y guiar a los asesores de Call Center. Implementación de flujos dinámicos de atención, calculadoras de facturación y dashboards de rendimiento usando el ecosistema de React y TypeScript.'
   }
 ]

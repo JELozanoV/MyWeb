@@ -51,40 +51,6 @@ export const projectsData: Project[] = [
       '/images/projects/reten/reten + 5.png',
       '/images/projects/reten/reten + 6.png'
     ]
-  },
-  {
-    id: 2,
-    title: 'E-commerce App',
-    description: '', // Se obtendrá de los archivos de traducción
-    tags: ['Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Stripe'],
-    urlRepo: 'https://github.com/user/ecommerce',
-    urlDemo: 'https://ecommerce-demo.com',
-    images: [
-      'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&h=600&fit=crop'
-    ]
-  },
-  {
-    id: 3,
-    title: 'Task Manager API',
-    description: '', // Se obtendrá de los archivos de traducción
-    tags: ['Node.js', 'Express', 'MongoDB', 'JWT', 'Socket.io'],
-    urlRepo: 'https://github.com/user/task-api',
-    images: [
-      'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop'
-    ]
-  },
-  {
-    id: 4,
-    title: 'Weather App',
-    description: '', // Se obtendrá de los archivos de traducción
-    tags: ['React', 'OpenWeather API', 'CSS Animations', 'Geolocation'],
-    urlRepo: 'https://github.com/user/weather-app',
-    urlDemo: 'https://weather-app-demo.com',
-    images: [
-      'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1516912481808-3406841bd33c?w=800&h=600&fit=crop'
-    ]
   }
 ]
 
@@ -113,10 +79,7 @@ export const getProjects = async (locale: string = 'es'): Promise<Project[]> => 
 const getTranslatedDescription = (projectTitle: string, locale: string): string => {
   // Mapeo de títulos a claves de traducción
   const titleToKey: { [key: string]: keyof typeof import('../content/es/projects').projects } = {
-    'Reten +': 'reten',
-    'E-commerce App': 'ecommerce',
-    'Task Manager API': 'taskManager',
-    'Weather App': 'weatherApp'
+    'Reten +': 'reten'
   }
 
   const key = titleToKey[projectTitle]

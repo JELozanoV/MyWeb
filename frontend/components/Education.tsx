@@ -14,22 +14,6 @@ export default function Education() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="card">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-8 flex items-center">
-              <div className="w-3 h-8 bg-primary rounded-full mr-4"></div>
-              {ui.education.education}
-            </h3>
-            <div className="space-y-8">
-              {education.map((edu, index) => (
-                <div key={index} className="border-l-4 border-primary-200 dark:border-primary-700 pl-6">
-                  <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">{edu.degree}</h4>
-                  <p className="text-primary-700 dark:text-primary-300 font-medium mb-1">{edu.institution}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{edu.year}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="card">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-8 flex items-center">
               <div className="w-3 h-8 bg-accent rounded-full mr-4"></div>
               {ui.education.certifications}
             </h3>
@@ -39,7 +23,7 @@ export default function Education() {
                   <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">{cert.name}</h4>
                   <p className="text-brown dark:text-accent font-medium mb-1">{cert.issuer}</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{cert.year}</p>
-                  {cert.url && (
+                  {cert.url && cert.url !== '' && (
                     <a
                       href={cert.url}
                       target="_blank"
@@ -48,6 +32,26 @@ export default function Education() {
                     >
                       {ui.education.viewCertificate}
                     </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="card">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-8 flex items-center">
+              <div className="w-3 h-8 bg-primary rounded-full mr-4"></div>
+              {ui.education.education}
+            </h3>
+            <div className="space-y-8">
+              {education.map((edu, index) => (
+                <div key={index} className="border-l-4 border-primary-200 dark:border-primary-700 pl-6">
+                  <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">{edu.degree}</h4>
+                  <p className="text-primary-700 dark:text-primary-300 font-medium mb-1">{edu.institution}</p>
+                  {'status' in edu && edu.status === 'inProgress' && (
+                    <span className="inline-block text-xs font-medium text-primary-600 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/20 px-3 py-1 rounded-full mt-2">
+                      {ui.education.inProgress}
+                    </span>
                   )}
                 </div>
               ))}

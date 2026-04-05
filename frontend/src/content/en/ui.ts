@@ -23,6 +23,7 @@ export const ui = {
   education: {
     education: 'Education',
     certifications: 'Certifications',
+    inProgress: 'In Progress',
     viewCertificate: 'View certificate →'
   },
   footer: {
