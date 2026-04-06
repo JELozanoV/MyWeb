@@ -16,10 +16,11 @@ export const skills = {
     { name: 'Express', level: 'production', iconKey: 'express' }
   ],
   database: [
-    { name: 'SQL', level: 'production', iconKey: 'postgresql' },
-    { name: 'NoSQL', level: 'intermediate', iconKey: 'mongodb' }
+    { name: 'PostgreSQL', level: 'production', iconKey: 'postgresql' },
+    { name: 'MongoDB', level: 'production', iconKey: 'mongodb' }
   ],
   tools: [
-    { name: 'Git', level: 'production', iconKey: 'git' }
+    { name: 'Git', level: 'production', iconKey: 'git' },
+    { name: 'GitHub', level: 'production', iconKey: 'github' }
   ]
 }

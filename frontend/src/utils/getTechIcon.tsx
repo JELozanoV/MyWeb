@@ -9,6 +9,7 @@ import {
   SiPostgresql,
   SiMongodb,
   SiGit,
+  SiGithub,
   SiNextdotjs
 } from 'react-icons/si';
 
@@ -23,6 +24,7 @@ const iconMap: Record<string, any> = {
   postgresql: SiPostgresql,
   mongodb: SiMongodb,
   git: SiGit,
+  github: SiGithub,
   nextdotjs: SiNextdotjs,
 };
 
@@ -38,6 +40,7 @@ const brandColorMap: Record<string, string> = {
   postgresql: '#4169E1',
   mongodb: '#47A248',
   git: '#F05032',
+  github: '#181717',
   nextdotjs: '#FFFFFF',
 };
 

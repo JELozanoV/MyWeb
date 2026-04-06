@@ -1,8 +1,17 @@
+'use client';
+
 import { useState } from 'react';
 import { useContent } from '../src/hooks/useContent';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
+import { useRef } from 'react';
+
+type EmailJSError = {
+  status?: number;
+  text?: string;
+  message?: string;
+};
 
 const contactSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
@@ -13,13 +22,53 @@ const contactSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
+const getEmailJSErrorMessage = (error: EmailJSError, locale: 'es' | 'en') => {
+  const details = [error.text, error.message].filter(Boolean).join(' - ').toLowerCase();
+
+  if (details.includes('public key')) {
+    return locale === 'es'
+      ? 'La clave pública de EmailJS es inválida o no coincide con tu proyecto.'
+      : 'The EmailJS public key is invalid or does not match your project.';
+  }
+
+  if (details.includes('service')) {
+    return locale === 'es'
+      ? 'El service ID de EmailJS es inválido o no está disponible.'
+      : 'The EmailJS service ID is invalid or unavailable.';
+  }
+
+  if (details.includes('template')) {
+    return locale === 'es'
+      ? 'El template ID de EmailJS es inválido o no está publicado.'
+      : 'The EmailJS template ID is invalid or not published.';
+  }
+
+  if (details.includes('network') || details.includes('failed to fetch')) {
+    return locale === 'es'
+      ? 'No se pudo conectar con EmailJS. Verifica tu red e inténtalo nuevamente.'
+      : 'Could not connect to EmailJS. Check your network and try again.';
+  }
+
+  if (error.status === 400 || error.status === 401 || error.status === 403 || error.status === 404) {
+    return locale === 'es'
+      ? 'EmailJS rechazó la solicitud. Revisa las credenciales y la configuración del servicio y la plantilla.'
+      : 'EmailJS rejected the request. Check the credentials and the service/template configuration.';
+  }
+
+  return locale === 'es'
+    ? 'No fue posible enviar el mensaje. Revisa la configuración de EmailJS e inténtalo nuevamente.'
+    : 'The message could not be sent. Check the EmailJS configuration and try again.';
+};
+
 export default function ContactForm() {
   const { labels } = useContent();
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<ContactFormData>({ name: '', email: '', subject: '', message: '' });
   const [errors, setErrors] = useState<Partial<ContactFormData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const locale = labels.form.submit === 'Enviar' ? 'es' : 'en';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -36,22 +85,55 @@ export default function ContactForm() {
       setErrors({});
       setError(null);
       setIsSubmitting(true);
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-      console.log('EmailJS config:', { serviceId, templateId, publicKey: publicKey ? publicKey.substring(0, 4) + '...' : 'MISSING' });
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID?.trim();
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID?.trim();
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY?.trim();
+
+      console.group('EmailJS Pre-flight Check');
+      console.log('1. Variables de entorno (Next.js client-side):', {
+        SERVICE_ID: serviceId || 'UNDEFINED/MISSING',
+        TEMPLATE_ID: templateId || 'UNDEFINED/MISSING',
+        PUBLIC_KEY: publicKey ? `${publicKey.substring(0, 4)}...` : 'UNDEFINED/MISSING'
+      });
+      console.log('2. Payload del Formulario:', {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        subject: formData.subject // Solo informativo, no va a EmailJS
+      });
+      console.groupEnd();
+
+      if (!serviceId || !templateId || !publicKey) {
+        setError(
+          locale === 'es'
+            ? 'Falta la configuración de EmailJS en el entorno. Verifica NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_TEMPLATE_ID y NEXT_PUBLIC_EMAILJS_PUBLIC_KEY.'
+            : 'EmailJS environment configuration is missing. Check NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_TEMPLATE_ID, and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY.'
+        );
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!formRef.current) {
+        setError(
+          locale === 'es'
+            ? 'No se pudo acceder al formulario para enviarlo. Recarga la página e inténtalo nuevamente.'
+            : 'The form could not be accessed for submission. Reload the page and try again.'
+        );
+        setIsSubmitting(false);
+        return;
+      }
+
       await emailjs.send(
-        serviceId!,
-        templateId!,
+        serviceId,
+        templateId,
         {
           name: formData.name,
           email: formData.email,
-          title: formData.subject,
           message: formData.message,
-          time: new Date().toLocaleString(),
         },
-        { publicKey: publicKey! }
+        { publicKey }
       );
+
       setSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
@@ -64,35 +146,20 @@ export default function ContactForm() {
         });
         setErrors(fieldErrors);
       } else {
-        console.error('EmailJS error:', error);
-        setError('Unexpected error. Please try again.');
+        console.error('EmailJS error object:', error);
+        if (error && typeof error === 'object' && 'text' in error) {
+          console.error('EmailJS error exact text (HTTP 400 info):', (error as EmailJSError).text);
+        }
+        setError(getEmailJSErrorMessage(error as EmailJSError, locale));
       }
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (submitted) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="text-center"
-      >
-        <p className="text-green-400 text-lg">{labels.form.success}</p>
-        <button
-          onClick={() => setSubmitted(false)}
-          className="mt-4 bg-accent text-brown px-4 py-2 rounded hover:bg-accent/80 transition-colors"
-        >
-          {labels.form.sendAnother}
-        </button>
-      </motion.div>
-    );
-  }
-
   return (
     <motion.form
+      ref={formRef}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -179,6 +246,23 @@ export default function ContactForm() {
           labels.form.submit
         )}
       </motion.button>
+      {submitted && (
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35 }}
+          className="mt-4 rounded-2xl border border-green-500/30 bg-green-500/10 px-4 py-4 text-center"
+        >
+          <p className="text-green-400 text-base font-medium">{labels.form.success}</p>
+          <button
+            type="button"
+            onClick={() => setSubmitted(false)}
+            className="mt-3 inline-flex items-center justify-center rounded-lg bg-accent px-4 py-2 text-brown transition-colors hover:bg-accent/80"
+          >
+            {labels.form.sendAnother}
+          </button>
+        </motion.div>
+      )}
       {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
     </motion.form>
   );

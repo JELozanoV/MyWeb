@@ -58,7 +58,7 @@ export default function Hero() {
               <button onClick={scrollToProjects} className="btn-primary">
                 {hero.ctaPrimary}
               </button>
-              <a href={personal.resumeUrl} download className="btn-secondary">
+              <a href={personal.resumeUrl} download className="hidden btn-secondary">
                 {hero.ctaSecondary}
               </a>
             </div>
@@ -79,7 +79,7 @@ export default function Hero() {
               <button onClick={scrollToProjects} className="btn-primary">
                 {hero.ctaPrimary}
               </button>
-              <a href={personal.resumeUrl} download className="btn-secondary">
+              <a href={personal.resumeUrl} download className="hidden btn-secondary">
                 {hero.ctaSecondary}
               </a>
             </div>

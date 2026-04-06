@@ -22,17 +22,33 @@ export default function TechBadge({ name, level, iconKey }: TechBadgeProps) {
     setSupportsHover(mediaQuery.matches);
     const handler = (e: MediaQueryListEvent) => setSupportsHover(e.matches);
     mediaQuery.addEventListener('change', handler);
+
     return () => mediaQuery.removeEventListener('change', handler);
   }, []);
 
   const startDeactivationTimer = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setActivated(false), 15000);
+    timerRef.current = setTimeout(() => {
+      setActivated(false);
+      setIsHovered(false);
+    }, 15000);
   };
 
   useEffect(() => {
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, []);
+
+  const handleActivation = () => {
+    if (isDisabled) return;
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setActivated(true);
+    if (!supportsHover) {
+      setIsHovered(true);
+      startDeactivationTimer();
+    }
+  };
+
+  const isActive = activated;
 
   const initials = name.split(' ').map(word => word[0]).join('').toUpperCase();
 
@@ -41,28 +57,30 @@ export default function TechBadge({ name, level, iconKey }: TechBadgeProps) {
       className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-medium border border-primary-200/20 transition-all duration-200 cursor-pointer ${
         isDisabled ? 'opacity-50' : ''
       }`}
-      onMouseEnter={supportsHover ? () => { setActivated(true); setIsHovered(true); if (timerRef.current) clearTimeout(timerRef.current); } : undefined}
+      onMouseEnter={supportsHover ? () => { handleActivation(); setIsHovered(true); } : undefined}
       onMouseLeave={supportsHover ? () => { setIsHovered(false); startDeactivationTimer(); } : undefined}
+      onClick={!supportsHover ? handleActivation : undefined}
     >
       <motion.div
         className="relative"
         whileHover={supportsHover ? { scale: 1.1 } : undefined}
+        whileTap={!supportsHover && !isDisabled ? { scale: 0.96 } : undefined}
         transition={supportsHover ? { type: 'spring', stiffness: 300, damping: 20 } : undefined}
       >
         {IconComponent ? (
           <IconComponent
             size={24}
             className={`transition-all duration-300 ${
-              supportsHover && !activated ? 'grayscale opacity-70' : ''
-            } ${activated ? 'grayscale-0 opacity-100' : ''}`}
-            style={activated && supportsHover ? { color: brandColor, filter: 'drop-shadow(0 0 6px ' + brandColor + '40)' } : undefined}
+              !isActive ? 'grayscale opacity-70' : ''
+            } ${isActive ? 'grayscale-0 opacity-100' : ''}`}
+            style={isActive ? { color: brandColor, filter: 'drop-shadow(0 0 6px ' + brandColor + '40)' } : undefined}
           />
         ) : (
           <span
             className={`transition-all duration-300 ${
-              supportsHover && !activated ? 'grayscale opacity-70' : ''
-            } ${activated ? 'grayscale-0 opacity-100' : ''}`}
-            style={activated && supportsHover ? { color: brandColor } : undefined}
+              !isActive ? 'grayscale opacity-70' : ''
+            } ${isActive ? 'grayscale-0 opacity-100' : ''}`}
+            style={isActive ? { color: brandColor } : undefined}
           >
             {initials}
           </span>

@@ -138,14 +138,6 @@
     opacity: 1;
   }
 
-  /* Mobile: always full color */
-  @media (hover: none) {
-    .spotlight-card .tech-badge-icon {
-      filter: grayscale(0%);
-      opacity: 1;
-    }
-  }
-
   .card::before {
     content: '';
     position: absolute;

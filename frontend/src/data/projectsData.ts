@@ -44,12 +44,20 @@ export const projectsData: Project[] = [
     urlDemo: 'https://portfolio-demo.com',
     images: [
       // 📁 IMÁGENES LOCALES: Tus imágenes del proyecto Reten +
-      '/images/projects/reten/reten + 1.png',
-      '/images/projects/reten/reten + 2.png',
-      '/images/projects/reten/reten + 3.png',
-      '/images/projects/reten/reten + 4.png',
-      '/images/projects/reten/reten + 5.png',
-      '/images/projects/reten/reten + 6.png'
+      '/images/projects/reten/reten0.1.png',
+      '/images/projects/reten/reten0.2.png',
+      '/images/projects/reten/reten2.png',
+      '/images/projects/reten/reten3.png',
+      '/images/projects/reten/reten4.png',
+      '/images/projects/reten/reten5.png',
+      '/images/projects/reten/reten6.png',
+      '/images/projects/reten/reten7.png',
+      '/images/projects/reten/reten8.png',
+      '/images/projects/reten/reten9.png',
+      '/images/projects/reten/reten10.png',
+      '/images/projects/reten/reten11.png',
+      '/images/projects/reten/reten12.png',
+      '/images/projects/reten/reten13.png'
     ]
   }
 ]
