@@ -40,8 +40,7 @@ export const projectsData: Project[] = [
     title: 'Reten +',
     description: '', // Se obtendrá de los archivos de traducción
     tags: ['Next.js', 'Node.js', 'PostgreSQL', 'Express', 'Prisma', 'TypeScript'],
-    urlRepo: 'https://github.com/user/portfolio',
-    urlDemo: 'https://portfolio-demo.com',
+    urlDemo: 'https://reten-plus-demo.onrender.com/',
     images: [
       // 📁 IMÁGENES LOCALES: Tus imágenes del proyecto Reten +
       '/images/projects/reten/reten0.1.png',
