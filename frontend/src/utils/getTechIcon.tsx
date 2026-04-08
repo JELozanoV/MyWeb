@@ -10,7 +10,10 @@ import {
   SiMongodb,
   SiGit,
   SiGithub,
-  SiNextdotjs
+  SiNextdotjs,
+  SiOpenai,
+  SiGooglebard,
+  SiCodeium
 } from 'react-icons/si';
 
 const iconMap: Record<string, any> = {
@@ -26,6 +29,9 @@ const iconMap: Record<string, any> = {
   git: SiGit,
   github: SiGithub,
   nextdotjs: SiNextdotjs,
+  openai: SiOpenai,
+  googlebard: SiGooglebard,
+  codeium: SiCodeium,
 };
 
 // Brand colors per technology (official colors)
@@ -42,6 +48,10 @@ const brandColorMap: Record<string, string> = {
   git: '#F05032',
   github: '#181717',
   nextdotjs: '#FFFFFF',
+  openai: '#10A37F',
+  googlebard: '#4285F4',
+  claude: '#E07B39',
+  codeium: '#09B6A2',
 };
 
 export const getTechIcon = (iconKey: string) => {
