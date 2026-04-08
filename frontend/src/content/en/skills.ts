@@ -28,6 +28,6 @@ export const skills = {
     { name: 'ChatGPT', level: 'production', iconKey: 'openai' },
     { name: 'Gemini', level: 'production', iconKey: 'googlebard' },
     { name: 'Claude Code', level: 'production', iconKey: 'claude' },
-    { name: 'Windsurf', level: 'production', iconKey: 'codeium' }
+    { name: 'Windsurf', level: 'production', iconKey: 'windsurf' }
   ]
 }

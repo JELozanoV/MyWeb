@@ -1,3 +1,4 @@
+import { WindsurfIcon, ClaudeIcon } from './customIcons';
 import {
   SiJavascript,
   SiHtml5,
@@ -32,6 +33,8 @@ const iconMap: Record<string, any> = {
   openai: SiOpenai,
   googlebard: SiGooglebard,
   codeium: SiCodeium,
+  windsurf: WindsurfIcon,
+  claude: ClaudeIcon,
 };
 
 // Brand colors per technology (official colors)
@@ -50,8 +53,9 @@ const brandColorMap: Record<string, string> = {
   nextdotjs: '#FFFFFF',
   openai: '#10A37F',
   googlebard: '#4285F4',
-  claude: '#E07B39',
+  claude: '#CC785C',
   codeium: '#09B6A2',
+  windsurf: '#6366F1',
 };
 
 export const getTechIcon = (iconKey: string) => {
