@@ -91,7 +91,7 @@ export default function TechBadge({ name, level, iconKey }: TechBadgeProps) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs font-medium rounded-md shadow-lg z-10"
+              className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs font-medium rounded-md shadow-lg z-50 whitespace-nowrap"
             >
               {name}
             </motion.div>

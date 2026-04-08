@@ -40,7 +40,7 @@ export default function SpotlightCard({ children }: SpotlightCardProps) {
   return (
     <div
       ref={cardRef}
-      className="card spotlight-card relative overflow-hidden"
+      className="card spotlight-card relative"
       style={{
         '--mouse-x': '50%',
         '--mouse-y': '50%',
