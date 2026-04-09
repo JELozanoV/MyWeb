@@ -1,4 +1,5 @@
 import { getTechIcon, getTechBrandColor } from '../src/utils/getTechIcon';
+import { useTheme } from '../src/context/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 
@@ -10,7 +11,10 @@ interface TechBadgeProps {
 
 export default function TechBadge({ name, level, iconKey }: TechBadgeProps) {
   const IconComponent = getTechIcon(iconKey);
-  const brandColor = getTechBrandColor(iconKey);
+  const rawBrandColor = getTechBrandColor(iconKey);
+  const { theme } = useTheme();
+  const isWhite = ['#FFFFFF', '#ffffff', 'white'].includes(rawBrandColor);
+  const brandColor = isWhite && theme === 'light' ? '#1A1A1A' : rawBrandColor;
   const isDisabled = level !== 'production';
   const [activated, setActivated] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
