@@ -1,0 +1,9 @@
+<svg width="64" height="64" viewBox="16 -4 139 139" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="16" y="-4" width="139" height="139" rx="22" fill="#0F172A"/>
+  <g transform="skewX(-10) translate(20, 10)">
+    <path d="M65 15 L65 75 Q65 95 40 95 L15 95 L20 75 L35 75 Q45 75 45 68 L45 15 L65 15 Z" fill="#FFFFFF"/>
+    <path d="M45 25 L65 15 L65 25 L45 35 Z" fill="#FFFFFF" fill-opacity="0.3"/>
+    <path d="M75 15 L75 95 L135 95 L140 75 L95 75 L95 15 L75 15 Z" fill="#FFFFFF"/>
+    <path d="M120 75 L140 75 L135 85 L115 85 Z" fill="#FFFFFF" fill-opacity="0.3"/>
+  </g>
+</svg>
