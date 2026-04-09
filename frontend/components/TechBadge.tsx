@@ -14,7 +14,11 @@ export default function TechBadge({ name, level, iconKey }: TechBadgeProps) {
   const rawBrandColor = getTechBrandColor(iconKey);
   const { theme } = useTheme();
   const isWhite = ['#FFFFFF', '#ffffff', 'white'].includes(rawBrandColor);
-  const brandColor = isWhite && theme === 'light' ? '#1A1A1A' : rawBrandColor;
+  const isBlack = ['#181717', '#000000', '#1A1A1A', '#1a1a1a', 'black'].includes(rawBrandColor);
+  const brandColor =
+    (isWhite && theme === 'light') ? '#1A1A1A' :
+    (isBlack && theme === 'dark') ? '#FFFFFF' :
+    rawBrandColor;
   const isDisabled = level !== 'production';
   const [activated, setActivated] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
