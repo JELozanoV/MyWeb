@@ -55,7 +55,7 @@ const brandColorMap: Record<string, string> = {
   googlebard: '#4285F4',
   claude: '#CC785C',
   codeium: '#09B6A2',
-  windsurf: '#6366F1',
+  windsurf: '#000000',
 };
 
 export const getTechIcon = (iconKey: string) => {
