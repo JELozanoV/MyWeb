@@ -15,7 +15,8 @@ export const certifications = [
     year: 'Issued: Jul. 2025',
     url: '',
     logo: '/images/Logos/platzi.png',
-    logoUrl: 'https://platzi.com/p/john331/curso/11975-course/diploma/detalle/'
+    logoUrl: 'https://platzi.com/p/john331/curso/11975-course/diploma/detalle/',
+    logoFill: true
   },
   {
     name: 'Full Stack Web Developer',

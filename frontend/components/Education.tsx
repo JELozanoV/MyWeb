@@ -30,7 +30,9 @@ export default function Education() {
                       <img
                         src={cert.logo}
                         alt={cert.issuer}
-                        className="w-12 h-12 md:w-14 md:h-14 rounded-xl object-contain bg-white border border-gray-200 dark:border-gray-600 p-1.5 transition-all duration-200 hover:scale-110 hover:shadow-md cursor-pointer"
+                        className={`w-12 h-12 md:w-14 md:h-14 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 hover:scale-110 hover:shadow-md cursor-pointer ${
+                          (cert as any).logoFill ? 'object-cover' : 'object-contain bg-white p-1.5'
+                        }`}
                       />
                     </a>
                   )}
@@ -72,7 +74,9 @@ export default function Education() {
                       <img
                         src={(edu as any).logo}
                         alt={edu.institution}
-                        className="w-12 h-12 md:w-14 md:h-14 rounded-xl object-contain bg-white border border-gray-200 dark:border-gray-600 p-1.5 transition-all duration-200 hover:scale-110 hover:shadow-md cursor-pointer"
+                        className={`w-12 h-12 md:w-14 md:h-14 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 hover:scale-110 hover:shadow-md cursor-pointer ${
+                          (edu as any).logoFill ? 'object-cover' : 'object-contain bg-white p-1.5'
+                        }`}
                       />
                     </a>
                   )}
