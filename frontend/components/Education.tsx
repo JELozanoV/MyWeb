@@ -19,20 +19,36 @@ export default function Education() {
             </h3>
             <div className="space-y-8">
               {certifications.map((cert, index) => (
-                <div key={index} className="border-l-4 border-accent pl-6">
-                  <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">{cert.name}</h4>
-                  <p className="text-brown dark:text-accent font-medium mb-1">{cert.issuer}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{cert.year}</p>
-                  {cert.url && cert.url !== '' && (
+                <div key={index} className="flex items-start gap-4">
+                  {'logo' in cert && cert.logo && (
                     <a
-                      href={cert.url}
+                      href={'logoUrl' in cert ? (cert as any).logoUrl : '#'}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 font-medium transition-colors duration-200 hover:underline"
+                      className="flex-shrink-0"
                     >
-                      {ui.education.viewCertificate}
+                      <img
+                        src={cert.logo}
+                        alt={cert.issuer}
+                        className="w-12 h-12 md:w-14 md:h-14 rounded-xl object-contain bg-white border border-gray-200 dark:border-gray-600 p-1.5 transition-all duration-200 hover:scale-110 hover:shadow-md cursor-pointer"
+                      />
                     </a>
                   )}
+                  <div className="border-l-4 border-accent pl-4 min-w-0">
+                    <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">{cert.name}</h4>
+                    <p className="text-brown dark:text-accent font-medium mb-1">{cert.issuer}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{cert.year}</p>
+                    {cert.url && cert.url !== '' && (
+                      <a
+                        href={cert.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 font-medium transition-colors duration-200 hover:underline"
+                      >
+                        {ui.education.viewCertificate}
+                      </a>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -45,14 +61,30 @@ export default function Education() {
             </h3>
             <div className="space-y-8">
               {education.map((edu, index) => (
-                <div key={index} className="border-l-4 border-primary-200 dark:border-primary-700 pl-6">
-                  <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">{edu.degree}</h4>
-                  <p className="text-primary-700 dark:text-primary-300 font-medium mb-1">{edu.institution}</p>
-                  {'status' in edu && edu.status === 'inProgress' && (
-                    <span className="inline-block text-xs font-medium text-primary-600 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/20 px-3 py-1 rounded-full mt-2">
-                      {ui.education.inProgress}
-                    </span>
+                <div key={index} className="flex items-start gap-4">
+                  {'logo' in edu && (edu as any).logo && (
+                    <a
+                      href={'logoUrl' in edu ? (edu as any).logoUrl : '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-shrink-0"
+                    >
+                      <img
+                        src={(edu as any).logo}
+                        alt={edu.institution}
+                        className="w-12 h-12 md:w-14 md:h-14 rounded-xl object-contain bg-white border border-gray-200 dark:border-gray-600 p-1.5 transition-all duration-200 hover:scale-110 hover:shadow-md cursor-pointer"
+                      />
+                    </a>
                   )}
+                  <div className="border-l-4 border-primary-200 dark:border-primary-700 pl-4 min-w-0">
+                    <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">{edu.degree}</h4>
+                    <p className="text-primary-700 dark:text-primary-300 font-medium mb-1">{edu.institution}</p>
+                    {'status' in edu && edu.status === 'inProgress' && (
+                      <span className="inline-block text-xs font-medium text-primary-600 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/20 px-3 py-1 rounded-full mt-2">
+                        {ui.education.inProgress}
+                      </span>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
