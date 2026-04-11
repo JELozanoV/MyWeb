@@ -4,9 +4,10 @@ import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 interface ProjectImageCarouselProps {
   images: string[]
   title: string
+  large?: boolean
 }
 
-export default function ProjectImageCarousel({ images, title }: ProjectImageCarouselProps) {
+export default function ProjectImageCarousel({ images, title, large = false }: ProjectImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showControls, setShowControls] = useState(false)
   const hideTimerRef = useRef<NodeJS.Timeout | null>(null)
@@ -39,11 +40,11 @@ export default function ProjectImageCarousel({ images, title }: ProjectImageCaro
 
   return (
     <div
-      className="relative overflow-hidden rounded-t-2xl mb-6 cursor-pointer"
+      className={`relative overflow-hidden cursor-pointer ${large ? 'rounded-2xl lg:rounded-l-2xl lg:rounded-r-none' : 'rounded-t-2xl mb-6'}`}
       onClick={revealControls}
     >
       {/* Carrusel de imágenes */}
-      <div className="relative h-64 md:h-80 bg-gray-900/10 overflow-hidden">
+      <div className={`relative bg-gray-900/10 overflow-hidden ${large ? 'h-72 md:h-[28rem]' : 'h-64 md:h-80'}`}>
         <div
           className="flex w-full h-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}

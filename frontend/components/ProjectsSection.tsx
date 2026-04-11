@@ -56,71 +56,142 @@ export default function ProjectsSection() {
           <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <div
-              key={project.id}
-              className="card group"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
+        {/* Layout: side-by-side para proyecto único en desktop, grid para múltiples */}
+        {projects.length === 1 ? (
+          projects.map((project) => (
+            <div key={project.id} className="card group flex flex-col lg:flex-row lg:items-stretch lg:gap-0 max-w-5xl mx-auto overflow-hidden">
+              {/* Carrusel - lado izquierdo en desktop */}
               {(project.images && project.images.length > 0) && (
-                <ProjectImageCarousel images={project.images} title={project.title} />
-              )}
-
-              {/* Fallback a imagen simple si no hay array de imágenes */}
-              {(!project.images || project.images.length === 0) && project.coverImage && (
-                <div className="relative overflow-hidden rounded-t-2xl mb-6">
-                  <img
-                    src={project.coverImage}
-                    alt={project.title}
-                    className="w-full h-64 md:h-80 object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="lg:w-[55%] flex-shrink-0">
+                  <ProjectImageCarousel images={project.images} title={project.title} large />
                 </div>
               )}
 
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-300 transition-colors">
-                {project.title}
-              </h3>
+              {(!project.images || project.images.length === 0) && project.coverImage && (
+                <div className="lg:w-[55%] flex-shrink-0 relative overflow-hidden rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none">
+                  <img
+                    src={project.coverImage}
+                    alt={project.title}
+                    className="w-full h-72 md:h-[28rem] object-cover"
+                  />
+                </div>
+              )}
 
-              <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">{project.description}</p>
+              {/* Contenido - lado derecho en desktop */}
+              <div className="p-6 lg:p-8 flex flex-col justify-between lg:w-[45%]">
+                <div>
+                  <h3 className="text-xl lg:text-2xl font-semibold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-300 transition-colors">
+                    {project.title}
+                  </h3>
 
-              <div className="flex flex-wrap gap-2 mb-6">
-                {project.tags.map(tag => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-sm lg:text-base whitespace-pre-line">{project.description}</p>
+                </div>
 
-              <div className="flex gap-6">
-                {project.urlRepo && (
-                  <a
-                    href={project.urlRepo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 font-medium transition-colors duration-200 hover:underline"
-                  >
-                    {ui.projects.code}
-                  </a>
-                )}
-                {project.urlDemo && (
-                  <a
-                    href={project.urlDemo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-accent hover:text-brown dark:hover:text-accent font-medium transition-colors duration-200 hover:underline"
-                  >
-                    {ui.projects.demo}
-                  </a>
-                )}
+                <div>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.tags.map(tag => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-6">
+                    {project.urlRepo && (
+                      <a
+                        href={project.urlRepo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 font-medium transition-colors duration-200 hover:underline"
+                      >
+                        {ui.projects.code}
+                      </a>
+                    )}
+                    {project.urlDemo && (
+                      <a
+                        href={project.urlDemo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent hover:text-brown dark:hover:text-accent font-medium transition-colors duration-200 hover:underline"
+                      >
+                        {ui.projects.demo}
+                      </a>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
+          ))
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {projects.map((project, index) => (
+              <div
+                key={project.id}
+                className="card group"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {(project.images && project.images.length > 0) && (
+                  <ProjectImageCarousel images={project.images} title={project.title} />
+                )}
+
+                {/* Fallback a imagen simple si no hay array de imágenes */}
+                {(!project.images || project.images.length === 0) && project.coverImage && (
+                  <div className="relative overflow-hidden rounded-t-2xl mb-6">
+                    <img
+                      src={project.coverImage}
+                      alt={project.title}
+                      className="w-full h-64 md:h-80 object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                )}
+
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-300 transition-colors">
+                  {project.title}
+                </h3>
+
+                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">{project.description}</p>
+
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tags.map(tag => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex gap-6">
+                  {project.urlRepo && (
+                    <a
+                      href={project.urlRepo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 font-medium transition-colors duration-200 hover:underline"
+                    >
+                      {ui.projects.code}
+                    </a>
+                  )}
+                  {project.urlDemo && (
+                    <a
+                      href={project.urlDemo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent hover:text-brown dark:hover:text-accent font-medium transition-colors duration-200 hover:underline"
+                    >
+                      {ui.projects.demo}
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
