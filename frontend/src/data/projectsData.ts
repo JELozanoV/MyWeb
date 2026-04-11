@@ -43,6 +43,7 @@ export const projectsData: Project[] = [
     urlDemo: 'https://reten-plus-demo.onrender.com/',
     images: [
       // 📁 IMÁGENES LOCALES: Tus imágenes del proyecto Reten +
+      '/images/projects/reten/Banner.png',
       '/images/projects/reten/reten0.1.png',
       '/images/projects/reten/reten0.2.png',
       '/images/projects/reten/reten2.png',

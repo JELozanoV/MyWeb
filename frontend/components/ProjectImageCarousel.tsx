@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
 interface ProjectImageCarouselProps {
@@ -8,63 +8,40 @@ interface ProjectImageCarouselProps {
 
 export default function ProjectImageCarousel({ images, title }: ProjectImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [showControls, setShowControls] = useState(false)
+  const hideTimerRef = useRef<NodeJS.Timeout | null>(null)
 
-  const autoplayIntervalRef = useRef<NodeJS.Timeout | null>(null)
-  const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-
-  const startAutoplay = () => {
-    if (autoplayIntervalRef.current) clearInterval(autoplayIntervalRef.current)
-    autoplayIntervalRef.current = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length)
-    }, 7000)
-  }
-
-  const stopAutoplay = () => {
-    if (autoplayIntervalRef.current) {
-      clearInterval(autoplayIntervalRef.current)
-      autoplayIntervalRef.current = null
-    }
-  }
-
-  const pauseAndResume = () => {
-    stopAutoplay()
-    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
-    resumeTimeoutRef.current = setTimeout(() => {
-      startAutoplay()
-    }, 15000)
-  }
-
-  useEffect(() => {
-    startAutoplay()
-    return () => {
-      stopAutoplay()
-      if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
-    }
-  }, [images.length])
+  const revealControls = useCallback(() => {
+    setShowControls(true)
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
+    hideTimerRef.current = setTimeout(() => setShowControls(false), 4000)
+  }, [])
 
   if (!images || images.length === 0) return null
 
-  const nextImage = () => {
-    pauseAndResume()
-    setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    )
+  const nextImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
+    revealControls()
   }
 
-  const prevImage = () => {
-    pauseAndResume()
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    )
+  const prevImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
+    revealControls()
   }
 
-  const goToImage = (index: number) => {
-    pauseAndResume()
+  const goToImage = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation()
     setCurrentIndex(index)
+    revealControls()
   }
 
   return (
-    <div className="relative overflow-hidden rounded-t-2xl mb-6 group">
+    <div
+      className="relative overflow-hidden rounded-t-2xl mb-6 cursor-pointer"
+      onClick={revealControls}
+    >
       {/* Carrusel de imágenes */}
       <div className="relative h-64 md:h-80 bg-gray-900/10 overflow-hidden">
         <div
@@ -80,18 +57,16 @@ export default function ProjectImageCarousel({ images, title }: ProjectImageCaro
             />
           ))}
         </div>
-
-        {/* Overlay con gradiente */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       </div>
 
-      {/* Controles de navegación - solo visibles en hover */}
+      {/* Controles de navegación - visibles solo al hacer clic */}
       {images.length > 1 && (
         <>
-          {/* Botones de navegación */}
           <button
             onClick={prevImage}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/30 hover:scale-110"
+            className={`absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all duration-300 hover:bg-white/30 hover:scale-110 ${
+              showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            }`}
             aria-label="Imagen anterior"
           >
             <FiChevronLeft size={20} />
@@ -99,18 +74,22 @@ export default function ProjectImageCarousel({ images, title }: ProjectImageCaro
 
           <button
             onClick={nextImage}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/30 hover:scale-110"
+            className={`absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all duration-300 hover:bg-white/30 hover:scale-110 ${
+              showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            }`}
             aria-label="Imagen siguiente"
           >
             <FiChevronRight size={20} />
           </button>
 
           {/* Indicadores */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 transition-opacity duration-300 ${
+            showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}>
             {images.map((_, index) => (
               <button
                 key={index}
-                onClick={() => goToImage(index)}
+                onClick={(e) => goToImage(index, e)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   index === currentIndex
                     ? 'bg-white scale-125'
@@ -122,7 +101,9 @@ export default function ProjectImageCarousel({ images, title }: ProjectImageCaro
           </div>
 
           {/* Contador de imágenes */}
-          <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className={`absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium transition-opacity duration-300 ${
+            showControls ? 'opacity-100' : 'opacity-0'
+          }`}>
             {currentIndex + 1} / {images.length}
           </div>
         </>
