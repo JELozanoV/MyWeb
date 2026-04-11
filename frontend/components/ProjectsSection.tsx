@@ -59,16 +59,14 @@ export default function ProjectsSection() {
         {/* Layout: side-by-side para proyecto único en desktop, grid para múltiples */}
         {projects.length === 1 ? (
           projects.map((project) => (
-            <div key={project.id} className="card group flex flex-col lg:flex-row lg:items-stretch lg:gap-0 max-w-5xl mx-auto overflow-hidden">
-              {/* Carrusel - lado izquierdo en desktop */}
+            <div key={project.id} className="card group flex flex-col max-w-5xl mx-auto overflow-hidden">
+              {/* Carrusel - arriba */}
               {(project.images && project.images.length > 0) && (
-                <div className="lg:w-[55%] flex-shrink-0">
-                  <ProjectImageCarousel images={project.images} title={project.title} large />
-                </div>
+                <ProjectImageCarousel images={project.images} title={project.title} large />
               )}
 
               {(!project.images || project.images.length === 0) && project.coverImage && (
-                <div className="lg:w-[55%] flex-shrink-0 relative overflow-hidden rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none">
+                <div className="relative overflow-hidden rounded-t-2xl">
                   <img
                     src={project.coverImage}
                     alt={project.title}
@@ -77,8 +75,8 @@ export default function ProjectsSection() {
                 </div>
               )}
 
-              {/* Contenido - lado derecho en desktop */}
-              <div className="p-6 lg:p-8 flex flex-col justify-between lg:w-[45%]">
+              {/* Contenido - abajo */}
+              <div className="p-6 lg:p-8">
                 <div>
                   <h3 className="text-xl lg:text-2xl font-semibold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-300 transition-colors">
                     {project.title}

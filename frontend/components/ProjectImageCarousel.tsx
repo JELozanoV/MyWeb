@@ -40,7 +40,7 @@ export default function ProjectImageCarousel({ images, title, large = false }: P
 
   return (
     <div
-      className={`relative overflow-hidden cursor-pointer ${large ? 'rounded-2xl lg:rounded-l-2xl lg:rounded-r-none' : 'rounded-t-2xl mb-6'}`}
+      className={`relative overflow-hidden cursor-pointer ${large ? 'rounded-t-2xl' : 'rounded-t-2xl mb-6'}`}
       onClick={revealControls}
     >
       {/* Carrusel de imágenes */}
