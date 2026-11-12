@@ -24,9 +24,16 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
   const FADE_IN_MS = 200;
 
   useEffect(() => {
-    const saved = localStorage.getItem('locale') as Locale;
-    if (saved) setLocaleState(saved);
+    // Lectura de localStorage solo en el cliente, tras hidratar
+    const saved = localStorage.getItem('locale');
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (saved === 'es' || saved === 'en') setLocaleState(saved);
   }, []);
+
+  // Mantiene <html lang> sincronizado (lectores de pantalla, traductores, SEO)
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   const setLocale = (newLocale: Locale) => {
     setLocaleState(newLocale);

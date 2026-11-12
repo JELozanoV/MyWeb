@@ -1,19 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useMediaQuery } from '../src/hooks/useMediaQuery';
 
 export default function AnimatedBackground() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
+  const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden gradient-bg">

@@ -4,14 +4,14 @@
 This is the frontend of a bilingual full-stack developer portfolio built with Next.js. It features a modern, responsive design optimized for showcasing technical skills and projects to recruiters and hiring managers.
 
 ## Technologies Used
-- **Framework**: Next.js 14 with App Router
+- **Framework**: Next.js 16 with Pages Router, React 19
 - **Language**: TypeScript
 - **Styling**: TailwindCSS with custom utilities
 - **Icons**: React Icons (Feather icons)
 - **State Management**: React Context (Locale, Theme)
 - **Internationalization**: Custom hook-based content management
-- **Forms**: React Hook Form with Zod validation
-- **Animations**: Framer Motion for guided tour
+- **Forms**: Zod validation, sent with EmailJS from the browser
+- **Animations**: Framer Motion
 - **Build Tool**: Next.js built-in
 
 ## Color Palette
@@ -62,7 +62,7 @@ Fixed navbar at top with:
 - Grid layout of project cards
 - Each card shows title, description, tech stack, and images
 - Links to live demos and GitHub repos
-- Data fetched from backend API
+- Data from the static array in `src/data/projectsData.ts` (the backend API is not used yet)
 
 ### 4. Skills Section
 - **Compact design** with reduced spacing for scannability
@@ -119,17 +119,15 @@ Fixed navbar at top with:
 - `TechBadge.tsx`: Skill/technology badges
 - `ContactForm.tsx`: Form with validation
 
-### Utility Components
-- `GuidedMouse.tsx`: Interactive onboarding tour
-
 ## Context and State
 - `LocaleContext.tsx`: Language switching (ES/EN)
-- `ThemeContext.tsx`: Dark/light mode (currently auto-based on system)
+- `ThemeContext.tsx`: Dark/light mode. Follows the system preference until the user toggles it; an inline script in `_document.tsx` applies it before first paint (no flash)
 
 ## Content Management
 - Content stored in `/src/content/{locale}/` files
 - Organized by sections: hero.ts, about.ts, skills.ts, etc.
 - Custom `useContent` hook for accessing localized content
+- UI strings (form, validation, aria-labels, loading/error states) live in `labels.ts`
 
 ## Responsive Design
 - Mobile-first approach
@@ -149,15 +147,14 @@ Fixed navbar at top with:
 - Reduced motion support
 
 ## Performance
-- Next.js optimization
-- Image optimization
-- Code splitting
-- Lazy loading where appropriate
+- All raster images are WebP, resized to their display size (screenshots max 1600px wide, avatar 512px, logos 256px)
+- Images are rendered with `next/image` (responsive `srcset`, lazy loading; the carousel preloads only the current slide and its neighbours)
+- When adding images, convert them to WebP first (e.g. with `sharp`, already installed as a Next.js dependency)
 
 ## Development
 - Hot reload with `npm run dev`
 - TypeScript for type safety
-- ESLint for code quality
+- ESLint for code quality (`npm run lint`, flat config in `eslint.config.mjs`)
 - TailwindCSS for styling
 
 ## File Structure

@@ -17,7 +17,13 @@ import {
   SiCodeium
 } from 'react-icons/si';
 
-const iconMap: Record<string, any> = {
+type TechIconProps = {
+  size?: number;
+  className?: string;
+  style?: React.CSSProperties;
+};
+
+const iconMap: Record<string, React.ComponentType<TechIconProps>> = {
   javascript: SiJavascript,
   html5: SiHtml5,
   css3: SiCss3,
@@ -58,9 +64,13 @@ const brandColorMap: Record<string, string> = {
   windsurf: '#000000',
 };
 
-export const getTechIcon = (iconKey: string) => {
-  return iconMap[iconKey] || null;
-};
+export const hasTechIcon = (iconKey: string): boolean => iconKey in iconMap;
+
+// Renderiza el ícono de la tecnología (o nada si no existe en iconMap)
+export function TechIcon({ iconKey, ...props }: TechIconProps & { iconKey: string }) {
+  const Icon = iconMap[iconKey];
+  return Icon ? <Icon {...props} /> : null;
+}
 
 export const getTechBrandColor = (iconKey: string): string => {
   return brandColorMap[iconKey] || '#FFFFFF';

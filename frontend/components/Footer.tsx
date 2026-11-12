@@ -1,5 +1,5 @@
 import { useContent } from '../src/hooks/useContent';
-import { FiMail, FiLinkedin, FiGithub, FiHeart } from 'react-icons/fi';
+import { FiHeart } from 'react-icons/fi';
 
 export default function Footer() {
   const { personal, ui } = useContent();

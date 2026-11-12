@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { useContent } from '../src/hooks/useContent'
 import { useLocale } from '../src/context/LocaleContext'
 import ProjectImageCarousel from './ProjectImageCarousel'
 import { getProjects, Project as ProjectData } from '../src/data/projectsData'
 
 export default function ProjectsSection() {
-  const { ui, projects: projectsContent } = useContent()
+  const { ui, labels } = useContent()
   const [projects, setProjects] = useState<ProjectData[]>([])
   const { locale } = useLocale()
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -17,8 +18,10 @@ export default function ProjectsSection() {
         // Usar datos estáticos con soporte de internacionalización
         const data = await getProjects(locale)
         setProjects(data)
+        setError(false)
       } catch (err) {
-        setError('Unable to load projects. Please try again later.')
+        console.error('Error cargando proyectos:', err)
+        setError(true)
       } finally {
         setLoading(false)
       }
@@ -32,7 +35,7 @@ export default function ProjectsSection() {
       <section id="projects" className="py-20 bg-white dark:bg-gray-950">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-300">Loading projects...</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-300">{labels.projects.loading}</p>
         </div>
       </section>
     )
@@ -42,7 +45,7 @@ export default function ProjectsSection() {
     return (
       <section id="projects" className="py-20 bg-white dark:bg-gray-950">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <p className="text-red-600 dark:text-red-400">{error}</p>
+          <p className="text-red-600 dark:text-red-400">{labels.projects.error}</p>
         </div>
       </section>
     )
@@ -66,11 +69,13 @@ export default function ProjectsSection() {
               )}
 
               {(!project.images || project.images.length === 0) && project.coverImage && (
-                <div className="relative overflow-hidden rounded-t-2xl">
-                  <img
+                <div className="relative overflow-hidden rounded-t-2xl w-full h-72 md:h-[28rem]">
+                  <Image
                     src={project.coverImage}
                     alt={project.title}
-                    className="w-full h-72 md:h-[28rem] object-cover"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 1024px"
+                    className="object-cover"
                   />
                 </div>
               )}
@@ -137,11 +142,13 @@ export default function ProjectsSection() {
 
                 {/* Fallback a imagen simple si no hay array de imágenes */}
                 {(!project.images || project.images.length === 0) && project.coverImage && (
-                  <div className="relative overflow-hidden rounded-t-2xl mb-6">
-                    <img
+                  <div className="relative overflow-hidden rounded-t-2xl mb-6 w-full h-64 md:h-80">
+                    <Image
                       src={project.coverImage}
                       alt={project.title}
-                      className="w-full h-64 md:h-80 object-cover transition-transform duration-500 group-hover:scale-105"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 576px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>

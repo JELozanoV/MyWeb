@@ -1,9 +1,12 @@
+import Image from 'next/image';
 import { useContent } from '../src/hooks/useContent';
 import { useTheme } from '../src/context/ThemeContext';
 
 export default function Hero() {
-  const { personal, hero, nav } = useContent();
+  const { personal, hero } = useContent();
   const { theme } = useTheme();
+  const avatarLight = personal.avatarUrlLight || '/avatar.svg';
+  const avatarDark = personal.avatarUrlDark || avatarLight;
 
   const scrollToProjects = () => {
     const element = document.getElementById('projects');
@@ -18,20 +21,39 @@ export default function Hero() {
         <div className="order-1 flex justify-center lg:justify-start">
           <div className="glass rounded-3xl p-6 lg:p-8 flex items-center gap-6 lg:gap-8">
             <div className="relative w-24 h-24 lg:w-32 lg:h-32 shrink-0 lg:-translate-y-1.5">
-              <img
-                src={personal.avatarUrlLight || '/avatar.svg'}
-                alt={`${personal.name} - light mode`}
-                className={`rounded-2xl shadow-lg absolute inset-0 transition-opacity duration-500 ease-in-out object-center object-cover ${
-                  theme === 'light' ? 'opacity-100' : 'opacity-0'
-                }`}
-              />
-              <img
-                src={personal.avatarUrlDark || personal.avatarUrlLight || '/avatar.svg'}
-                alt={`${personal.name} - dark mode`}
-                className={`rounded-2xl shadow-lg absolute inset-0 transition-opacity duration-500 ease-in-out object-center object-cover ${
-                  theme === 'dark' ? 'opacity-100' : 'opacity-0'
-                }`}
-              />
+              {avatarLight === avatarDark ? (
+                <Image
+                  src={avatarLight}
+                  alt={personal.name}
+                  fill
+                  sizes="128px"
+                  preload
+                  className="rounded-2xl shadow-lg object-center object-cover"
+                />
+              ) : (
+                <>
+                  <Image
+                    src={avatarLight}
+                    alt={personal.name}
+                    fill
+                    sizes="128px"
+                    preload={theme === 'light'}
+                    className={`rounded-2xl shadow-lg transition-opacity duration-500 ease-in-out object-center object-cover ${
+                      theme === 'light' ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
+                  <Image
+                    src={avatarDark}
+                    alt={personal.name}
+                    fill
+                    sizes="128px"
+                    preload={theme === 'dark'}
+                    className={`rounded-2xl shadow-lg transition-opacity duration-500 ease-in-out object-center object-cover ${
+                      theme === 'dark' ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
+                </>
+              )}
             </div>
             <div className="text-center lg:text-left flex flex-col justify-center">
               <h1 className="text-4xl md:text-6xl font-bold text-gray-900">{personal.name}</h1>

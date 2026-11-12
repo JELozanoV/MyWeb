@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { NextPage, NextPageContext } from 'next';
 
 const Error: NextPage = () => {
   return (
@@ -11,7 +11,7 @@ const Error: NextPage = () => {
   );
 };
 
-Error.getInitialProps = ({ res, err }: any) => {
+Error.getInitialProps = ({ res, err }: NextPageContext) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
   return { statusCode };
 };

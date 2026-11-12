@@ -33,7 +33,7 @@ Esta carpeta es para almacenar las imágenes de tus proyectos. Aquí puedes subi
 2. **Nombra los archivos** descriptivamente: `proyecto1-dashboard.jpg`, `app-movil-login.jpg`
 3. **Optimiza las imágenes**:
    - **Resolución**: 800x600px mínimo, 1200x800px recomendado
-   - **Formato**: JPG/WebP para fotos, PNG para gráficos
+   - **Formato**: WebP (convierte PNG/JPG antes de subirlas; las imágenes actuales ya están en WebP)
    - **Tamaño**: Menos de 500KB por imagen
 4. **Actualiza** `portfolio/frontend/src/data/projectsData.ts` con las rutas
 

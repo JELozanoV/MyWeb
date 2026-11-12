@@ -50,3 +50,6 @@ Thumbs.db
 
 # --- Lint cache ---
 .eslintcache
+
+# --- TypeScript (caché de compilación incremental) ---
+*.tsbuildinfo

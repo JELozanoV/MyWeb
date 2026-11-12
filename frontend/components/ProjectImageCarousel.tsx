@@ -1,5 +1,7 @@
 import { useState, useRef, useCallback } from 'react'
+import Image from 'next/image'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { useContent } from '../src/hooks/useContent'
 
 interface ProjectImageCarouselProps {
   images: string[]
@@ -8,6 +10,7 @@ interface ProjectImageCarouselProps {
 }
 
 export default function ProjectImageCarousel({ images, title, large = false }: ProjectImageCarouselProps) {
+  const { labels } = useContent()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showControls, setShowControls] = useState(false)
   const hideTimerRef = useRef<NodeJS.Timeout | null>(null)
@@ -50,12 +53,17 @@ export default function ProjectImageCarousel({ images, title, large = false }: P
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={`${title} - Imagen ${index + 1}`}
-              className="w-full h-full flex-shrink-0 object-contain object-center"
-            />
+            <div key={image} className="relative w-full h-full flex-shrink-0">
+              <Image
+                src={image}
+                alt={`${title} - ${labels.carousel.image} ${index + 1}`}
+                fill
+                sizes={large ? '(max-width: 1024px) 100vw, 1024px' : '(max-width: 768px) 100vw, 576px'}
+                // La imagen actual y sus vecinas se cargan ya; el resto, bajo demanda
+                loading={Math.abs(index - currentIndex) <= 1 ? 'eager' : 'lazy'}
+                className="object-contain object-center"
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -68,7 +76,7 @@ export default function ProjectImageCarousel({ images, title, large = false }: P
             className={`absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all duration-300 hover:bg-white/30 hover:scale-110 ${
               showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
-            aria-label="Imagen anterior"
+            aria-label={labels.carousel.previous}
           >
             <FiChevronLeft size={20} />
           </button>
@@ -78,7 +86,7 @@ export default function ProjectImageCarousel({ images, title, large = false }: P
             className={`absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all duration-300 hover:bg-white/30 hover:scale-110 ${
               showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
-            aria-label="Imagen siguiente"
+            aria-label={labels.carousel.next}
           >
             <FiChevronRight size={20} />
           </button>
@@ -96,7 +104,7 @@ export default function ProjectImageCarousel({ images, title, large = false }: P
                     ? 'bg-white scale-125'
                     : 'bg-white/50 hover:bg-white/75'
                 }`}
-                aria-label={`Ir a imagen ${index + 1}`}
+                aria-label={`${labels.carousel.goTo} ${index + 1}`}
               />
             ))}
           </div>

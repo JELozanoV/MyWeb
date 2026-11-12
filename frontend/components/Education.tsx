@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useContent } from '../src/hooks/useContent';
 
 export default function Education() {
@@ -20,18 +21,20 @@ export default function Education() {
             <div className="space-y-8">
               {certifications.map((cert, index) => (
                 <div key={index} className="flex items-start gap-4">
-                  {'logo' in cert && cert.logo && (
+                  {cert.logo && (
                     <a
-                      href={'logoUrl' in cert ? (cert as any).logoUrl : '#'}
+                      href={cert.logoUrl ?? '#'}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-shrink-0"
                     >
-                      <img
+                      <Image
                         src={cert.logo}
                         alt={cert.issuer}
+                        width={56}
+                        height={56}
                         className={`w-12 h-12 md:w-14 md:h-14 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 hover:scale-110 hover:shadow-md cursor-pointer ${
-                          (cert as any).logoFill ? 'object-cover' : 'object-contain bg-white p-1.5'
+                          cert.logoFill ?'object-cover' : 'object-contain bg-white p-1.5'
                         }`}
                       />
                     </a>
@@ -64,18 +67,20 @@ export default function Education() {
             <div className="space-y-8">
               {education.map((edu, index) => (
                 <div key={index} className="flex items-start gap-4">
-                  {'logo' in edu && (edu as any).logo && (
+                  {edu.logo && (
                     <a
-                      href={'logoUrl' in edu ? (edu as any).logoUrl : '#'}
+                      href={edu.logoUrl ?? '#'}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-shrink-0"
                     >
-                      <img
-                        src={(edu as any).logo}
+                      <Image
+                        src={edu.logo}
                         alt={edu.institution}
+                        width={56}
+                        height={56}
                         className={`w-12 h-12 md:w-14 md:h-14 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 hover:scale-110 hover:shadow-md cursor-pointer ${
-                          (edu as any).logoFill ? 'object-cover' : 'object-contain bg-white p-1.5'
+                          edu.logoFill ?'object-cover' : 'object-contain bg-white p-1.5'
                         }`}
                       />
                     </a>
@@ -83,7 +88,7 @@ export default function Education() {
                   <div className="border-l-4 border-primary-200 dark:border-primary-700 pl-4 min-w-0">
                     <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">{edu.degree}</h4>
                     <p className="text-primary-700 dark:text-primary-300 font-medium mb-1">{edu.institution}</p>
-                    {'status' in edu && edu.status === 'inProgress' && (
+                    {edu.status === 'inProgress' && (
                       <span className="inline-block text-xs font-medium text-primary-600 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/20 px-3 py-1 rounded-full mt-2">
                         {ui.education.inProgress}
                       </span>

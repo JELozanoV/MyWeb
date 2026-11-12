@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useLocale } from '../src/context/LocaleContext';
 import { useContent } from '../src/hooks/useContent';
 import { useTheme } from '../src/context/ThemeContext';
@@ -25,7 +26,7 @@ const getControlBtnClass = (isScrolled: boolean, theme: string) => {
 
 export default function Navbar() {
   const { locale, toggleLocale } = useLocale();
-  const { nav } = useContent();
+  const { nav, labels } = useContent();
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -62,11 +63,14 @@ export default function Navbar() {
             <button
               onClick={() => scrollToSection('hero')}
               className="group transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg p-1"
-              aria-label="Ir al inicio"
+              aria-label={labels.nav.home}
             >
-              <img
+              <Image
                 src="/logo.svg"
                 alt="Logo"
+                width={48}
+                height={32}
+                preload
                 className={`w-12 h-8 transition-all duration-300 group-hover:drop-shadow-lg object-contain ${theme === 'light' ? 'brightness-0' : ''}`}
               />
             </button>
@@ -99,6 +103,7 @@ export default function Navbar() {
             <div className="flex items-center gap-3">
               <button
                 onClick={toggleLocale}
+                aria-label={labels.nav.toggleLanguage}
                 data-id="lang-toggle"
                 className={getControlBtnClass(isScrolled, theme)}
               >
@@ -106,7 +111,7 @@ export default function Navbar() {
               </button>
               <button
                 onClick={toggleTheme}
-                aria-label="Toggle theme"
+                aria-label={labels.nav.toggleTheme}
                 data-id="theme-toggle"
                 className={getControlBtnClass(isScrolled, theme)}
               >
@@ -114,7 +119,7 @@ export default function Navbar() {
               </button>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                aria-label="Toggle menu"
+                aria-label={labels.nav.toggleMenu}
                 aria-expanded={isMenuOpen}
                 className={`md:hidden ${getControlBtnClass(isScrolled, theme)}`}
               >

@@ -1,5 +1,6 @@
-import { getTechIcon, getTechBrandColor } from '../src/utils/getTechIcon';
+import { TechIcon, hasTechIcon, getTechBrandColor } from '../src/utils/getTechIcon';
 import { useTheme } from '../src/context/ThemeContext';
+import { useMediaQuery } from '../src/hooks/useMediaQuery';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 
@@ -10,7 +11,6 @@ interface TechBadgeProps {
 }
 
 export default function TechBadge({ name, level, iconKey }: TechBadgeProps) {
-  const IconComponent = getTechIcon(iconKey);
   const rawBrandColor = getTechBrandColor(iconKey);
   const { theme } = useTheme();
   const isWhite = ['#FFFFFF', '#ffffff', 'white'].includes(rawBrandColor);
@@ -22,17 +22,8 @@ export default function TechBadge({ name, level, iconKey }: TechBadgeProps) {
   const isDisabled = level !== 'production';
   const [activated, setActivated] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [supportsHover, setSupportsHover] = useState(false);
+  const supportsHover = useMediaQuery('(hover: hover)');
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(hover: hover)');
-    setSupportsHover(mediaQuery.matches);
-    const handler = (e: MediaQueryListEvent) => setSupportsHover(e.matches);
-    mediaQuery.addEventListener('change', handler);
-
-    return () => mediaQuery.removeEventListener('change', handler);
-  }, []);
 
   const startDeactivationTimer = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -75,8 +66,9 @@ export default function TechBadge({ name, level, iconKey }: TechBadgeProps) {
         whileTap={!supportsHover && !isDisabled ? { scale: 0.96 } : undefined}
         transition={supportsHover ? { type: 'spring', stiffness: 300, damping: 20 } : undefined}
       >
-        {IconComponent ? (
-          <IconComponent
+        {hasTechIcon(iconKey) ? (
+          <TechIcon
+            iconKey={iconKey}
             size={24}
             className={`transition-all duration-300 ${
               !isActive ? 'grayscale opacity-70' : ''

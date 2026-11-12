@@ -22,6 +22,9 @@
  * y los datos vendrán desde la API.
  */
 
+import { projects as projectsES } from '../content/es/projects'
+import { projects as projectsEN } from '../content/en/projects'
+
 export interface Project {
   id: number
   title: string
@@ -43,21 +46,21 @@ export const projectsData: Project[] = [
     urlDemo: 'https://reten-plus-demo.onrender.com/',
     images: [
       // 📁 IMÁGENES LOCALES: Tus imágenes del proyecto Reten +
-      '/images/projects/reten/Banner.png',
-      '/images/projects/reten/reten0.1.png',
-      '/images/projects/reten/reten0.2.png',
-      '/images/projects/reten/reten2.png',
-      '/images/projects/reten/reten3.png',
-      '/images/projects/reten/reten4.png',
-      '/images/projects/reten/reten5.png',
-      '/images/projects/reten/reten6.png',
-      '/images/projects/reten/reten7.png',
-      '/images/projects/reten/reten8.png',
-      '/images/projects/reten/reten9.png',
-      '/images/projects/reten/reten10.png',
-      '/images/projects/reten/reten11.png',
-      '/images/projects/reten/reten12.png',
-      '/images/projects/reten/reten13.png'
+      '/images/projects/reten/Banner.webp',
+      '/images/projects/reten/reten0.1.webp',
+      '/images/projects/reten/reten0.2.webp',
+      '/images/projects/reten/reten2.webp',
+      '/images/projects/reten/reten3.webp',
+      '/images/projects/reten/reten4.webp',
+      '/images/projects/reten/reten5.webp',
+      '/images/projects/reten/reten6.webp',
+      '/images/projects/reten/reten7.webp',
+      '/images/projects/reten/reten8.webp',
+      '/images/projects/reten/reten9.webp',
+      '/images/projects/reten/reten10.webp',
+      '/images/projects/reten/reten11.webp',
+      '/images/projects/reten/reten12.webp',
+      '/images/projects/reten/reten13.webp'
     ]
   }
 ]
@@ -86,24 +89,15 @@ export const getProjects = async (locale: string = 'es'): Promise<Project[]> => 
 // Función auxiliar para obtener la descripción traducida
 const getTranslatedDescription = (projectTitle: string, locale: string): string => {
   // Mapeo de títulos a claves de traducción
-  const titleToKey: { [key: string]: keyof typeof import('../content/es/projects').projects } = {
+  const titleToKey: { [key: string]: keyof typeof projectsES } = {
     'Reten +': 'reten'
   }
 
   const key = titleToKey[projectTitle]
-  if (!key) return 'Descripción no disponible'
+  if (!key) return locale === 'es' ? 'Descripción no disponible' : 'Description not available'
 
-  // Importar dinámicamente el contenido según el idioma
-  try {
-    if (locale === 'es') {
-      const { projects: projectsES } = require('../content/es/projects')
-      return projectsES[key]?.description || 'Descripción no disponible'
-    } else {
-      const { projects: projectsEN } = require('../content/en/projects')
-      return projectsEN[key]?.description || 'Description not available'
-    }
-  } catch (error) {
-    console.error('Error loading translated content:', error)
-    return 'Descripción no disponible'
+  if (locale === 'es') {
+    return projectsES[key]?.description || 'Descripción no disponible'
   }
+  return projectsEN[key]?.description || 'Description not available'
 }
