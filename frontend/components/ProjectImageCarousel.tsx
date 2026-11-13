@@ -47,7 +47,7 @@ export default function ProjectImageCarousel({ images, title, large = false }: P
       onClick={revealControls}
     >
       {/* Carrusel de imágenes */}
-      <div className={`relative bg-surface-2 overflow-hidden ${large ? 'h-72 md:h-[28rem]' : 'h-64 md:h-80'}`}>
+      <div className="relative aspect-[19/10] bg-surface-2 overflow-hidden">
         <div
           className="flex w-full h-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -58,7 +58,7 @@ export default function ProjectImageCarousel({ images, title, large = false }: P
                 src={image}
                 alt={`${title} - ${labels.carousel.image} ${index + 1}`}
                 fill
-                sizes={large ? '(max-width: 1024px) 100vw, 1024px' : '(max-width: 768px) 100vw, 576px'}
+                sizes={large ? '(max-width: 1152px) 100vw, 1152px' : '(max-width: 768px) 100vw, 576px'}
                 // La imagen actual y sus vecinas se cargan ya; el resto, bajo demanda
                 loading={Math.abs(index - currentIndex) <= 1 ? 'eager' : 'lazy'}
                 className="object-contain object-center"

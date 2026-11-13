@@ -75,8 +75,8 @@ export default function Skills() {
         <SectionHeading eyebrow={ui.eyebrows.skills} title={ui.sections.skills} />
 
         <RevealGroup className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
-          <BentoCell title={skills.frontendTitle} techs={skills.frontend} className="md:col-span-2 lg:col-span-3" />
-          <BentoCell title={skills.toolsTitle} techs={skills.tools} className="md:col-span-2 lg:col-span-3" />
+          <BentoCell title={skills.frontendTitle} techs={skills.frontend} className="lg:col-span-2" />
+          <BentoCell title={skills.toolsTitle} techs={skills.tools} className="lg:col-span-2" />
           <BentoCell
             title={skills.aiTitle}
             techs={skills.ai}
@@ -84,13 +84,13 @@ export default function Skills() {
             featured
             className="md:col-span-2 lg:col-span-2"
           />
-          <BentoCell title={skills.backendTitle} techs={skills.backend} className="lg:col-span-2" />
-          <BentoCell title={skills.databaseTitle} techs={skills.database} className="lg:col-span-2" />
+          <BentoCell title={skills.backendTitle} techs={skills.backend} className="lg:col-span-3" />
+          <BentoCell title={skills.databaseTitle} techs={skills.database} className="lg:col-span-3" />
         </RevealGroup>
       </div>
 
       {/* Cinta de logos a todo el ancho, dos filas en sentidos opuestos */}
-      <div className="mt-16 space-y-6">
+      <div className="mt-10 space-y-5 md:mt-14">
         <Marquee duration={45}>{renderMarqueeRow(marqueeTechs)}</Marquee>
         <Marquee duration={55} reverse>
           {renderMarqueeRow([...marqueeTechs].reverse())}

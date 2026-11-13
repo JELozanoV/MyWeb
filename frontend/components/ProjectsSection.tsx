@@ -1,5 +1,6 @@
+import { useId, useState } from 'react'
 import Image from 'next/image'
-import { FiArrowUpRight, FiGithub } from 'react-icons/fi'
+import { FiArrowUpRight, FiChevronDown, FiGithub } from 'react-icons/fi'
 import { useContent } from '../src/hooks/useContent'
 import { useLocale } from '../src/context/LocaleContext'
 import ProjectImageCarousel from './ProjectImageCarousel'
@@ -19,6 +20,9 @@ interface ProjectCardProps {
 function ProjectCard({ project, featured }: ProjectCardProps) {
   const { ui } = useContent()
   const hasCarousel = !!project.images && project.images.length > 0
+  // La descripción es larga: se muestra recortada y se abre a petición
+  const [expanded, setExpanded] = useState(false)
+  const descriptionId = useId()
 
   return (
     <article className="card group flex flex-col !p-0">
@@ -37,12 +41,12 @@ function ProjectCard({ project, featured }: ProjectCardProps) {
       {hasCarousel && <ProjectImageCarousel images={project.images!} title={project.title} large={featured} />}
 
       {!hasCarousel && project.coverImage && (
-        <div className={`relative w-full overflow-hidden ${featured ? 'h-72 md:h-[28rem]' : 'h-64 md:h-80'}`}>
+        <div className="relative aspect-[19/10] w-full overflow-hidden">
           <Image
             src={project.coverImage}
             alt={project.title}
             fill
-            sizes={featured ? '(max-width: 1024px) 100vw, 1024px' : '(max-width: 768px) 100vw, 576px'}
+            sizes={featured ? '(max-width: 1152px) 100vw, 1152px' : '(max-width: 768px) 100vw, 576px'}
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </div>
@@ -75,7 +79,23 @@ function ProjectCard({ project, featured }: ProjectCardProps) {
           ))}
         </div>
 
-        <p className="mt-6 whitespace-pre-line text-sm leading-relaxed md:text-base">{project.description}</p>
+        <p
+          id={descriptionId}
+          className={`mt-6 whitespace-pre-line text-sm leading-relaxed md:text-base ${
+            expanded ? '' : 'max-h-36 overflow-hidden [mask-image:linear-gradient(#000_45%,transparent)]'
+          }`}
+        >
+          {project.description}
+        </p>
+        <button
+          onClick={() => setExpanded(!expanded)}
+          aria-expanded={expanded}
+          aria-controls={descriptionId}
+          className="mt-3 inline-flex items-center gap-1.5 self-start text-sm font-medium text-accent-fg hover:underline"
+        >
+          {expanded ? ui.projects.readLess : ui.projects.readMore}
+          <FiChevronDown size={16} className={`transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
+        </button>
       </div>
     </article>
   )
@@ -92,7 +112,7 @@ export default function ProjectsSection() {
       <div className="mx-auto max-w-6xl container-padding">
         <SectionHeading eyebrow={ui.eyebrows.projects} title={ui.sections.projects} />
 
-        <div className={single ? 'mx-auto max-w-5xl' : 'grid grid-cols-1 gap-8 md:grid-cols-2'}>
+        <div className={single ? '' : 'grid grid-cols-1 gap-8 md:grid-cols-2'}>
           {projects.map((project, index) => (
             <Reveal key={project.id} delay={single ? 0 : (index % 2) * 0.1}>
               <ProjectCard project={project} featured={single} />

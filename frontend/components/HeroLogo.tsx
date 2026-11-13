@@ -11,6 +11,11 @@ const PATH_L = 'M75 15 L75 95 L135 95 L140 75 L95 75 L95 15 L75 15 Z';
 const FACET_J = 'M45 25 L65 15 L65 25 L45 35 Z';
 const FACET_L = 'M120 75 L140 75 L135 85 L115 85 Z';
 
+// Colores de marca fijos: el logo se ve igual en tema claro y oscuro
+const BRAND_FROM = '#8b6dff';
+const BRAND_TO = '#3b82f6';
+const BRAND_GLOW = 'rgb(124 92 255 / 0.4)';
+
 // Copias del contorno detrás del logo: al inclinarse forman la profundidad
 const DEPTH_LAYERS = 7;
 const LAYER_GAP = 13; // px entre capas en el eje Z
@@ -50,7 +55,7 @@ export default function HeroLogo() {
       {/* Halo */}
       <div
         className="absolute inset-[12%] rounded-full"
-        style={{ background: 'radial-gradient(closest-side, rgb(var(--accent) / 0.45), transparent)' }}
+        style={{ background: `radial-gradient(closest-side, ${BRAND_GLOW}, transparent)` }}
       />
 
       <motion.div className="absolute inset-0 [transform-style:preserve-3d]" style={{ rotateX, rotateY }}>
@@ -88,8 +93,9 @@ export default function HeroLogo() {
             >
               <g
                 transform={LOGO_TRANSFORM}
-                fill="rgb(var(--accent) / 0.12)"
-                stroke="rgb(var(--accent))"
+                fill={BRAND_FROM}
+                fillOpacity="0.12"
+                stroke={BRAND_FROM}
                 strokeWidth="1"
                 strokeLinejoin="round"
               >
@@ -103,8 +109,8 @@ export default function HeroLogo() {
           <svg viewBox="8 14 158 102" className={svgClass} style={{ transform: 'translateZ(28px)' }}>
             <defs>
               <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" style={{ stopColor: 'var(--grad-from)' }} />
-                <stop offset="100%" style={{ stopColor: 'var(--grad-to)' }} />
+                <stop offset="0%" stopColor={BRAND_FROM} />
+                <stop offset="100%" stopColor={BRAND_TO} />
               </linearGradient>
               <clipPath id={clipId}>
                 <path d={PATH_J} />
@@ -118,7 +124,7 @@ export default function HeroLogo() {
                   key={d}
                   d={d}
                   fill={`url(#${gradientId})`}
-                  stroke="var(--grad-from)"
+                  stroke={BRAND_FROM}
                   strokeWidth="1.5"
                   strokeLinejoin="round"
                   initial={{ pathLength: 0, fillOpacity: 0 }}

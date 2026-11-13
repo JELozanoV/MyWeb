@@ -49,7 +49,9 @@ Backend (`cd backend`, requires `DATABASE_URL` in `.env`):
 
 **Animation.** Reusable primitives live in `components/ui/`: `Reveal`/`RevealGroup`/`RevealItem` (scroll entrance), `SectionHeading` (eyebrow + word-by-word title; use it for every section), `SplitWords`, `Magnetic`, `TiltCard` (the `.card` with cursor glow + tilt) and `Marquee`. Hero entrance animations are plain CSS (`animate-fade-up`, `animate-word-rise`) so the headline paints before hydration. Everything must respect `prefers-reduced-motion`: Motion handles it via `MotionConfig reducedMotion="user"`, Lenis is not mounted, and CSS animations are disabled in the media query at the end of `globals.css`.
 
-**Hero logo.** `components/HeroLogo.tsx` is the hero visual: the JL logo (same paths as `public/logo.svg`) drawn stroke by stroke, filled with the brand gradient, with stacked SVG layers for depth, cursor tilt and two orbit rings. It is SVG + CSS 3D transforms only — there is no WebGL/three.js in the project (a 3D blob was tried and rejected).
+**Hero logo.** `components/HeroLogo.tsx` is the hero visual: the JL logo (same paths as `public/logo.svg`) drawn stroke by stroke, filled with the brand gradient, with stacked SVG layers for depth, cursor tilt and two orbit rings. It is SVG + CSS 3D transforms only — there is no WebGL/three.js in the project (a 3D blob was tried and rejected). Its colors are fixed brand constants (not theme tokens) so it looks the same in light and dark. Below `lg` it sits in the flow above the hero text at full opacity — don't fade it or position it behind the text.
+
+**Responsive & spacing.** Vertical rhythm comes from `.section-padding` and `SectionHeading` margins; adjust those instead of adding per-section padding. The hero is full-height only from `lg` up. Media boxes use aspect ratios (`aspect-[19/10]` for project screenshots), not fixed heights. Long project descriptions are collapsed behind a "read more" toggle. Check changes at ~360/390 px (phone), ~820 px (tablet) and ≥1280 px in both themes.
 
 **Media queries.** Use `src/hooks/useMediaQuery.ts` (`useSyncExternalStore`) instead of `matchMedia` + `setState` in an effect.
 

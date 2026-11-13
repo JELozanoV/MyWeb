@@ -20,14 +20,13 @@ export default function Contact() {
       />
 
       <div className="relative mx-auto max-w-6xl container-padding">
-        <SectionHeading
-          eyebrow={ui.eyebrows.contact}
-          title={ui.sections.contact}
-          description={ui.contact.description}
-        />
+        <SectionHeading eyebrow={ui.eyebrows.contact} title={ui.sections.contact} />
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
           <RevealGroup className="space-y-4" stagger={0.1}>
+            <RevealItem>
+              <p className="mb-4 whitespace-pre-line text-base md:text-lg">{ui.contact.description}</p>
+            </RevealItem>
             <RevealItem>
               <ContactLinkCard
                 icon={<FiMail size={22} />}

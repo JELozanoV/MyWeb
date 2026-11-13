@@ -15,7 +15,7 @@ export default function Experience() {
 
   return (
     <section id="experience" className="section-padding">
-      <div className="mx-auto max-w-4xl container-padding">
+      <div className="mx-auto max-w-6xl container-padding lg:grid lg:grid-cols-[0.7fr_1.3fr] lg:gap-12">
         <SectionHeading eyebrow={ui.eyebrows.experience} title={ui.sections.experience} />
 
         <div ref={timelineRef} className="relative pl-8 md:pl-12">

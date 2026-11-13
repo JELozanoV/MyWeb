@@ -139,6 +139,11 @@ export default function Navbar() {
                   </button>
                 </li>
               ))}
+              <li className="pt-1 sm:hidden">
+                <button onClick={() => goTo('contact')} className="btn-primary w-full py-3 text-base">
+                  {nav.cta}
+                </button>
+              </li>
             </motion.ul>
           )}
         </AnimatePresence>

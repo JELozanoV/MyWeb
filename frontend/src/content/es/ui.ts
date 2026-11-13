@@ -27,7 +27,9 @@ export const ui = {
   },
   projects: {
     code: 'Ver código',
-    demo: 'Ver demo'
+    demo: 'Ver demo',
+    readMore: 'Leer más',
+    readLess: 'Leer menos'
   },
   education: {
     education: 'Educación',

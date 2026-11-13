@@ -55,7 +55,7 @@ export default function Services() {
           })}
         </RevealGroup>
 
-        <Reveal className="mt-10 flex justify-center" delay={0.1}>
+        <Reveal className="mt-8 flex justify-center" delay={0.1}>
           <Magnetic>
             <button onClick={() => scrollToSection('contact')} className="btn-primary px-7 py-3.5 text-base">
               {services.cta}

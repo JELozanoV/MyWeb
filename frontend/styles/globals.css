@@ -197,7 +197,7 @@
   }
 
   .section-padding {
-    @apply py-24 md:py-32;
+    @apply py-16 md:py-20 lg:py-24;
   }
 
   .container-padding {
@@ -243,7 +243,7 @@
   .orbit-ring {
     position: relative;
     border-radius: 9999px;
-    border: 1.5px dashed rgb(var(--accent-fg) / 0.55);
+    border: 1.5px dashed rgb(139 109 255 / 0.6);
   }
 
   .orbit-dot {
@@ -254,8 +254,8 @@
     height: 10px;
     margin-left: -5px;
     border-radius: 9999px;
-    background: rgb(var(--accent-fg));
-    box-shadow: 0 0 16px 4px rgb(var(--accent) / 0.7);
+    background: #8b6dff;
+    box-shadow: 0 0 16px 4px rgb(124 92 255 / 0.7);
   }
 }
 
