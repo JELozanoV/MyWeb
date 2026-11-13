@@ -1,4 +1,9 @@
 export const labels = {
+  // <title> y descripción de la página (SEO y vista previa al compartir)
+  meta: {
+    title: 'John Lozano — Desarrollador Full Stack',
+    description: 'Portafolio de John Lozano, desarrollador Full Stack especializado en React, Next.js, Node.js e integraciones con IA. Disponible para proyectos freelance y oportunidades laborales.'
+  },
   form: {
     name: 'Nombre',
     email: 'Email',
@@ -25,10 +30,6 @@ export const labels = {
       network: 'No se pudo conectar con el servicio de envío. Verifica tu conexión e inténtalo nuevamente.',
       generic: 'No fue posible enviar el mensaje. Inténtalo de nuevo más tarde o escríbeme directamente por email.'
     }
-  },
-  projects: {
-    loading: 'Cargando proyectos...',
-    error: 'No se pudieron cargar los proyectos. Inténtalo de nuevo más tarde.'
   },
   carousel: {
     previous: 'Imagen anterior',

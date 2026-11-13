@@ -1,113 +1,125 @@
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { FiArrowRight, FiArrowDown, FiLinkedin } from 'react-icons/fi';
 import { useContent } from '../src/hooks/useContent';
-import { useTheme } from '../src/context/ThemeContext';
+import { useMediaQuery } from '../src/hooks/useMediaQuery';
+import { useScrollToSection } from '../src/hooks/useScrollToSection';
+import Magnetic from './ui/Magnetic';
+import SplitWords from './ui/SplitWords';
+
+// three.js solo se descarga en el cliente y cuando de verdad se va a mostrar
+const HeroScene = dynamic(() => import('./three/HeroScene'), { ssr: false });
+
+/**
+ * Pieza visual del hero. En escritorio carga el objeto 3D; en móvil o con
+ * "reducir movimiento" se queda con el orbe CSS, que también hace de
+ * placeholder mientras llega el 3D.
+ */
+function HeroVisual() {
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+  const [sceneReady, setSceneReady] = useState(false);
+  const use3D = isDesktop && !prefersReducedMotion;
+
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute -right-28 top-20 w-72 opacity-40 lg:static lg:w-full lg:max-w-[540px] lg:justify-self-end lg:opacity-100"
+    >
+      <div className="relative aspect-square w-full animate-fade-up [animation-delay:300ms]">
+        <div
+          className={`orb absolute inset-[20%] transition-opacity duration-700 ${
+            use3D && sceneReady ? 'opacity-0' : 'opacity-90'
+          }`}
+        />
+        {use3D && (
+          <div className="absolute inset-0">
+            <HeroScene onReady={() => setSceneReady(true)} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function Hero() {
   const { personal, hero } = useContent();
-  const { theme } = useTheme();
-  const avatarLight = personal.avatarUrlLight || '/avatar.svg';
-  const avatarDark = personal.avatarUrlDark || avatarLight;
-
-  const scrollToProjects = () => {
-    const element = document.getElementById('projects');
-    if (element) element.scrollIntoView({ behavior: 'smooth' });
-  };
+  const scrollToSection = useScrollToSection();
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section id="hero" className="relative flex min-h-[100svh] items-center overflow-hidden">
+      <div className="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-10 container-padding pb-20 pt-28 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="relative z-10">
+          {/* Disponibilidad */}
+          <div className="animate-fade-up inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/70 px-4 py-1.5 text-sm text-muted backdrop-blur">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inset-0 rounded-full bg-emerald-400 animate-pulse-dot" />
+              <span className="relative h-2 w-2 rounded-full bg-emerald-400" />
+            </span>
+            {hero.badge}
+          </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-24 lg:pt-0 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center hero-grid">
-        {/* Avatar y tarjeta de vidrio */}
-        <div className="order-1 flex justify-center lg:justify-start">
-          <div className="glass rounded-3xl p-6 lg:p-8 flex items-center gap-6 lg:gap-8">
-            <div className="relative w-24 h-24 lg:w-32 lg:h-32 shrink-0 lg:-translate-y-1.5">
-              {avatarLight === avatarDark ? (
-                <Image
-                  src={avatarLight}
-                  alt={personal.name}
-                  fill
-                  sizes="128px"
-                  preload
-                  className="rounded-2xl shadow-lg object-center object-cover"
-                />
-              ) : (
-                <>
-                  <Image
-                    src={avatarLight}
-                    alt={personal.name}
-                    fill
-                    sizes="128px"
-                    preload={theme === 'light'}
-                    className={`rounded-2xl shadow-lg transition-opacity duration-500 ease-in-out object-center object-cover ${
-                      theme === 'light' ? 'opacity-100' : 'opacity-0'
-                    }`}
-                  />
-                  <Image
-                    src={avatarDark}
-                    alt={personal.name}
-                    fill
-                    sizes="128px"
-                    preload={theme === 'dark'}
-                    className={`rounded-2xl shadow-lg transition-opacity duration-500 ease-in-out object-center object-cover ${
-                      theme === 'dark' ? 'opacity-100' : 'opacity-0'
-                    }`}
-                  />
-                </>
-              )}
-            </div>
-            <div className="text-center lg:text-left flex flex-col justify-center">
-              <h1 className="text-4xl md:text-6xl font-bold text-gray-900">{personal.name}</h1>
-              <h2 className="text-lg md:text-2xl text-primary-700 mt-2 font-medium">{personal.title}</h2>
-            </div>
+          {/* Quién soy: lo primero que busca un reclutador */}
+          <div className="animate-fade-up mt-8 flex items-center gap-3 [animation-delay:80ms]">
+            <Image
+              src={personal.avatarUrl}
+              alt=""
+              width={44}
+              height={44}
+              preload
+              className="h-11 w-11 rounded-full border border-line object-cover"
+            />
+            <p className="text-sm leading-tight text-muted">
+              <span className="block font-display text-base font-semibold text-fg">{personal.name}</span>
+              {personal.title}
+            </p>
+          </div>
+
+          {/* key: al cambiar de idioma el titular vuelve a animarse */}
+          <h1
+            key={hero.titleStart}
+            // El tamaño también depende del alto (vh) para que los botones no queden bajo el pliegue en portátiles
+            className="mt-6 text-[clamp(2.25rem,min(6.4vw,9.5vh),5.25rem)] font-semibold leading-[1.03] tracking-tight"
+          >
+            <SplitWords text={hero.titleStart} immediate delay={0.1} />{' '}
+            <SplitWords text={hero.titleHighlight} wordClassName="text-gradient" immediate delay={0.3} />{' '}
+            <SplitWords text={hero.titleEnd} immediate delay={0.5} />
+          </h1>
+
+          <p className="animate-fade-up mt-6 max-w-xl text-lg text-muted md:text-xl [animation-delay:500ms]">
+            {hero.description}
+          </p>
+
+          <div className="animate-fade-up mt-10 flex flex-wrap items-center gap-3 [animation-delay:650ms]">
+            <Magnetic>
+              <button onClick={() => scrollToSection('projects')} className="btn-primary px-7 py-3.5 text-base">
+                {hero.ctaPrimary}
+                <FiArrowRight size={18} />
+              </button>
+            </Magnetic>
+            <Magnetic strength={0.2}>
+              <button onClick={() => scrollToSection('contact')} className="btn-secondary px-7 py-3.5 text-base">
+                {hero.ctaContact}
+              </button>
+            </Magnetic>
+            <a href={personal.linkedin} target="_blank" rel="noopener noreferrer" className="btn-ghost py-3.5 text-base">
+              <FiLinkedin size={18} />
+              {hero.ctaLinkedin}
+            </a>
           </div>
         </div>
 
-        {/* Texto de presentación */}
-        <div className="order-2 text-center md:text-left max-w-lg md:max-w-none mx-auto md:mx-0">
-          <div className="md:hidden bg-white/20 dark:bg-gray-800/20 backdrop-blur-md rounded-2xl p-6 mb-6">
-            <div className="mb-6">
-              <p className="text-lg md:text-xl text-primary-600 dark:text-primary-300 font-medium mb-2">
-                {hero.greeting}
-              </p>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                {hero.subtitle}
-              </h2>
-            </div>
-            <p className="text-lg md:text-xl lg:text-2xl text-gray-800 dark:text-gray-200 mb-10 leading-relaxed">
-              {hero.description}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <button onClick={scrollToProjects} className="btn-primary">
-                {hero.ctaPrimary}
-              </button>
-              <a href={personal.resumeUrl} download className="hidden btn-secondary">
-                {hero.ctaSecondary}
-              </a>
-            </div>
-          </div>
-          <div className="hidden md:block bg-white/10 dark:bg-gray-900/10 backdrop-blur-sm rounded-2xl p-6 mb-6">
-            <div className="mb-6">
-              <p className="text-lg md:text-xl text-primary-600 dark:text-primary-300 font-medium mb-2">
-                {hero.greeting}
-              </p>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
-                {hero.subtitle}
-              </h2>
-            </div>
-            <p className="text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 mb-10 leading-relaxed max-w-2xl">
-              {hero.description}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 md:justify-start justify-center">
-              <button onClick={scrollToProjects} className="btn-primary">
-                {hero.ctaPrimary}
-              </button>
-              <a href={personal.resumeUrl} download className="hidden btn-secondary">
-                {hero.ctaSecondary}
-              </a>
-            </div>
-          </div>
-        </div>
+        <HeroVisual />
+      </div>
 
+      {/* Indicador de scroll */}
+      <div
+        aria-hidden
+        className="animate-fade-up absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted md:flex [animation-delay:1100ms]"
+      >
+        <span className="font-mono text-[11px] uppercase tracking-[0.25em]">{hero.scroll}</span>
+        <FiArrowDown size={16} className="animate-bounce" />
       </div>
     </section>
   );

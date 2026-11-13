@@ -3,6 +3,8 @@ export const skills = {
   backendTitle: 'Backend',
   databaseTitle: 'Base de Datos',
   toolsTitle: 'Herramientas',
+  aiTitle: 'Inteligencia Artificial',
+  aiDescription: 'Integro modelos de lenguaje en productos reales: chatbots con contexto, recomendaciones y automatización.',
   frontend: [
     { name: 'JavaScript', level: 'production', iconKey: 'javascript' },
     { name: 'HTML', level: 'production', iconKey: 'html5' },
@@ -13,14 +15,16 @@ export const skills = {
   ],
   backend: [
     { name: 'Node.js', level: 'production', iconKey: 'nodedotjs' },
-    { name: 'Express', level: 'production', iconKey: 'express' },
-    { name: 'API ChatGPT', level: 'production', iconKey: 'openai' },
-    { name: 'API Gemini', level: 'production', iconKey: 'googlebard' },
-    { name: 'API Claude', level: 'production', iconKey: 'claude' }
+    { name: 'Express', level: 'production', iconKey: 'express' }
   ],
   database: [
     { name: 'PostgreSQL', level: 'production', iconKey: 'postgresql' },
     { name: 'MongoDB', level: 'production', iconKey: 'mongodb' }
+  ],
+  ai: [
+    { name: 'API ChatGPT', level: 'production', iconKey: 'openai' },
+    { name: 'API Gemini', level: 'production', iconKey: 'googlebard' },
+    { name: 'API Claude', level: 'production', iconKey: 'claude' }
   ],
   tools: [
     { name: 'Git', level: 'production', iconKey: 'git' },

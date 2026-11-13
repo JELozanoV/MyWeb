@@ -1,4 +1,9 @@
 export const labels = {
+  // Page <title> and description (SEO and link previews)
+  meta: {
+    title: 'John Lozano — Full Stack Developer',
+    description: 'Portfolio of John Lozano, a Full Stack Developer specialized in React, Next.js, Node.js and AI integrations. Available for freelance projects and job opportunities.'
+  },
   form: {
     name: 'Name',
     email: 'Email',
@@ -25,10 +30,6 @@ export const labels = {
       network: 'Could not reach the sending service. Check your connection and try again.',
       generic: 'The message could not be sent. Try again later or reach me directly by email.'
     }
-  },
-  projects: {
-    loading: 'Loading projects...',
-    error: 'Unable to load projects. Please try again later.'
   },
   carousel: {
     previous: 'Previous image',

@@ -43,11 +43,11 @@ export default function ProjectImageCarousel({ images, title, large = false }: P
 
   return (
     <div
-      className={`relative overflow-hidden cursor-pointer ${large ? 'rounded-t-2xl' : 'rounded-t-2xl mb-6'}`}
+      className="group/carousel relative overflow-hidden cursor-pointer"
       onClick={revealControls}
     >
       {/* Carrusel de imágenes */}
-      <div className={`relative bg-gray-900/10 overflow-hidden ${large ? 'h-72 md:h-[28rem]' : 'h-64 md:h-80'}`}>
+      <div className={`relative bg-surface-2 overflow-hidden ${large ? 'h-72 md:h-[28rem]' : 'h-64 md:h-80'}`}>
         <div
           className="flex w-full h-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -68,12 +68,12 @@ export default function ProjectImageCarousel({ images, title, large = false }: P
         </div>
       </div>
 
-      {/* Controles de navegación - visibles solo al hacer clic */}
+      {/* Controles de navegación - visibles al pasar el mouse o al tocar */}
       {images.length > 1 && (
         <>
           <button
             onClick={prevImage}
-            className={`absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all duration-300 hover:bg-white/30 hover:scale-110 ${
+            className={`absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/55 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all duration-300 hover:bg-black/75 hover:scale-110 group-hover/carousel:opacity-100 group-hover/carousel:pointer-events-auto ${
               showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
             aria-label={labels.carousel.previous}
@@ -83,7 +83,7 @@ export default function ProjectImageCarousel({ images, title, large = false }: P
 
           <button
             onClick={nextImage}
-            className={`absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all duration-300 hover:bg-white/30 hover:scale-110 ${
+            className={`absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/55 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all duration-300 hover:bg-black/75 hover:scale-110 group-hover/carousel:opacity-100 group-hover/carousel:pointer-events-auto ${
               showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
             aria-label={labels.carousel.next}
@@ -92,7 +92,7 @@ export default function ProjectImageCarousel({ images, title, large = false }: P
           </button>
 
           {/* Indicadores */}
-          <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 transition-opacity duration-300 ${
+          <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 rounded-full bg-black/45 px-3 py-2 backdrop-blur-sm transition-opacity duration-300 group-hover/carousel:opacity-100 group-hover/carousel:pointer-events-auto ${
             showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}>
             {images.map((_, index) => (
@@ -110,7 +110,7 @@ export default function ProjectImageCarousel({ images, title, large = false }: P
           </div>
 
           {/* Contador de imágenes */}
-          <div className={`absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium transition-opacity duration-300 ${
+          <div className={`absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium transition-opacity duration-300 group-hover/carousel:opacity-100 ${
             showControls ? 'opacity-100' : 'opacity-0'
           }`}>
             {currentIndex + 1} / {images.length}

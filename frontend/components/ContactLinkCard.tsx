@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { FiArrowUpRight } from 'react-icons/fi';
 
 interface ContactLinkCardProps {
   icon: ReactNode;
@@ -14,17 +15,19 @@ export default function ContactLinkCard({ icon, title, subtitle, href, target }:
       href={href}
       target={target}
       rel={target === '_blank' ? 'noopener noreferrer' : undefined}
-      className="flex items-center p-6 dark:bg-white/10 bg-white border border-primary-900/10 dark:border-white/10 shadow-sm dark:shadow-none rounded-2xl dark:hover:bg-white/20 hover:bg-primary-200/20 transition-all duration-300 group backdrop-blur-sm"
+      className="card group flex items-center gap-5 !p-5"
     >
-      <div className="w-12 h-12 bg-transparent group-hover:bg-white dark:group-hover:bg-white/10 rounded-xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform">
-        <div className="text-primary-900 dark:text-white">
-          {icon}
-        </div>
-      </div>
-      <div>
-        <p className="font-medium dark:text-white text-primary-900 text-lg">{title}</p>
-        <p className="dark:text-primary-200 text-primary-900/70">{subtitle}</p>
-      </div>
+      <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-line bg-surface-2 text-accent-fg transition-transform duration-300 group-hover:scale-110">
+        {icon}
+      </span>
+      <span className="relative min-w-0 flex-1">
+        <span className="block font-display text-lg font-medium text-fg">{title}</span>
+        <span className="block truncate text-sm text-muted">{subtitle}</span>
+      </span>
+      <FiArrowUpRight
+        size={20}
+        className="relative shrink-0 text-muted transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent-fg"
+      />
     </a>
   );
 }

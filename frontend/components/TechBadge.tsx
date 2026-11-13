@@ -1,8 +1,6 @@
+import { motion } from 'motion/react';
 import { TechIcon, hasTechIcon, getTechBrandColor } from '../src/utils/getTechIcon';
 import { useTheme } from '../src/context/ThemeContext';
-import { useMediaQuery } from '../src/hooks/useMediaQuery';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
 
 interface TechBadgeProps {
   name: string;
@@ -10,94 +8,31 @@ interface TechBadgeProps {
   iconKey: string;
 }
 
+const WHITES = ['#ffffff', 'white'];
+const BLACKS = ['#181717', '#000000', '#1a1a1a', 'black'];
+
+/** Insignia de tecnología: ícono con su color de marca + nombre siempre visible. */
 export default function TechBadge({ name, level, iconKey }: TechBadgeProps) {
-  const rawBrandColor = getTechBrandColor(iconKey);
   const { theme } = useTheme();
-  const isWhite = ['#FFFFFF', '#ffffff', 'white'].includes(rawBrandColor);
-  const isBlack = ['#181717', '#000000', '#1A1A1A', '#1a1a1a', 'black'].includes(rawBrandColor);
+  const rawBrandColor = getTechBrandColor(iconKey).toLowerCase();
+  // Las marcas blancas o negras se invierten según el tema para que no desaparezcan
   const brandColor =
-    (isWhite && theme === 'light') ? '#1A1A1A' :
-    (isBlack && theme === 'dark') ? '#FFFFFF' :
+    WHITES.includes(rawBrandColor) && theme === 'light' ? '#1a1a1a' :
+    BLACKS.includes(rawBrandColor) && theme === 'dark' ? '#ffffff' :
     rawBrandColor;
   const isDisabled = level !== 'production';
-  const [activated, setActivated] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const supportsHover = useMediaQuery('(hover: hover)');
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const startDeactivationTimer = () => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => {
-      setActivated(false);
-      setIsHovered(false);
-    }, 15000);
-  };
-
-  useEffect(() => {
-    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
-  }, []);
-
-  const handleActivation = () => {
-    if (isDisabled) return;
-    if (timerRef.current) clearTimeout(timerRef.current);
-    setActivated(true);
-    if (!supportsHover) {
-      setIsHovered(true);
-      startDeactivationTimer();
-    }
-  };
-
-  const isActive = activated;
-
-  const initials = name.split(' ').map(word => word[0]).join('').toUpperCase();
 
   return (
-    <div
-      className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-medium border border-primary-200/20 transition-all duration-200 cursor-pointer ${
-        isDisabled ? 'opacity-50' : ''
-      }`}
-      onMouseEnter={supportsHover ? () => { handleActivation(); setIsHovered(true); } : undefined}
-      onMouseLeave={supportsHover ? () => { setIsHovered(false); startDeactivationTimer(); } : undefined}
-      onClick={!supportsHover ? handleActivation : undefined}
+    <motion.span
+      className={`tech-badge ${isDisabled ? 'opacity-50' : ''}`}
+      style={{ '--brand': brandColor } as React.CSSProperties}
+      whileHover={{ y: -3, scale: 1.04 }}
+      transition={{ type: 'spring', stiffness: 320, damping: 18 }}
     >
-      <motion.div
-        className="relative"
-        whileHover={supportsHover ? { scale: 1.1 } : undefined}
-        whileTap={!supportsHover && !isDisabled ? { scale: 0.96 } : undefined}
-        transition={supportsHover ? { type: 'spring', stiffness: 300, damping: 20 } : undefined}
-      >
-        {hasTechIcon(iconKey) ? (
-          <TechIcon
-            iconKey={iconKey}
-            size={24}
-            className={`transition-all duration-300 ${
-              !isActive ? 'grayscale opacity-70' : ''
-            } ${isActive ? 'grayscale-0 opacity-100' : ''}`}
-            style={isActive ? { color: brandColor, filter: 'drop-shadow(0 0 6px ' + brandColor + '40)' } : undefined}
-          />
-        ) : (
-          <span
-            className={`transition-all duration-300 ${
-              !isActive ? 'grayscale opacity-70' : ''
-            } ${isActive ? 'grayscale-0 opacity-100' : ''}`}
-            style={isActive ? { color: brandColor } : undefined}
-          >
-            {initials}
-          </span>
-        )}
-        <AnimatePresence>
-          {isHovered && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs font-medium rounded-md shadow-lg z-50 whitespace-nowrap"
-            >
-              {name}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    </div>
+      {hasTechIcon(iconKey) && (
+        <TechIcon iconKey={iconKey} size={18} className="shrink-0" style={{ color: brandColor }} />
+      )}
+      {name}
+    </motion.span>
   );
 }

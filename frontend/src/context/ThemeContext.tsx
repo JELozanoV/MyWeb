@@ -12,9 +12,11 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
 /**
  * Script que corre antes del primer pintado (ver pages/_document.tsx) para
  * aplicar la clase `dark` sin parpadeo. Debe mantenerse en sincronía con la
- * lógica de este contexto: localStorage.theme o, si no hay, prefers-color-scheme.
+ * lógica de este contexto: localStorage.theme o, si no hay, la preferencia del
+ * sistema. El diseño es "oscuro primero": solo se usa el tema claro si el sistema
+ * lo pide de forma explícita.
  */
-export const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}})();`
+export const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');var d=t?t==='dark':!window.matchMedia('(prefers-color-scheme: light)').matches;document.documentElement.classList.toggle('dark',d);}catch(e){}})();`
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // null hasta montar: así no se pisa la clase que ya puso themeInitScript
@@ -50,7 +52,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <ThemeContext.Provider value={{ theme: theme ?? 'light', toggleTheme }}>
+    <ThemeContext.Provider value={{ theme: theme ?? 'dark', toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   )

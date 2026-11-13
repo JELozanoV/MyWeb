@@ -1,22 +1,31 @@
 import { useContent } from '../src/hooks/useContent';
+import SectionHeading from './ui/SectionHeading';
+import Reveal, { RevealGroup, RevealItem } from './ui/Reveal';
 
 export default function About() {
   const { about, ui } = useContent();
 
   return (
     <section id="about" className="section-padding">
-      <div className="max-w-4xl mx-auto container-padding">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">{ui.sections.about}</h2>
-          <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
-        </div>
+      <div className="mx-auto max-w-6xl container-padding">
+        <SectionHeading eyebrow={ui.eyebrows.about} title={ui.sections.about} />
 
-        <div className="max-w-3xl mx-auto">
-          <div className="card">
-            <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-              {about.summary}
-            </p>
-          </div>
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
+          <Reveal>
+            <p className="text-xl leading-relaxed text-fg/90 md:text-2xl md:leading-relaxed">{about.summary}</p>
+          </Reveal>
+
+          <RevealGroup className="grid gap-4" stagger={0.1}>
+            {about.highlights.map((item) => (
+              <RevealItem key={item.label}>
+                <div className="card !p-6">
+                  <p className="eyebrow relative">{item.label}</p>
+                  <p className="relative mt-2 font-display text-xl font-semibold text-fg">{item.value}</p>
+                  <p className="relative mt-1 text-sm">{item.detail}</p>
+                </div>
+              </RevealItem>
+            ))}
+          </RevealGroup>
         </div>
       </div>
     </section>

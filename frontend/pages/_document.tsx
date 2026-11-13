@@ -7,7 +7,7 @@ export default function Document() {
       <Head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="shortcut icon" href="/favicon.svg" />
-        <meta name="theme-color" content="#0F172A" />
+        <meta name="theme-color" content="#0A0A0F" />
         {/* Aplica el tema antes del primer pintado para evitar el parpadeo claro→oscuro */}
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </Head>

@@ -1,44 +1,59 @@
+import { useRef } from 'react';
+import { motion, useScroll } from 'motion/react';
 import { useContent } from '../src/hooks/useContent';
+import SectionHeading from './ui/SectionHeading';
+import Reveal from './ui/Reveal';
 
 export default function Experience() {
   const { experience, ui } = useContent();
+  const timelineRef = useRef<HTMLDivElement>(null);
+  // La línea de tiempo se "dibuja" a medida que la sección pasa por la pantalla
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ['start 75%', 'end 55%'],
+  });
 
   return (
     <section id="experience" className="section-padding">
-      <div className="max-w-5xl mx-auto container-padding">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">{ui.sections.experience}</h2>
-          <div className="w-24 h-1 bg-primary mx-auto" style={{clipPath: 'polygon(0 0, 100% 0, 98% 100%, 2% 100%)'}}></div>
-        </div>
+      <div className="mx-auto max-w-4xl container-padding">
+        <SectionHeading eyebrow={ui.eyebrows.experience} title={ui.sections.experience} />
 
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-primary-200/50"></div>
+        <div ref={timelineRef} className="relative pl-8 md:pl-12">
+          {/* Riel y progreso */}
+          <div aria-hidden className="absolute bottom-0 left-[7px] top-0 w-px bg-line md:left-[11px]" />
+          <motion.div
+            aria-hidden
+            className="absolute bottom-0 left-[7px] top-0 w-px origin-top md:left-[11px]"
+            style={{
+              scaleY: scrollYProgress,
+              backgroundImage: 'linear-gradient(180deg, var(--grad-from), var(--grad-to))',
+            }}
+          />
 
-          <div className="space-y-12">
+          <ol className="space-y-10">
             {experience.map((exp, index) => (
-              <div key={index} className={`flex ${index % 2 === 0 ? 'justify-start' : 'justify-end'} relative`}>
-                {/* Timeline dot */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 border-2 border-primary-200 bg-white dark:bg-gray-900 rounded-full shadow-lg"></div>
-
-                {/* Content */}
-                <div className={`w-full md:w-5/12 ${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
+              <li key={index} className="relative">
+                <span
+                  aria-hidden
+                  className="absolute -left-8 top-8 h-[15px] w-[15px] rounded-full border-2 border-accent bg-bg shadow-[0_0_0_4px_rgb(var(--accent)/0.18)] md:-left-12 md:h-[23px] md:w-[23px]"
+                />
+                <Reveal delay={index * 0.05}>
                   <div className="card">
-                    <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
-                      <div className="mb-2 md:mb-0">
-                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">{exp.position}</h3>
-                        <h4 className="text-lg text-primary-700 dark:text-primary-300 font-medium">{exp.company}</h4>
+                    <div className="relative flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                      <div>
+                        <h3 className="text-xl font-semibold md:text-2xl">{exp.position}</h3>
+                        <p className="mt-1 font-medium text-accent-fg">{exp.company}</p>
                       </div>
-                      <span className="text-sm text-primary-600 dark:text-primary-300 font-medium bg-primary-50 dark:bg-primary-900/20 px-3 py-1 rounded-full">
+                      <span className="chip shrink-0 self-start font-mono">
                         {exp.startDate === exp.endDate ? exp.startDate : `${exp.startDate} - ${exp.endDate}`}
                       </span>
                     </div>
-                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{exp.description}</p>
+                    <p className="relative mt-4">{exp.description}</p>
                   </div>
-                </div>
-              </div>
+                </Reveal>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </div>
     </section>

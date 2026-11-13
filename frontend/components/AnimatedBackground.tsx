@@ -1,28 +1,20 @@
-import { useMediaQuery } from '../src/hooks/useMediaQuery';
-
+// Fondo fijo del sitio: rejilla tenue y dos halos de color. Es solo CSS
+// (ver `.site-bg-*` en globals.css), así que no cuesta JS ni re-renders.
 export default function AnimatedBackground() {
-  const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
-
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden gradient-bg">
-      {/* Blobs animados de fondo */}
-      <div className="absolute inset-0 opacity-40">
-        <div
-          className={`absolute top-16 left-8 w-72 h-72 bg-primary-200 rounded-full mix-blend-multiply filter blur-3xl ${
-            prefersReducedMotion ? '' : 'animate-blob'
-          }`}
-        ></div>
-        <div
-          className={`absolute -top-8 right-24 w-80 h-80 bg-accent rounded-full mix-blend-multiply filter blur-3xl ${
-            prefersReducedMotion ? '' : 'animate-blob animation-delay-2000'
-          }`}
-        ></div>
-        <div
-          className={`absolute bottom-8 left-1/3 w-72 h-72 bg-primary-400 rounded-full mix-blend-multiply filter blur-3xl ${
-            prefersReducedMotion ? '' : 'animate-blob animation-delay-4000'
-          }`}
-        ></div>
-      </div>
+    <div aria-hidden className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-bg">
+      <div className="absolute inset-0 site-bg-grid" />
+      <div
+        className="site-bg-halo animate-drift -top-[20%] -left-[10%] h-[70vmax] w-[70vmax]"
+        style={{ background: 'radial-gradient(closest-side, rgb(var(--accent)), transparent)' }}
+      />
+      <div
+        className="site-bg-halo animate-drift top-[30%] -right-[20%] h-[60vmax] w-[60vmax]"
+        style={{
+          background: 'radial-gradient(closest-side, rgb(var(--accent-2)), transparent)',
+          animationDelay: '-9s',
+        }}
+      />
     </div>
   );
 }

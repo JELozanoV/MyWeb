@@ -65,34 +65,12 @@ export const projectsData: Project[] = [
   }
 ]
 
-// Función para obtener proyectos con soporte de internacionalización
-export const getProjects = async (locale: string = 'es'): Promise<Project[]> => {
-  // 🚀 PARA CAMBIAR A BASE DE DATOS:
-  // 1. Configura tu base de datos (PostgreSQL con Prisma)
-  // 2. Ejecuta: cd portfolio/backend && npx prisma migrate dev && npx prisma generate
-  // 3. Cambia esta función por:
-  // return await fetch('/api/projects').then(res => res.json())
-
-  // Por ahora retorna datos estáticos con descripciones traducidas
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const translatedProjects = projectsData.map(project => ({
-        ...project,
-        // Usa la descripción traducida según el idioma actual
-        description: getTranslatedDescription(project.title, locale)
-      }))
-      resolve(translatedProjects)
-    }, 100) // Simula delay de API
-  })
+// Mapeo de títulos a claves de traducción (content/{locale}/projects.ts)
+const titleToKey: { [key: string]: keyof typeof projectsES } = {
+  'Reten +': 'reten'
 }
 
-// Función auxiliar para obtener la descripción traducida
 const getTranslatedDescription = (projectTitle: string, locale: string): string => {
-  // Mapeo de títulos a claves de traducción
-  const titleToKey: { [key: string]: keyof typeof projectsES } = {
-    'Reten +': 'reten'
-  }
-
   const key = titleToKey[projectTitle]
   if (!key) return locale === 'es' ? 'Descripción no disponible' : 'Description not available'
 
@@ -101,3 +79,11 @@ const getTranslatedDescription = (projectTitle: string, locale: string): string 
   }
   return projectsEN[key]?.description || 'Description not available'
 }
+
+// Devuelve los proyectos con la descripción en el idioma indicado.
+// Si algún día vienen de la API (/api/projects), este es el punto a cambiar.
+export const getProjects = (locale: string = 'es'): Project[] =>
+  projectsData.map(project => ({
+    ...project,
+    description: getTranslatedDescription(project.title, locale)
+  }))

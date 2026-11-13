@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useContent } from '../src/hooks/useContent';
 import { z } from 'zod';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import emailjs from '@emailjs/browser';
 
 type EmailJSError = {
@@ -35,8 +35,7 @@ const getSendErrorMessage = (error: EmailJSError, messages: FormLabels['errors']
   return messages.generic;
 };
 
-const inputClass =
-  'w-full px-4 py-3 bg-white dark:bg-white/10 border border-primary-900/20 dark:border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 dark:focus:ring-accent text-primary-900 dark:text-white placeholder-primary-900/40 dark:placeholder-white/50';
+const inputClass = 'input';
 
 export default function ContactForm() {
   const { labels } = useContent();
@@ -108,16 +107,9 @@ export default function ContactForm() {
   };
 
   return (
-    <motion.form
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      onSubmit={handleSubmit}
-      noValidate
-      className="max-w-md mx-auto"
-    >
+    <form onSubmit={handleSubmit} noValidate>
       <div className="mb-6">
-        <label htmlFor="name" className="block text-sm font-medium dark:text-white text-primary-900 mb-2">
+        <label htmlFor="name" className="block text-sm font-medium text-fg mb-2">
           {form.name}
         </label>
         <input
@@ -132,10 +124,10 @@ export default function ContactForm() {
           aria-invalid={!!errors.name}
           required
         />
-        {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
+        {errors.name && <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.name}</p>}
       </div>
       <div className="mb-6">
-        <label htmlFor="email" className="block text-sm font-medium dark:text-white text-primary-900 mb-2">
+        <label htmlFor="email" className="block text-sm font-medium text-fg mb-2">
           {form.email}
         </label>
         <input
@@ -150,10 +142,10 @@ export default function ContactForm() {
           aria-invalid={!!errors.email}
           required
         />
-        {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
+        {errors.email && <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.email}</p>}
       </div>
       <div className="mb-6">
-        <label htmlFor="subject" className="block text-sm font-medium dark:text-white text-primary-900 mb-2">
+        <label htmlFor="subject" className="block text-sm font-medium text-fg mb-2">
           {form.subject}
         </label>
         <input
@@ -167,10 +159,10 @@ export default function ContactForm() {
           aria-invalid={!!errors.subject}
           required
         />
-        {errors.subject && <p className="text-red-400 text-sm mt-1">{errors.subject}</p>}
+        {errors.subject && <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.subject}</p>}
       </div>
       <div className="mb-6">
-        <label htmlFor="message" className="block text-sm font-medium dark:text-white text-primary-900 mb-2">
+        <label htmlFor="message" className="block text-sm font-medium text-fg mb-2">
           {form.message}
         </label>
         <textarea
@@ -184,18 +176,18 @@ export default function ContactForm() {
           aria-invalid={!!errors.message}
           required
         />
-        {errors.message && <p className="text-red-400 text-sm mt-1">{errors.message}</p>}
+        {errors.message && <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.message}</p>}
       </div>
       <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-accent text-brown py-3 px-4 rounded-lg hover:bg-accent/80 disabled:opacity-50 transition-colors font-medium flex items-center justify-center"
+        className="btn-primary w-full py-3.5 text-base"
       >
         {isSubmitting ? (
           <div className="flex items-center">
-            <div className="w-5 h-5 border-2 border-brown border-t-transparent rounded-full animate-spin mr-2"></div>
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
             {form.submitting}
           </div>
         ) : (
@@ -210,17 +202,17 @@ export default function ContactForm() {
           className="mt-4 rounded-2xl border border-green-500/30 bg-green-500/10 px-4 py-4 text-center"
           role="status"
         >
-          <p className="text-green-400 text-base font-medium">{form.success}</p>
+          <p className="text-green-700 dark:text-green-400 text-base font-medium">{form.success}</p>
           <button
             type="button"
             onClick={() => setSubmitted(false)}
-            className="mt-3 inline-flex items-center justify-center rounded-lg bg-accent px-4 py-2 text-brown transition-colors hover:bg-accent/80"
+            className="btn-secondary mt-3 !px-4 !py-2"
           >
             {form.sendAnother}
           </button>
         </motion.div>
       )}
-      {error && <p className="text-red-400 text-sm mt-2" role="alert">{error}</p>}
-    </motion.form>
+      {error && <p className="text-red-600 dark:text-red-400 text-sm mt-2" role="alert">{error}</p>}
+    </form>
   );
 }

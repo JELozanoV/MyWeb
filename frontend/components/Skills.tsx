@@ -1,32 +1,100 @@
 import { useContent } from '../src/hooks/useContent';
-import TechGrid from './TechGrid';
-import SpotlightCard from './SpotlightCard';
+import { TechIcon } from '../src/utils/getTechIcon';
+import TechBadge from './TechBadge';
+import SectionHeading from './ui/SectionHeading';
+import TiltCard from './ui/TiltCard';
+import Marquee from './ui/Marquee';
+import { RevealGroup, RevealItem } from './ui/Reveal';
+
+interface Tech {
+  name: string;
+  level: string;
+  iconKey: string;
+}
+
+interface BentoCellProps {
+  title: string;
+  techs: Tech[];
+  description?: string;
+  /** Celda destacada con el degradado de marca */
+  featured?: boolean;
+  /** Clases de tamaño dentro de la rejilla (col-span) */
+  className: string;
+}
+
+function BentoCell({ title, techs, description, featured = false, className }: BentoCellProps) {
+  return (
+    <RevealItem className={className}>
+      <TiltCard className="h-full">
+        {featured && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(135deg, rgb(var(--accent) / 0.22), transparent 55%, rgb(var(--accent-2) / 0.16))',
+            }}
+          />
+        )}
+        <div className="relative">
+          <div className="mb-5 flex items-baseline justify-between gap-4">
+            <h3 className="text-xl font-semibold">{title}</h3>
+            <span className="font-mono text-xs text-muted">{String(techs.length).padStart(2, '0')}</span>
+          </div>
+          {description && <p className="mb-5 text-sm">{description}</p>}
+          <div className="flex flex-wrap gap-2">
+            {techs.map((tech) => (
+              <TechBadge key={tech.name} name={tech.name} level={tech.level} iconKey={tech.iconKey} />
+            ))}
+          </div>
+        </div>
+      </TiltCard>
+    </RevealItem>
+  );
+}
 
 export default function Skills() {
   const { skills, ui } = useContent();
 
+  // Logos de la cinta: una entrada por tecnología (sin repetir íconos).
+  // Van primero las herramientas para que gane su nombre corto ("ChatGPT" y no "API ChatGPT").
+  const marqueeTechs = [...skills.frontend, ...skills.backend, ...skills.database, ...skills.tools, ...skills.ai]
+    .filter((tech, index, all) => all.findIndex((other) => other.iconKey === tech.iconKey) === index);
+
+  const renderMarqueeRow = (techs: Tech[]) =>
+    techs.map((tech) => (
+      <span key={tech.iconKey} className="mx-7 flex items-center gap-3 text-muted">
+        <TechIcon iconKey={tech.iconKey} size={24} />
+        <span className="font-display text-lg font-medium">{tech.name}</span>
+      </span>
+    ));
+
   return (
     <section id="skills" className="section-padding">
-      <div className="max-w-6xl mx-auto container-padding">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">{ui.sections.skills}</h2>
-          <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
-        </div>
+      <div className="mx-auto max-w-6xl container-padding">
+        <SectionHeading eyebrow={ui.eyebrows.skills} title={ui.sections.skills} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-           <SpotlightCard>
-             <TechGrid title={skills.frontendTitle} techs={skills.frontend} />
-           </SpotlightCard>
-           <SpotlightCard>
-             <TechGrid title={skills.backendTitle} techs={skills.backend} />
-           </SpotlightCard>
-           <SpotlightCard>
-             <TechGrid title={skills.databaseTitle} techs={skills.database} />
-           </SpotlightCard>
-           <SpotlightCard>
-             <TechGrid title={skills.toolsTitle} techs={skills.tools} />
-           </SpotlightCard>
-         </div>
+        <RevealGroup className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
+          <BentoCell title={skills.frontendTitle} techs={skills.frontend} className="md:col-span-2 lg:col-span-3" />
+          <BentoCell title={skills.toolsTitle} techs={skills.tools} className="md:col-span-2 lg:col-span-3" />
+          <BentoCell
+            title={skills.aiTitle}
+            techs={skills.ai}
+            description={skills.aiDescription}
+            featured
+            className="md:col-span-2 lg:col-span-2"
+          />
+          <BentoCell title={skills.backendTitle} techs={skills.backend} className="lg:col-span-2" />
+          <BentoCell title={skills.databaseTitle} techs={skills.database} className="lg:col-span-2" />
+        </RevealGroup>
+      </div>
+
+      {/* Cinta de logos a todo el ancho, dos filas en sentidos opuestos */}
+      <div className="mt-16 space-y-6">
+        <Marquee duration={45}>{renderMarqueeRow(marqueeTechs)}</Marquee>
+        <Marquee duration={55} reverse>
+          {renderMarqueeRow([...marqueeTechs].reverse())}
+        </Marquee>
       </div>
     </section>
   );

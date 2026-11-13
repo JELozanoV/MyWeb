@@ -5,6 +5,5 @@ export const nav = {
   experience: 'Experiencia',
   education: 'Educación',
   contact: 'Contacto',
-  viewProjects: 'Ver proyectos',
-  downloadCV: 'Descargar CV'
+  cta: 'Hablemos'
 }
