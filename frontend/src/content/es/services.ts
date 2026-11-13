@@ -5,6 +5,8 @@ export const services: ServicesContent = {
   eyebrow: 'Servicios',
   title: '¿En qué te puedo ayudar?',
   description: 'Trabajo con empresas y emprendedores que necesitan un producto web bien hecho, de la idea a producción.',
+  ctaTitle: '¿Tienes un proyecto en mente?',
+  ctaText: 'Cuéntame qué necesitas y te respondo con una propuesta.',
   cta: 'Cotizar proyecto',
   items: [
     {

@@ -34,6 +34,9 @@ export interface ServicesContent {
   eyebrow: string;
   title: string;
   description: string;
+  /** Bloque de cierre de la sección: título, texto y botón */
+  ctaTitle: string;
+  ctaText: string;
   cta: string;
   items: ServiceItem[];
 }

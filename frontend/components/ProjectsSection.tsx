@@ -5,7 +5,6 @@ import { useContent } from '../src/hooks/useContent'
 import { useLocale } from '../src/context/LocaleContext'
 import ProjectImageCarousel from './ProjectImageCarousel'
 import SectionHeading from './ui/SectionHeading'
-import Reveal from './ui/Reveal'
 import { getProjects, Project } from '../src/data/projectsData'
 
 // Dominio del demo para la barra del "navegador" (sin protocolo ni barra final)
@@ -113,10 +112,10 @@ export default function ProjectsSection() {
         <SectionHeading eyebrow={ui.eyebrows.projects} title={ui.sections.projects} />
 
         <div className={single ? '' : 'grid grid-cols-1 gap-8 md:grid-cols-2'}>
-          {projects.map((project, index) => (
-            <Reveal key={project.id} delay={single ? 0 : (index % 2) * 0.1}>
-              <ProjectCard project={project} featured={single} />
-            </Reveal>
+          {/* Sin animación de entrada: es el bloque más grande de la página y
+              ocultarlo hasta el scroll dejaba una pantalla vacía */}
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} featured={single} />
           ))}
         </div>
       </div>
