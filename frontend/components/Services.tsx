@@ -26,7 +26,7 @@ export default function Services() {
         <SectionHeading eyebrow={services.eyebrow} title={services.title} description={services.description} />
 
         <RevealGroup className="grid grid-cols-1 gap-4 md:grid-cols-2" stagger={0.1}>
-          {services.items.map((service, index) => {
+          {services.items.map((service) => {
             const Icon = serviceIcons[service.icon];
             return (
               // Clave estable entre idiomas: con el título como clave, cambiar de
@@ -34,12 +34,9 @@ export default function Services() {
               <RevealItem key={service.icon}>
                 <TiltCard className="h-full" maxTilt={3}>
                   <div className="relative">
-                    <div className="mb-4 flex items-center justify-between md:mb-5">
-                      <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-line bg-surface-2 text-accent-fg">
-                        <Icon size={22} />
-                      </span>
-                      <span className="font-mono text-sm text-muted">{String(index + 1).padStart(2, '0')}</span>
-                    </div>
+                    <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-line bg-surface-2 text-accent-fg md:mb-5">
+                      <Icon size={22} />
+                    </span>
                     <h3 className="text-xl font-semibold md:text-2xl">{service.title}</h3>
                     <p className="mt-2">{service.description}</p>
                     <ul className="mt-4 space-y-2">

@@ -37,10 +37,7 @@ function BentoCell({ title, techs, description, featured = false, className }: B
           />
         )}
         <div className="relative">
-          <div className="mb-5 flex items-baseline justify-between gap-4">
-            <h3 className="text-xl font-semibold">{title}</h3>
-            <span className="font-mono text-xs text-muted">{String(techs.length).padStart(2, '0')}</span>
-          </div>
+          <h3 className="mb-5 text-xl font-semibold">{title}</h3>
           {description && <p className="mb-5 text-sm">{description}</p>}
           <div className="flex flex-wrap gap-2">
             {techs.map((tech) => (
