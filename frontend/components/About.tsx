@@ -16,8 +16,9 @@ export default function About() {
           </Reveal>
 
           <RevealGroup className="grid gap-4" stagger={0.1}>
-            {about.highlights.map((item) => (
-              <RevealItem key={item.label}>
+            {about.highlights.map((item, index) => (
+              // Índice como clave: la etiqueta cambia con el idioma y remontaría la tarjeta
+              <RevealItem key={index}>
                 <div className="card !p-6">
                   <p className="eyebrow relative">{item.label}</p>
                   <p className="relative mt-2 font-display text-xl font-semibold text-fg">{item.value}</p>

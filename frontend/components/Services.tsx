@@ -29,7 +29,9 @@ export default function Services() {
           {services.items.map((service, index) => {
             const Icon = serviceIcons[service.icon];
             return (
-              <RevealItem key={service.title}>
+              // Clave estable entre idiomas: con el título como clave, cambiar de
+              // idioma remontaba las tarjetas y perdían su animación de entrada
+              <RevealItem key={service.icon}>
                 <TiltCard className="h-full" maxTilt={3}>
                   <div className="relative">
                     <div className="mb-4 flex items-center justify-between md:mb-5">
