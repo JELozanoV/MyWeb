@@ -10,7 +10,7 @@ import { useScrollToSection } from '../src/hooks/useScrollToSection';
 
 // Secciones del menú, en el orden en que aparecen en la página.
 // Cada id debe existir como clave en content/{locale}/nav.ts
-const NAV_SECTIONS = ['projects', 'skills', 'experience', 'about', 'education', 'contact'] as const;
+const NAV_SECTIONS = ['services', 'projects', 'skills', 'experience', 'about', 'education', 'contact'] as const;
 // Se observa también el hero para apagar el indicador al volver arriba
 const OBSERVED_SECTIONS = ['hero', ...NAV_SECTIONS] as const;
 
@@ -68,7 +68,7 @@ export default function Navbar() {
                   <button
                     onClick={() => goTo(id)}
                     aria-current={isActive ? 'true' : undefined}
-                    className={`relative rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                    className={`relative rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
                       isActive ? 'text-fg' : 'text-muted hover:text-fg'
                     }`}
                   >

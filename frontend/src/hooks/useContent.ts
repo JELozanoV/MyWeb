@@ -19,6 +19,8 @@ import { ui as uiES } from '../content/es/ui';
 import { ui as uiEN } from '../content/en/ui';
 import { labels as labelsES } from '../content/es/labels';
 import { labels as labelsEN } from '../content/en/labels';
+import { services as servicesES } from '../content/es/services';
+import { services as servicesEN } from '../content/en/services';
 
 export const useContent = () => {
   const { locale } = useLocale();
@@ -35,5 +37,6 @@ export const useContent = () => {
     nav: locale === 'es' ? navES : navEN,
     ui: locale === 'es' ? uiES : uiEN,
     labels: locale === 'es' ? labelsES : labelsEN,
+    services: locale === 'es' ? servicesES : servicesEN,
   };
 };

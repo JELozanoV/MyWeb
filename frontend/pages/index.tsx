@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
+import Services from '../components/Services'
 import About from '../components/About'
 import Skills from '../components/Skills'
 import ProjectsSection from '../components/ProjectsSection'
@@ -28,6 +29,7 @@ export default function Home() {
         <Navbar />
         <main>
           <Hero />
+          <Services />
           <ProjectsSection />
           <Skills />
           <Experience />

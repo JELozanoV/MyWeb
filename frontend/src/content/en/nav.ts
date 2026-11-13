@@ -1,4 +1,5 @@
 export const nav = {
+  services: 'Services',
   about: 'About',
   skills: 'Skills',
   projects: 'Projects',
