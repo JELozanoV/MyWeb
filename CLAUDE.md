@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Bilingual (ES/EN) personal developer portfolio. Two independent npm packages, no workspace tooling — run commands from inside `frontend/` or `backend/`:
 
-- `frontend/` — Next.js 16 (**Pages Router**), React 19, TypeScript, TailwindCSS 3, Motion (`motion/react`), Lenis, React Three Fiber, zod 4, EmailJS.
+- `frontend/` — Next.js 16 (**Pages Router**), React 19, TypeScript, TailwindCSS 3, Motion (`motion/react`), Lenis, zod 4, EmailJS.
 - `backend/` — Express + Prisma (PostgreSQL). Currently **not used by the frontend** (see "Projects data" below).
 
 There is no test suite in either package.
@@ -49,7 +49,7 @@ Backend (`cd backend`, requires `DATABASE_URL` in `.env`):
 
 **Animation.** Reusable primitives live in `components/ui/`: `Reveal`/`RevealGroup`/`RevealItem` (scroll entrance), `SectionHeading` (eyebrow + word-by-word title; use it for every section), `SplitWords`, `Magnetic`, `TiltCard` (the `.card` with cursor glow + tilt) and `Marquee`. Hero entrance animations are plain CSS (`animate-fade-up`, `animate-word-rise`) so the headline paints before hydration. Everything must respect `prefers-reduced-motion`: Motion handles it via `MotionConfig reducedMotion="user"`, Lenis is not mounted, and CSS animations are disabled in the media query at the end of `globals.css`.
 
-**3D.** `components/three/HeroScene.tsx` is the only file that imports three.js / React Three Fiber. It must only be loaded through `next/dynamic` with `ssr: false` (see `Hero.tsx`), and only on ≥`lg` screens without reduced motion; otherwise the CSS `.orb` is shown. Keep three.js out of the initial bundle.
+**Hero logo.** `components/HeroLogo.tsx` is the hero visual: the JL logo (same paths as `public/logo.svg`) drawn stroke by stroke, filled with the brand gradient, with stacked SVG layers for depth, cursor tilt and two orbit rings. It is SVG + CSS 3D transforms only — there is no WebGL/three.js in the project (a 3D blob was tried and rejected).
 
 **Media queries.** Use `src/hooks/useMediaQuery.ts` (`useSyncExternalStore`) instead of `matchMedia` + `setState` in an effect.
 

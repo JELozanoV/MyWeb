@@ -1,47 +1,10 @@
-import { useState } from 'react';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { FiArrowRight, FiArrowDown, FiLinkedin } from 'react-icons/fi';
 import { useContent } from '../src/hooks/useContent';
-import { useMediaQuery } from '../src/hooks/useMediaQuery';
 import { useScrollToSection } from '../src/hooks/useScrollToSection';
+import HeroLogo from './HeroLogo';
 import Magnetic from './ui/Magnetic';
 import SplitWords from './ui/SplitWords';
-
-// three.js solo se descarga en el cliente y cuando de verdad se va a mostrar
-const HeroScene = dynamic(() => import('./three/HeroScene'), { ssr: false });
-
-/**
- * Pieza visual del hero. En escritorio carga el objeto 3D; en móvil o con
- * "reducir movimiento" se queda con el orbe CSS, que también hace de
- * placeholder mientras llega el 3D.
- */
-function HeroVisual() {
-  const isDesktop = useMediaQuery('(min-width: 1024px)');
-  const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
-  const [sceneReady, setSceneReady] = useState(false);
-  const use3D = isDesktop && !prefersReducedMotion;
-
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute -right-28 top-20 w-72 opacity-40 lg:static lg:w-full lg:max-w-[540px] lg:justify-self-end lg:opacity-100"
-    >
-      <div className="relative aspect-square w-full animate-fade-up [animation-delay:300ms]">
-        <div
-          className={`orb absolute inset-[20%] transition-opacity duration-700 ${
-            use3D && sceneReady ? 'opacity-0' : 'opacity-90'
-          }`}
-        />
-        {use3D && (
-          <div className="absolute inset-0">
-            <HeroScene onReady={() => setSceneReady(true)} />
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
 
 export default function Hero() {
   const { personal, hero } = useContent();
@@ -110,7 +73,13 @@ export default function Hero() {
           </div>
         </div>
 
-        <HeroVisual />
+        {/* Logo animado: decorativo, atenuado detrás del texto en móvil */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-24 top-16 w-72 opacity-25 lg:static lg:w-full lg:max-w-[540px] lg:justify-self-end lg:opacity-100"
+        >
+          <HeroLogo />
+        </div>
       </div>
 
       {/* Indicador de scroll */}

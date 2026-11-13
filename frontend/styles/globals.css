@@ -239,16 +239,23 @@
     animation-direction: reverse;
   }
 
-  /* Orbe de degradado: respaldo del objeto 3D del hero */
-  .orb {
+  /* Órbitas alrededor del logo del hero (HeroLogo.tsx) */
+  .orbit-ring {
+    position: relative;
     border-radius: 9999px;
-    background:
-      radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.55), transparent 35%),
-      conic-gradient(from 0deg, #7c5cff, #3b82f6, #22d3ee, #7c5cff);
-    box-shadow:
-      0 0 120px 10px rgb(var(--accent) / 0.45),
-      inset 0 0 60px rgb(0 0 0 / 0.35);
-    @apply animate-orb-spin;
+    border: 1.5px dashed rgb(var(--accent-fg) / 0.55);
+  }
+
+  .orbit-dot {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    border-radius: 9999px;
+    background: rgb(var(--accent-fg));
+    box-shadow: 0 0 16px 4px rgb(var(--accent) / 0.7);
   }
 }
 
@@ -271,7 +278,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .marquee-track,
-  .orb,
+  .animate-orbit,
   .site-bg-halo,
   .animate-word-rise,
   .animate-fade-up,
