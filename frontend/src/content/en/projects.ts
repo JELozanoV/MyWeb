@@ -1,4 +1,13 @@
-export const projects = {
+import type { ProjectContent } from '../types'
+
+export const projects: Record<'insideSales' | 'reten', ProjectContent> = {
+  insideSales: {
+    description: 'Internal training platform for Rappi\'s Inside Sales team: courses, quizzes, points, leaderboards and progress tracking across several Latin American countries. In use by the team.\n\n🔹 My role: I designed the database, built all the server-side logic and moved the original interface to Next.js, keeping its design.\n\n🔹 Database: PostgreSQL with 34 tables, a four-level org chart and a points ledger that makes it impossible to award the same points twice.\n\n🔹 Server-graded quizzes: question by question, with a waiting period after failing and correct answers shown only after passing.\n\n🔹 Gamification and leaderboards: points, streaks in each country\'s time zone, levels, badges and rankings by region, country and team.\n\n🔹 Four roles with two-layer permissions: the screen hides what doesn\'t apply and the server rejects it.\n\n🔹 Admin panel and My Team: real progress tracking, quiz results and Excel reports.\n\n🔹 Content editors: the team creates and publishes modules, lessons and questions without touching code, reordering with drag and drop.\n\n🔹 Max, the helper: a chat that answers with each person\'s real data, with no per-use cost.\n\n🔹 Quality: 270 automated business-rule tests and 60 navigation tests in a real browser.\n\n📌 Screenshots use made-up people and data. The interface is in Spanish, the team\'s working language.',
+    credit: {
+      before: 'Idea, design and original version:',
+      after: ', creator and product owner on Rappi\'s Inside Sales team.'
+    }
+  },
   reten: {
     description: 'AI-powered web platform designed to optimize customer retention workflows in contact center environments.\n\n🔹 Context-aware chatbot: Goes beyond scripted responses - it detects customer intent such as service cancellation, applies real-time retention strategies, and guides the advisor through internal procedures.\n\n🔹 KPIs & smart coaching: Real-time metrics dashboard (AHT, transfers, and NPS) with AI-driven personalized recommendations to help each advisor improve or maintain performance.\n\n🔹 Proportional fee calculator: Built-in tool for automatic proportional rate calculations, eliminating manual errors and streamlining operations.\n\n🔹 Scalable architecture: Fully responsive across mobile and desktop devices, with a production-ready structure designed for SQL database integration.\n\n⏳ Note: The demo is hosted on Render (free tier), so the initial load may take a few seconds while the server spins up.',
   }

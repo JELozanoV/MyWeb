@@ -20,6 +20,13 @@ export interface Certification {
   logoFill?: boolean;
 }
 
+/** Textos de un proyecto (el resto de sus datos está en src/data/projectsData.ts) */
+export interface ProjectContent {
+  description: string;
+  /** Texto que rodea al nombre enlazado de la persona acreditada */
+  credit?: { before: string; after: string };
+}
+
 /** Clave de ícono de un servicio; el componente Services la traduce a un ícono */
 export type ServiceIcon = 'web' | 'api' | 'ai' | 'speed';
 

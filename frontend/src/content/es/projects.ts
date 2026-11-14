@@ -1,4 +1,13 @@
-export const projects = {
+import type { ProjectContent } from '../types'
+
+export const projects: Record<'insideSales' | 'reten', ProjectContent> = {
+  insideSales: {
+    description: 'Plataforma interna de entrenamiento para el equipo de Inside Sales de Rappi: cursos, quizzes, puntos, ranking y seguimiento del avance en varios países de Latinoamérica. En uso por el equipo.\n\n🔹 Mi rol: diseñé la base de datos, construí toda la lógica del servidor y llevé la interfaz original a Next.js conservando su diseño.\n\n🔹 Base de datos: PostgreSQL con 34 tablas, organigrama de cuatro niveles y un libro de puntos que hace imposible sumar dos veces los mismos puntos.\n\n🔹 Quizzes calificados en el servidor: pregunta por pregunta, con espera tras fallar y respuestas correctas visibles solo al aprobar.\n\n🔹 Gamificación y ranking: puntos, rachas en la zona horaria de cada país, niveles, medallas y ranking por región, país y equipo.\n\n🔹 Cuatro perfiles con permisos en dos capas: la pantalla esconde lo que no corresponde y el servidor lo rechaza.\n\n🔹 Panel de administración y Mi Equipo: seguimiento real del avance, resultados de quizzes y reportes en Excel.\n\n🔹 Editores de contenido: el equipo crea y publica módulos, lecciones y preguntas sin tocar código, ordenando con arrastrar y soltar.\n\n🔹 Max, el ayudante: un chat que responde con datos reales de cada persona, sin costo por uso.\n\n🔹 Calidad: 270 pruebas automáticas de reglas de negocio y 60 de navegación en un navegador real.\n\n📌 Las capturas usan personas y datos inventados.',
+    credit: {
+      before: 'Idea, diseño y versión original:',
+      after: ', creadora y dueña del producto en el equipo de Inside Sales de Rappi.'
+    }
+  },
   reten: {
     description: 'Plataforma web con IA diseñada para optimizar los procesos de retención de clientes en entornos de contact center.\n\n🔹 Chatbot con contexto: Más allá de respuestas predefinidas, el chatbot identifica la intención del cliente -como la cancelación de un servicio- y aplica estrategias de retención en tiempo real, además de guiar al asesor en los procedimientos internos.\n\n🔹 KPIs y coaching inteligente: Panel de métricas en tiempo real (TMO, transferencias y NPS) con recomendaciones personalizadas impulsadas por IA para que cada asesor mejore o mantenga su rendimiento.\n\n🔹 Calculadora de proporcionales: Herramienta integrada para el cálculo automático de tarifas proporcionales, eliminando errores manuales y agilizando la gestión.\n\n🔹 Arquitectura escalable: Diseño responsive adaptado a dispositivos móviles y de escritorio, con una estructura preparada para integrarse con bases de datos SQL en producción.\n\n⏳ Nota: La demo está alojada en Render (plan gratuito), por lo que la primera carga puede tardar unos segundos mientras el servidor se inicia.',
   }

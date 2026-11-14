@@ -34,10 +34,42 @@ export interface Project {
   urlDemo?: string
   coverImage?: string
   images?: string[]
+  /** Herramienta interna: sin demo pública (se indica en la barra del navegador) */
+  internal?: boolean
+  /** Persona acreditada, con enlace a su perfil */
+  credit?: { name: string; url: string }
+  /** Texto alrededor del nombre acreditado; se obtiene de los archivos de traducción */
+  creditText?: { before: string; after: string }
 }
 
-// 🎯 EDITA AQUÍ TUS PROYECTOS - Datos de ejemplo para proyectos
+// 🎯 EDITA AQUÍ TUS PROYECTOS - El primero del arreglo es el que se muestra primero
 export const projectsData: Project[] = [
+  {
+    id: 2,
+    title: 'Inside Sales Academy',
+    description: '', // Se obtendrá de los archivos de traducción
+    tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'Drizzle ORM', 'Better Auth', 'Zod', 'Playwright', 'Vitest'],
+    internal: true,
+    credit: {
+      name: 'María Colorado',
+      url: 'https://www.linkedin.com/in/maria-angelica-colorado/'
+    },
+    images: [
+      '/images/projects/inside-sales-academy/portada.webp',
+      '/images/projects/inside-sales-academy/02-home.webp',
+      '/images/projects/inside-sales-academy/03-academia.webp',
+      '/images/projects/inside-sales-academy/04-modulo.webp',
+      '/images/projects/inside-sales-academy/06-quiz.webp',
+      '/images/projects/inside-sales-academy/08-ranking.webp',
+      '/images/projects/inside-sales-academy/10-max-buscador.webp',
+      '/images/projects/inside-sales-academy/11-mi-equipo.webp',
+      '/images/projects/inside-sales-academy/12-admin-panel.webp',
+      '/images/projects/inside-sales-academy/14-matriz-persona-modulo.webp',
+      '/images/projects/inside-sales-academy/15-editor-academia.webp',
+      '/images/projects/inside-sales-academy/movil-1.webp',
+      '/images/projects/inside-sales-academy/movil-2.webp'
+    ]
+  },
   {
     id: 1,
     title: 'Reten +',
@@ -67,7 +99,14 @@ export const projectsData: Project[] = [
 
 // Mapeo de títulos a claves de traducción (content/{locale}/projects.ts)
 const titleToKey: { [key: string]: keyof typeof projectsES } = {
+  'Inside Sales Academy': 'insideSales',
   'Reten +': 'reten'
+}
+
+const getTranslatedCredit = (projectTitle: string, locale: string) => {
+  const key = titleToKey[projectTitle]
+  if (!key) return undefined
+  return (locale === 'es' ? projectsES : projectsEN)[key]?.credit
 }
 
 const getTranslatedDescription = (projectTitle: string, locale: string): string => {
@@ -85,5 +124,6 @@ const getTranslatedDescription = (projectTitle: string, locale: string): string 
 export const getProjects = (locale: string = 'es'): Project[] =>
   projectsData.map(project => ({
     ...project,
-    description: getTranslatedDescription(project.title, locale)
+    description: getTranslatedDescription(project.title, locale),
+    creditText: getTranslatedCredit(project.title, locale)
   }))

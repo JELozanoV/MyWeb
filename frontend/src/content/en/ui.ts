@@ -28,6 +28,7 @@ export const ui = {
   projects: {
     code: 'View code',
     demo: 'View demo',
+    internal: 'Internal tool · no public demo',
     readMore: 'Read more',
     readLess: 'Read less'
   },
