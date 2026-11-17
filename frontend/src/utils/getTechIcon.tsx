@@ -14,7 +14,9 @@ import {
   SiNextdotjs,
   SiOpenai,
   SiGooglebard,
-  SiCodeium
+  SiCodeium,
+  SiPython,
+  SiFastapi
 } from 'react-icons/si';
 
 type TechIconProps = {
@@ -31,6 +33,8 @@ const iconMap: Record<string, React.ComponentType<TechIconProps>> = {
   react: SiReact,
   nodedotjs: SiNodedotjs,
   express: SiExpress,
+  python: SiPython,
+  fastapi: SiFastapi,
   postgresql: SiPostgresql,
   mongodb: SiMongodb,
   git: SiGit,
@@ -52,6 +56,8 @@ const brandColorMap: Record<string, string> = {
   react: '#61DAFB',
   nodedotjs: '#339933',
   express: '#FFFFFF',
+  python: '#3776AB',
+  fastapi: '#009688',
   postgresql: '#4169E1',
   mongodb: '#47A248',
   git: '#F05032',

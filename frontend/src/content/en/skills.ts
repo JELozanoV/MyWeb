@@ -15,22 +15,23 @@ export const skills = {
   ],
   backend: [
     { name: 'Node.js', level: 'production', iconKey: 'nodedotjs' },
-    { name: 'Express', level: 'production', iconKey: 'express' }
+    { name: 'Express', level: 'production', iconKey: 'express' },
+    { name: 'Python', level: 'production', iconKey: 'python' },
+    { name: 'FastAPI', level: 'production', iconKey: 'fastapi' }
   ],
   database: [
     { name: 'PostgreSQL', level: 'production', iconKey: 'postgresql' },
     { name: 'MongoDB', level: 'production', iconKey: 'mongodb' }
   ],
   ai: [
-    { name: 'ChatGPT API', level: 'production', iconKey: 'openai' },
+    { name: 'OpenAI API', level: 'production', iconKey: 'openai' },
     { name: 'Gemini API', level: 'production', iconKey: 'googlebard' },
     { name: 'Claude API', level: 'production', iconKey: 'claude' }
   ],
   tools: [
     { name: 'Git', level: 'production', iconKey: 'git' },
     { name: 'GitHub', level: 'production', iconKey: 'github' },
-    { name: 'ChatGPT', level: 'production', iconKey: 'openai' },
-    { name: 'Gemini', level: 'production', iconKey: 'googlebard' },
+    { name: 'Codex', level: 'production', iconKey: 'openai' },
     { name: 'Claude Code', level: 'production', iconKey: 'claude' },
     { name: 'Windsurf', level: 'production', iconKey: 'windsurf' }
   ]

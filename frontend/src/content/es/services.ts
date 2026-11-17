@@ -22,7 +22,7 @@ export const services: ServicesContent = {
     {
       icon: 'api',
       title: 'Backend y APIs',
-      description: 'La lógica de tu negocio con Node.js y Express, sobre bases de datos SQL o NoSQL.',
+      description: 'La lógica de tu negocio con Node.js y Express o Python y FastAPI, sobre bases de datos SQL o NoSQL.',
       features: [
         'APIs REST para web y móvil',
         'Modelado de datos en PostgreSQL y MongoDB',
