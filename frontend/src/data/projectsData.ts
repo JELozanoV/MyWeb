@@ -54,19 +54,12 @@ export const projectsData: Project[] = [
       name: 'María Colorado',
       url: 'https://www.linkedin.com/in/maria-angelica-colorado/'
     },
+    // Solo capturas de ejemplo sin contenido interno: nada de lecciones, quizzes
+    // ni paneles de gestión (son material de capacitación de la empresa)
     images: [
       '/images/projects/inside-sales-academy/portada.webp',
       '/images/projects/inside-sales-academy/02-home.webp',
-      '/images/projects/inside-sales-academy/03-academia.webp',
-      '/images/projects/inside-sales-academy/04-modulo.webp',
-      '/images/projects/inside-sales-academy/06-quiz.webp',
       '/images/projects/inside-sales-academy/08-ranking.webp',
-      '/images/projects/inside-sales-academy/10-max-buscador.webp',
-      '/images/projects/inside-sales-academy/11-mi-equipo.webp',
-      '/images/projects/inside-sales-academy/12-admin-panel.webp',
-      '/images/projects/inside-sales-academy/14-matriz-persona-modulo.webp',
-      '/images/projects/inside-sales-academy/15-editor-academia.webp',
-      '/images/projects/inside-sales-academy/movil-1.webp',
       '/images/projects/inside-sales-academy/movil-2.webp'
     ]
   },
