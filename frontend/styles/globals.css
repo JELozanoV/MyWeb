@@ -20,6 +20,9 @@
   --grad-to: #2563eb;
   --grid-line: rgb(17 17 24 / 0.05);
   --halo-opacity: 0.16;
+  /* Colores del logo animado del hero: los de marca, iguales en ambos temas */
+  --logo-from: #8b6dff;
+  --logo-to: #3b82f6;
 }
 
 .dark {
@@ -36,6 +39,8 @@
   --grad-to: #60a5fa;
   --grid-line: rgb(255 255 255 / 0.045);
   --halo-opacity: 0.28;
+  --logo-from: #8b6dff;
+  --logo-to: #3b82f6;
 }
 
 @layer base {
@@ -253,25 +258,6 @@
   .marquee-reverse .marquee-track {
     animation-direction: reverse;
   }
-
-  /* Órbitas alrededor del logo del hero (HeroLogo.tsx) */
-  .orbit-ring {
-    position: relative;
-    border-radius: 9999px;
-    border: 1.5px dashed rgb(139 109 255 / 0.6);
-  }
-
-  .orbit-dot {
-    position: absolute;
-    top: -5px;
-    left: 50%;
-    width: 10px;
-    height: 10px;
-    margin-left: -5px;
-    border-radius: 9999px;
-    background: #8b6dff;
-    box-shadow: 0 0 16px 4px rgb(124 92 255 / 0.7);
-  }
 }
 
 /* Fondo fijo: rejilla tenue + halos de color */
@@ -291,9 +277,90 @@
   will-change: transform;
 }
 
+/*
+ * Logo del hero (HeroLogo.tsx): pasada de velocidad. Es CSS para que se pinte
+ * antes de hidratar y no pierda cuadros mientras la página carga. Solo anima
+ * transform y opacity. Los retrasos de cada pieza van en línea en el componente.
+ * Curva: la misma ease-out fuerte de fade-up y word-rise.
+ */
+.logo-letter {
+  animation: logo-pass 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Llega rápido, se pasa 5 unidades y vuelve: el frenazo con rebote */
+@keyframes logo-pass {
+  0% { transform: translateX(-170px); opacity: 0; }
+  15% { opacity: 1; }
+  72% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+/* Estela: copias estiradas que llegan con retraso y se recogen en la letra */
+.logo-ghost {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: right center;
+  animation: logo-trail 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes logo-trail {
+  0% { transform: translateX(-170px) scaleX(1.4); opacity: 0; }
+  12% { opacity: var(--ghost-opacity, 0.3); }
+  100% { transform: translateX(0) scaleX(1); opacity: 0; }
+}
+
+/* Destello único de las facetas al frenar */
+.logo-facet {
+  opacity: 0.35;
+  animation: logo-facet 600ms ease-out both;
+}
+
+@keyframes logo-facet {
+  0% { opacity: 0; }
+  30% { opacity: 0.95; }
+  100% { opacity: 0.35; }
+}
+
+/* Líneas de velocidad que cruzan detrás y se desvanecen */
+.logo-speed-line {
+  fill: rgb(var(--accent));
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: logo-speed 750ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes logo-speed {
+  0% { transform: translateX(-60px) scaleX(0.3); opacity: 0; }
+  25% { opacity: 0.9; }
+  100% { transform: translateX(130px) scaleX(1); opacity: 0; }
+}
+
+/* Sombra desplazada (número de carrera): aparece cuando el logo ya frenó */
+.logo-shadow {
+  fill: rgb(var(--accent));
+  opacity: 0.3;
+  animation: logo-fade 500ms ease-out 1000ms both;
+}
+
+@keyframes logo-fade {
+  from { opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  /* Versión suave: el logo aparece sin desplazarse, sin estela ni líneas */
+  .logo-letter,
+  .logo-facet,
+  .logo-shadow {
+    animation: logo-fade 400ms ease-out both;
+  }
+
+  .logo-ghost,
+  .logo-speed-line {
+    animation: none;
+  }
+
   .marquee-track,
-  .animate-orbit,
   .site-bg-halo,
   .animate-word-rise,
   .animate-fade-up,

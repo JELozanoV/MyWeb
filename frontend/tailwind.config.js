@@ -42,9 +42,6 @@ module.exports = {
           '0%, 100%': { transform: 'translate3d(0, 0, 0) scale(1)' },
           '50%': { transform: 'translate3d(4%, -6%, 0) scale(1.08)' },
         },
-        orbit: {
-          to: { transform: 'rotate(360deg)' },
-        },
         'word-rise': {
           from: { transform: 'translateY(110%)' },
           to: { transform: 'translateY(0)' },
@@ -61,7 +58,6 @@ module.exports = {
       animation: {
         marquee: 'marquee var(--marquee-duration, 40s) linear infinite',
         drift: 'drift 18s ease-in-out infinite',
-        orbit: 'orbit 22s linear infinite',
         'pulse-dot': 'pulse-dot 1.8s ease-out infinite',
         'word-rise': 'word-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both',
         'fade-up': 'fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both',
