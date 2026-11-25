@@ -37,6 +37,8 @@ export const labels = {
     goTo: 'Ir a imagen',
     image: 'Imagen'
   },
+  // Botón del logo grande del hero: al activarlo se desarma y se arma con código
+  heroLogo: 'Animar el logo: se desarma en líneas de código y se vuelve a armar',
   nav: {
     home: 'Ir al inicio',
     toggleTheme: 'Cambiar tema',

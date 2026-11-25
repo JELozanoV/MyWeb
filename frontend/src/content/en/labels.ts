@@ -37,6 +37,8 @@ export const labels = {
     goTo: 'Go to image',
     image: 'Image'
   },
+  // Big hero logo button: activating it breaks the logo into code and rebuilds it
+  heroLogo: 'Animate the logo: it breaks into lines of code and rebuilds itself',
   nav: {
     home: 'Go to top',
     toggleTheme: 'Toggle theme',

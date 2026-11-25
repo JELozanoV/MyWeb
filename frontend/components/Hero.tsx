@@ -75,8 +75,7 @@ export default function Hero() {
 
         {/* Logo animado: arriba del texto en móvil/tablet, a la derecha en escritorio */}
         <div
-          aria-hidden
-          className="pointer-events-none order-first mx-auto -mb-6 w-44 sm:w-56 md:w-64 lg:order-none lg:mb-0 lg:w-full lg:max-w-[540px] lg:justify-self-end"
+          className="order-first mx-auto -mb-6 w-44 sm:w-56 md:w-64 lg:order-none lg:mb-0 lg:w-full lg:max-w-[540px] lg:justify-self-end"
         >
           <HeroLogo />
         </div>
